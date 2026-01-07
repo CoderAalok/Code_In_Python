@@ -148,13 +148,13 @@ class User:
                     index_ID = user_data["Borrowed_Data"].index(book_info) #position of borrowed data
                     
                     if not book_info["returned"]: #To confirm the book is unreturned
-                        valid_book = True
+                        valid_book = bookid
                     else:
                         print("Cannot renewal returned book.")
                 else:
                     print("BookID is not match.")
     
-        return (bookid, index_ID)
+        return (valid_book, index_ID)
     
     @staticmethod
     def view_borrowed_book(userId, bookid):
@@ -252,9 +252,11 @@ class Book:
         
         borrowed_book = next((b for b in books if b["book_id"] == bookId),None)
         
-        borrowed_book["status"] = "AVAILABLE"
-
-        write_file(filename, books)
+        if borrowed_book:
+            borrowed_book["status"] = "AVAILABLE"
+            write_file(filename, books)
+        else:
+            return None
 
 # result appear  well
 class BorrowOrder:
@@ -349,8 +351,8 @@ class BorrowOrder:
                                 "date":str(date.today())
                             }
                         )
-
-                        return_book = True
+                        
+                        return_book = book_id
                     
                     else:
                         print("Cannot re-returned the same book!")
@@ -360,7 +362,7 @@ class BorrowOrder:
 
         # if return_book:
         write_file(filename, _data)  #update returned and append return date
-        return (book_id, borrow_date, due_date)
+        return (return_book, borrow_date, due_date)
 
 class RenewalOrder:
     def __init__(self, grace_day=3):
@@ -508,7 +510,7 @@ class Librarian(User):
         # In case not found
         if user_data is None:
             print("Renewal file data is not found!")
-            return
+            return None
         
         last_order = user_data["Renewal_Book"][index_ID]
         approve = renewal_order.update_due_date(userid, index_ID)
@@ -716,34 +718,37 @@ def borrow_book_flow(userid):
 
     try:
         # When request true that is ( book is not borrowed then move forward )
-        user_request, user_eligiblity = userdata.request_order(bookId, userid)
-        if user_request:
+        order_verification = userdata.request_order(bookId, userid)
+        if order_verification:
+            user_request, user_eligiblity = order_verification
+            if user_request:
 
-            if user_eligiblity:
-                
-                borrow_date, due_date = bookborrow.create_borrow_order(userid, bookId)
+                if user_eligiblity:
+                    
+                    borrow_date, due_date = bookborrow.create_borrow_order(userid, bookId)
 
-                userdata.approve_borrow_order(userid)
-                
-                borrowed.borrow_Record(userid, bookId, borrow_date, due_date, False)
-                
-                print("Successfully! Your order has been confirmed.\n")
-                
-                user_data = User.view_borrowed_book(userid, bookId)
-                print(f"-------Below your borrowing details:--------\n")
-                for order, value in user_data.items():
-                    print(f"{order} : {value}")
-        
-                return True #More borrow
+                    userdata.approve_borrow_order(userid)
+                    
+                    borrowed.borrow_Record(userid, bookId, borrow_date, due_date, False)
+                    
+                    print("Successfully! Your order has been confirmed.\n")
+                    
+                    user_data = User.view_borrowed_book(userid, bookId)
+                    print(f"-------Below your borrowing details:--------\n")
+                    
+                    if user_data:
+                        for order, value in user_data.items():
+                            print(f"{order} : {value}")
+                        return True #More borrow
 
+                else:
+                    print("Your borrowing limit exceeded so, Immediatly return atleast one.")
+                    return_book(userid)
+                    return True
+                
             else:
-                print("Your borrowing limit exceeded so, Immediatly return atleast one.")
-                return_book(userid)
-                return True
-            
-        else:
-            print("This book is already borrowed by someone.")
-            return True # Get one more chance to borrow another book
+                print("This book is already borrowed by someone.")
+                return True # Get one more chance to borrow another book
 
     except (NameError) as e:
         print(f"Runtime error: {e}")
@@ -878,18 +883,23 @@ def late_payment(days, uid, bookid):
 
 def return_book(uid):
     try:
-            
-        bookid, borrow_date, due_date = bookborrow.book_returned(uid)
-        date_verify, days = userdata.calculate_fine(borrow_date, due_date)
-
-        if date_verify: # This ensure book returned at the time
-            print(f"You returned the borrowed book within {days} days.")
-            print("Thank you for returning the borrowed book.")
-            return
+        verify_bookborrow = bookborrow.book_returned(uid)
         
-        else:
-            late_payment(days, uid, bookid)
+        if verify_bookborrow:
+            bookid, borrow_date, due_date = verify_bookborrow
+            verify_calculation = userdata.calculate_fine(borrow_date, due_date)
             
+            if verify_calculation:
+                date_verify, days = verify_calculation
+
+                if date_verify: # This ensure book returned at the time
+                    print(f"You returned the borrowed book within {days} days.")
+                    print("Thank you for returning the borrowed book.")
+                    return
+                
+                else:
+                    late_payment(days, uid, bookid)
+                
     except (ArithmeticError, ValueError, TypeError) as e:
             print(e)
             
@@ -904,14 +914,16 @@ def renewal_book(unreturned_books, uid):
         
         print("WARNING: Before borrowing a new book, you must return atleast one book.")
     
-        bookid, indexId = userdata.renewal_request(uid)
-        renewal_order.create_renewal(uid, bookid)
-        
-        print("Wait a moment...")
-        sleep(1.5)
-        
-        userdata.approve_renewal_order(uid, indexId)
-        print("Renewal successful.")
+        check = Librarian.renewal_request(uid)
+        if check:
+            bookid, indexId = check
+            renewal_order.create_renewal(uid, bookid)
+            
+            print("Wait a moment...")
+            sleep(1.5)
+            
+            userdata.approve_renewal_order(uid, indexId)
+            print("Renewal successful.")
 
     except (ArithmeticError, ValueError, TypeError) as e:
         print(e)
@@ -984,10 +996,9 @@ else:
     print("!DONE!")
 
 # Register/Login(Only required -> userid)
+logged_in = None
+special_char = "|!@#$%^&*)(}{_+-=:;<>,.?/`~'"
 try:
-    logged_in = False
-    special_char = "|!@#$%^&*)(}{_+-=:;<>,.?/`~'"
-
     while True:
         user = input("1.Register\n2.Login: ").strip()
         if user == "1":
@@ -1059,24 +1070,38 @@ try:
                     continue
                 break
 
-            is_register,msg = userdata.new_register(user_name, userID, password, address, contact_number)
+            is_register, msg = userdata.new_register(
+                user_name,
+                userID,
+                password,
+                address,
+                contact_number
+            )
             if is_register: #userid distict 
                 print(msg)
                 print("\nLogin your account.")
-                logged_in = check_authorization()  # check_authorization() ->> boolean and userid
+                if check_authorization():
+                    logged_in = check_authorization()  # check_authorization() ->> boolean and userid
                     
             else: #userid same
                 print(msg)
                 userId = userid_authorize()
-                userdata.new_register(user_name, userId, password, address, contact_number)
+                userdata.new_register(
+                    user_name,
+                    userId,
+                    password,
+                    address,
+                    contact_number
+                )
                 
                 print("\nLogin your account.")
-                logged_in = check_authorization()
+                if check_authorization():
+                    logged_in = check_authorization()
                 
-    
         elif user == "2":
             print("\nLogin your account.")
-            logged_in = check_authorization()
+            if check_authorization():
+                logged_in = check_authorization()
 
         else:
             print("Select 1 or 2.")
