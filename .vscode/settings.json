@@ -1,0 +1,16 @@
+{
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.codeActions.triggerOnFocusChange": true,
+    "editor.formatOnPaste": true,
+    "window.autoDetectColorScheme": false,
+    "files.trimTrailingWhitespace": false,
+    "editor.trimAutoWhitespace": false,
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": false,
+    "git.followTagsWhenSync": true,
+    "git.rebaseWhenSync": true,
+    "python.REPL.enableREPLSmartSend": false,
+    "editor.renderWhitespace": "none",
+    "editor.inlineSuggest.enabled": false
+
+}
