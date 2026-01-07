@@ -1,0 +1,22 @@
+[
+    {
+        "UserID": "@berry",
+        "Renewal_Book": [
+            {
+                "book_id": "G1301",
+                "renewal_request": "2025-12-22",
+                "status": "APPROVED"
+            },
+            {
+                "book_id": "G1301",
+                "renewal_request": "2025-12-22",
+                "status": "PENDING"
+            },
+            {
+                "book_id": "G1301",
+                "renewal_request": "2025-12-22",
+                "status": "PENDING"
+            }
+        ]
+    }
+]
