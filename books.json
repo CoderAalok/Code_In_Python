@@ -1,0 +1,100 @@
+[
+    {
+        "book_id": "M1201",
+        "title": "The Power of Positive Thinking",
+        "author": "Norman Vincent Peale",
+        "category": "Motivation",
+        "status": "UNAVAILABLE"
+    },
+    {
+        "book_id": "M1202",
+        "title": "Atomic Habits",
+        "author": "James Clear",
+        "category": "Motivation",
+        "status": "UNAVAILABLE"
+    },
+    {
+        "book_id": "G1301",
+        "title": "Bhagavad Gita (As It Is)",
+        "author": "A. C. Bhaktivedanta Swami Prabhupada",
+        "category": "Spirituality",
+        "status": "UNAVAILABLE"
+    },
+    {
+        "book_id": "G1302",
+        "title": "The Bhagavad Gita for Daily Living",
+        "author": "Eknath Easwaran",
+        "category": "Wisdom",
+        "status": "AVAILABLE"
+    },
+    {
+        "book_id": "K1401",
+        "title": "Meditations",
+        "author": "Marcus Aurelius",
+        "category": "Knowledge & Wisdom",
+        "status": "UNAVAILABLE"
+    },
+    {
+        "book_id": "K1402",
+        "title": "Think Like a Monk",
+        "author": "Jay Shetty",
+        "category": "Wisdom",
+        "status": "AVAILABLE"
+    },
+    {
+        "book_id": "T1501",
+        "title": "Artificial Intelligence Basics",
+        "author": "Tom Taulli",
+        "category": "Technology",
+        "status": "AVAILABLE"
+    },
+    {
+        "book_id": "T1502",
+        "title": "Clean Code",
+        "author": "Robert C. Martin",
+        "category": "Technology",
+        "status": "UNAVAILABLE"
+    },
+    {
+        "book_id": "S1601",
+        "title": "Sapiens: A Brief History of Humankind",
+        "author": "Yuval Noah Harari",
+        "category": "Society",
+        "status": "AVAILABLE"
+    },
+    {
+        "book_id": "S1602",
+        "title": "The Social Contract",
+        "author": "Jean-Jacques Rousseau",
+        "category": "Society",
+        "status": "UNAVAILABLE"
+    },
+    {
+        "book_id": "L1701",
+        "title": "The Subtle Art of Not Giving a F*ck",
+        "author": "Mark Manson",
+        "category": "Life Philosophy",
+        "status": "UNAVAILABLE"
+    },
+    {
+        "book_id": "L1702",
+        "title": "Ikigai",
+        "author": "Francesc Miralles",
+        "category": "Life & Purpose",
+        "status": "AVAILABLE"
+    },
+    {
+        "book_id": "E4201",
+        "title": "A New Earth (Eckhart Tolle)",
+        "author": "(Eckhart Tolle)",
+        "category": "Spirituality",
+        "status": "AVAILABLE"
+    },
+    {
+        "book_id": "SP140",
+        "title": "Knowledge And Wisdom",
+        "author": "Kingdom",
+        "category": "Truth",
+        "status": "UNAVAILABLE"
+    }
+]
