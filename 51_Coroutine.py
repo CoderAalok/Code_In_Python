@@ -216,9 +216,9 @@ Whether you're working on web applications, network services, or data processing
 
 
 # Asynchronous
-import yt_dlp
-import asyncio
-from concurrent.futures import ThreadPoolExecutor
+# import yt_dlp
+# import asyncio
+# from concurrent.futures import ThreadPoolExecutor
 
 # A thread is a lightweight unit of execution inside a program.
 #Python ->> run_in_executor 
@@ -229,43 +229,53 @@ from concurrent.futures import ThreadPoolExecutor
 # download -> function object
 # Both args passes separately url and filename
 # Thread calls with take it
+import yt_dlp
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
-# def download(url, filename):
-#     audio_format = {
-#         "outtmpl": f"{filename}.%(ext)s",
-#         "format": "bestaudio/best",
-#          "postprocessors": [{
-#             'key': 'FFmpegExtractAudio',
-#             'preferredcodec': 'mp3',
-#             'preferredquality':'200'
-#         }]
-#     }
+def download(url, filename):
+    if not url or not filename:
+        return None
     
-#     with yt_dlp.YoutubeDL(audio_format)as music:
-#         music.download([url])
-#     print(f"{filename} download completed.")
-
-# async def download_music():
-#     loop = asyncio.get_event_loop()
+    FFMPEG_PATH = r"C:\Users\Lenovo\Downloads\ffmpeg\bin"
     
-#     with ThreadPoolExecutor(max_workers=2) as executor:
-#         tasks = [
-#             loop.run_in_executor(
-#                 executor,
-                # download,   #function object
-#                 "https://www.youtube.com/watch?v=Oqwx7JQxnRY",  #arg1
-#                 "Phonk" #arg2
-#             ),
-#             loop.run_in_executor(
-#                 executor,
-#                 download,     #function object
-#                 "https://www.youtube.com/watch?v=0B_5moouO_U",    #arg1
-#                 "Shree_Ram"   #arg2
-#             ),
+    audio_format = {
+        "outtmpl": f"{filename}.%(ext)s",
+        "format": "bestaudio/best",
+        "ffmpeg_location": FFMPEG_PATH,
+        "postprocessors": [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality':'200'
             
-#         ]
-        
-#         await asyncio.gather(*tasks)
-#     print("\nDownload completed.")
+        }]
+    }
+
+    with yt_dlp.YoutubeDL(audio_format)as music:
+        music.download([url])
+    print(f"{filename} download completed.")
+
+async def download_music():
+    loop = asyncio.get_event_loop()
     
-# asyncio.run(download_music())
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        tasks = [
+            loop.run_in_executor(
+                executor,
+                download,   #function object
+                "https://www.youtube.com/watch?v=Oqwx7JQxnRY",  #arg1
+                "Phonk" #arg2
+            ),
+            loop.run_in_executor(
+                executor,
+                download,     #function object
+                "https://www.youtube.com/watch?v=0B_5moouO_U",    #arg1
+                "Shree_Ram"   #arg2
+            ),
+            
+        ]
+        
+        await asyncio.gather(*tasks)
+    print("\nDownload completed.")
+    
+asyncio.run(download_music())
