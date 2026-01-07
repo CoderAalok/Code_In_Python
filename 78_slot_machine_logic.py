@@ -29,11 +29,9 @@ class Biased(RandomGenerator):
 rng = Biased(seed=123)
 for _ in range(20):
     print(rng.random_biased())
-<<<<<<< Updated upstream
-    
-from numpy import *
-print(random.randint(low=1, high=6, size=20))
-=======
+
+import numpy
+print(numpy.random.randint(low=1, high=6, size=20))
 
 
 # LCGs = Linear Congurencial Generators
@@ -83,5 +81,4 @@ print(random.randint(low=1, high=6, size=20))
 # c = random.randint(100, 10000)
 # rng.next(a, c)
 # player = f"You won {rng.winning_chance()}"
-# print(player)
->>>>>>> Stashed changes
+#print(player)
