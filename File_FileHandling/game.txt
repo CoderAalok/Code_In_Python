@@ -1,0 +1,2 @@
+Score : ppop = 1 
+	  Canva = 0
