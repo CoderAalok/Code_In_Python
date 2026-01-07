@@ -1,0 +1,1 @@
+RAG stands for Retrieval Augmentation Generation which based on two combining words Retrieval and Generation.
