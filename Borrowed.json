@@ -1,0 +1,76 @@
+[
+    {
+        "UserID": "@aalok",
+        "Borrowed_Data": [
+            {
+                "book_id": "M1201",
+                "borrow_date": "2025-12-22",
+                "due_date": "2025-12-27",
+                "returned": true,
+                "return_date": [
+                    {
+                        "bookID": "M1201",
+                        "date": "2025-12-22"
+                    }
+                ]
+            },
+            {
+                "book_id": "L1701",
+                "borrow_date": "2025-12-22",
+                "due_date": "2025-12-27",
+                "returned": false
+            },
+            {
+                "book_id": "SP140",
+                "borrow_date": "2025-12-22",
+                "due_date": "2025-12-27",
+                "returned": false
+            }
+        ]
+    },
+    {
+        "UserID": "@berry",
+        "Borrowed_Data": [
+            {
+                "book_id": "G1301",
+                "borrow_date": "2025-12-27",
+                "due_date": "2026-01-04",
+                "returned": false
+            },
+            {
+                "book_id": "M1201",
+                "borrow_date": "2025-12-22",
+                "due_date": "2025-12-27",
+                "returned": false
+            }
+        ]
+    },
+    {
+        "UserID": "yadav@",
+        "Borrowed_Data": [
+            {
+                "book_id": "M1202",
+                "borrow_date": "2025-12-22",
+                "due_date": "2025-12-27",
+                "returned": false
+            }
+        ]
+    },
+    {
+        "UserID": "yadav@12",
+        "Borrowed_Data": [
+            {
+                "book_id": "G1302",
+                "borrow_date": "2026-01-06",
+                "due_date": "2026-01-11",
+                "returned": true,
+                "return_date": [
+                    {
+                        "bookID": "G1302",
+                        "date": "2026-01-06"
+                    }
+                ]
+            }
+        ]
+    }
+]
