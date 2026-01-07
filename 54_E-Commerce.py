@@ -318,104 +318,102 @@ else:
             1:"Books Items",
             2:"Electronic Items"
         }
+        if not customer:
+            print("Empty!")
+        
+        
+        # Calling Product class(Details view)
+        item =  order.display_products(customer)
+    
+        if item:
+            #Item keys are identify through number 
+            item_key = {k:v for (k,v) in enumerate(item.keys(), start=1)} #key start from 1
+            
+            print(f"{"-"*15}{item_section[customer]}{"-"*15}")
+            print('⁃'*30)
+            for i,(key,value) in enumerate(item.items(),start=1):
+                print(f"{i}.{key}")
+                for k,v in value.items():
+                    print(f"{k}: {v}")
+                print()
+            print('⁃'*30) 
+            
+
+            customer = input("Are you interested to buying (yes/no)?").strip().lower()
+            # Bill details
+            cart = []
+            quantity = 0
+            net_amount = 0
+
+            check = {
+            "yes":True,
+            "no": False
+            }
+
+            if not check.get(customer,False):
+                print("Typing error!")
+
+            while True:
+                try:
+                    item_no = int(input("Select no. of items: ").strip())  #item_key input
+                    verify,msg = order.add_to_cart(item_no,item_key,item)
+                    
+                    
+                    if verify:  #verify stock available
+                        selected_item = item_key[item_no]
+                            
+                        cart.append(selected_item)   #items adding into cart
+                        quantity += 1
+                        net_amount += item[selected_item]["Price"]  #amount increment according to specific item
+                        
+                        print(f"{msg}") #Add successfully
+                        
+                        if input("Adding more (yes/no): ").strip().lower() != 'yes':
+                            break
+                            
+                    else:
+                        print(f"{msg}")
+                            
+                        if input("Tryagain? (yes/no)").strip().lower() != 'yes':
+                            break
+                    
+                except ValueError:
+                    print("Invalid input! Please enter correct items number.")
+        else:
+            print("Section are not available...")
+            exit()
+
+        while True:
+        
+            # Customer_Info/contact verification
+            print("*"*5," Customer details ","*"*5)
+            name = input("Name: ").strip().title()
+            contact = input("Contact: ").strip()
+            location = input("Location: ").strip().title()
+            address = input("Address: ").strip().title()
+
+            customer = CustomerAuthentication(name,contact,location,address)
+            auth,mess = customer.get_valid()
+        
+            if auth:
+                
+
+                order.bill_details(name,contact,location,address,cart,quantity,net_amount)
+
+                user_confirm = input("❝ Press➥ENTER ❞ and confirm your order\nElse your order automatically cancel!").strip()
+                if order.is_confirmed(user_confirm):
+                    order.order_confirm()
+                    break
+                
+                else:
+                    print("Your order has been cancelled!")
+                    order.re_start()
+                    break
+            else:
+                print(f"{mess}")
     except ValueError:
         print("Invalid input! Select 1 or 2")
 
-
-    # Calling Product class(Details view)
-    item =  order.display_products(customer)
-   
-    if item:
-        #Item keys are identify through number 
-        item_key = {k:v for (k,v) in enumerate(item.keys(), start=1)} #key start from 1
-        
-        print(f"{"-"*15}{item_section[customer]}{"-"*15}")
-        print('⁃'*30)
-        for i,(key,value) in enumerate(item.items(),start=1):
-            print(f"{i}.{key}")
-            for k,v in value.items():
-                print(f"{k}: {v}")
-            print()
-        print('⁃'*30) 
-        
-
-        customer = input("Are you interested to buying (yes/no)?").strip().lower()
-        # Bill details
-        cart = []
-        quantity = 0
-        net_amount = 0
-
-        check = {
-        "yes":True,
-        "no": False
-        }
-
-        if not check.get(customer,False):
-            print("Typing error!")
-
-        while True:
-            try:
-                item_no = int(input("Select no. of items: ").strip())  #item_key input
-                verify,msg = order.add_to_cart(item_no,item_key,item)
-                
-                
-                if verify:  #verify stock available
-                    selected_item = item_key[item_no]
-                        
-                    cart.append(selected_item)   #items adding into cart
-                    quantity += 1
-                    net_amount += item[selected_item]["Price"]  #amount increment according to specific item
-                    
-                    print(f"{msg}") #Add successfully
-                    
-                    if input("Adding more (yes/no): ").strip().lower() != 'yes':
-                        break
-                        
-                else:
-                    print(f"{msg}")
-                        
-                    if input("Tryagain? (yes/no)").strip().lower() != 'yes':
-                        break
-                
-            except ValueError:
-               print("Invalid input! Please enter correct items number.")
-    else:
-        print("Section are not available...")
-        exit()
-
-    while True:
-    
-        # Customer_Info/contact verification
-        print("*"*5," Customer details ","*"*5)
-        name = input("Name: ").strip().title()
-        contact = input("Contact: ").strip()
-        location = input("Location: ").strip().title()
-        address = input("Address: ").strip().title()
-
-        customer = CustomerAuthentication(name,contact,location,address)
-        auth,mess = customer.get_valid()
-    
-        if auth:
-            
-
-            order.bill_details(name,contact,location,address,cart,quantity,net_amount)
-
-            user_confirm = input("❝ Press➥ENTER ❞ and confirm your order\nElse your order automatically cancel!").strip()
-            if order.is_confirmed(user_confirm):
-                order.order_confirm()
-                break
-            
-            else:
-                print("Your order has been cancelled!")
-                order.re_start()
-                break
-        else:
-            print(f"{mess}")
-            
-    
-    
-        
- 
 """ 
 Working Flow Structure
 ----------------------------------------
