@@ -1,60 +1,97 @@
-# # Identical Matrix without function
-# row = int(input("Enter number of rows : "))
-# col = int(input("Enter numner of columns : "))
-# matrix  = []
-# for i in range(row):
-#     matrix1 = []
-#     for j in range(col):
-#         user = int(input(f" {(i+1)} Row and {(j+1)} Column = "))
-#         matrix1.append(user)
-#     matrix.append(matrix1)
-# length_matrix = len(matrix)
-            
-# print(f"The matrix of {row} row and {col} column is ")
-# for k in matrix:
-#     for i in k:
-#         print(i,end="  ")
-#     print()
-# count = 0
-# # for r in range(length_matrix):  #This approach is not relevant 
-# #     for c in range(length_matrix):
-# #         if r == c and matrix[r][c] == 1:  
-# #             count +=1
-            
-# # if count == 2 or count == 3:
-# #     print("It is an Identity matrix")
-# # else:
-# #     print("Non Identity matrix ")
-    
-    
-def identity_matrix(matrix):
-    length_matrix = len(matrix)
-    for r in range(length_matrix):
-        for c in range(length_matrix):
-            if  r == c and matrix[r][c] > 1:
-                return False 
-            if r != c and matrix[r][c] != 0:
-                return False
-    return True 
-row = int(input("Enter number of rows : "))
-col = int(input("Enter numner of columns : "))
-matrix  = []
-if not  row == col:
-    print("Row and Column must be equal")
-else:
-    for i in range(row):
-       mat = []
-       for j in range(col):
-          user = int(input(f" {(i+1)} row and {j+1} column"))
-          mat.append(user)
-       matrix.append(mat)
-    print(identity_matrix(matrix))
 
-            
-            
-    # if row == col:
-    #     continue
-    # else:
-    #     print("Row and Column are not equivalent.")
+
+#solid Triangle
+
+# size = 7
+# for r in range(size):
+#     for c in range(r,size):
+#         print(' ',end='')
+#     for c in range(r):
+#         print('*',end='')
+#     for c in range(r+1):
+#         print('*',end='')
+    
+#     print()
+    
+#Solid Triangle
+# size = 7
+# for i in range(size):
+#     for j in range(i,size):
+#         print(' ',end='')
+#     for j in range(i+1):
+#         print('*', end=' ')
         
-         
+#        #Hollow triangle 
+#         # if i == size-1 or j == i or j==0: 
+#         #     print('*',end=' ')
+#         # else:
+#         #     print(' ',end=' ')
+#     print()
+    
+# size = 7 
+# for i in range(size):
+#     for j in range(i+1):
+#         print('-',end='')
+#     for j in range(i,size):
+#         print(chr(ord('a')+j), end='-') #with space
+#     # for j in range(i+1,size):#without space
+#     #     print('*', end='')
+#     for k in range(i+1):
+#         print('-',end='')
+#     print()
+
+# n = 5
+# for i in range(n):
+#     for j in range(n):
+#         if j == 0 or  i+j == n-1  or i == 0:
+#             print('*' , end=' ')
+#         else:
+#             print(' ', end=' ')
+#     print()
+
+
+n =  3
+for i in range(n):
+    
+    for j in range(i,n):
+        print("-",end=' ')
+    
+    for k in range(i):
+        print(chr(ord('a')+k),end='-')
+       
+    for m in range(i+1):
+        print(chr(ord('a')+m),end='-')
+    
+    for j in range(i,n):
+        print("-",end=' ')
+    print()
+print("---Code Camp---")
+for i in range(n):  
+    for a in range(i):
+        print(' ','-',end='')
+    
+    for r in range(i,n):
+        print('',chr(ord('a')+r),end='-')
+    
+    for m in range(i,n-1):
+        print('',chr(ord('a')+m),end='-') 
+    print()
+
+
+# #-=================================================================================================================  
+# n = 7
+# m = n*3
+
+# # Top 
+# for r in range(n//2):
+#     pattern = '.|.'*(2*r+1)
+#     print(pattern.center(m,"_"))
+
+# # Middle
+# print("WELCOME".center(m,"_"))
+
+# # Bottom
+# for r in range(n//2):
+#     k = (n//2)-r
+#     pattern = '.|.'*((2*k)-1)
+#     print(pattern.center(m,"_"))
