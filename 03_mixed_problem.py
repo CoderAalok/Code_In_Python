@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # #Basic slicing
 # #q = 'The most genuine programming language is Python'
 # # print(q[:-4]) 
@@ -173,7 +172,6 @@ print(max(val))
 # print(a)
 # print(b)  
     
-=======
 # #Basic slicing
 # #q = 'The most genuine programming language is Python'
 # # print(q[:-4]) 
@@ -348,5 +346,4 @@ print(max(val))
 # print(a)
 # print(b)  
     
->>>>>>> aa2e7dcd15f91be88c03e886b9e67eae8692673b
     
