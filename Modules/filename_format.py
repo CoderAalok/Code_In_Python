@@ -2,7 +2,8 @@ import os
 import logging
 import re
 
-logging.basicConfig(filename="filename.log",
+logging.basicConfig(
+        filename="filename.log",
         level=logging.WARNING,
         format=('%(levelname)s:%(asctime)s:%(message)s')
     )

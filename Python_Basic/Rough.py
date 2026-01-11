@@ -128,8 +128,11 @@
 # print(result)
 # -----------------------------------------------------------------
 
-dict1 = {'Hacking':'Fishing', "Malicious":'Farewell'}  #dictionary itself negelete duplicate keys and values
-dict2 = {"Malicious":'SwitchCase', "Interupt":'DATA'}
+# from sympy import true
+
+
+# dict1 = {'Hacking':'Fishing', "Malicious":'Farewell'}  #dictionary itself negelete duplicate keys and values
+# dict2 = {"Malicious":'SwitchCase', "Interupt":'DATA'}
 # Merging two Dictionaries
 # Method-I
 # dict1.update(dict2)
@@ -641,3 +644,39 @@ dict2 = {"Malicious":'SwitchCase', "Interupt":'DATA'}
 
 
 
+# def get_water_bill(num_gallons, tier):
+#     tiers = {
+#         1: 5,
+#         2: 6,
+#         3: 7,
+#         4: 10
+#     }
+    
+#     if tiers[tier]:
+#         price = tiers[tier]
+#         bill = price*(num_gallons)/1000
+#         return bill
+    
+# print(get_water_bill(10000,2))
+# import math
+# n = 20.9
+# val = int(str(n).split('.')[1])
+# print(val)
+
+num_customers = [137, 147, 135, 128, 170, 174, 165, 146, 126, 159,
+                 141, 148, 132, 147, 168, 153, 170, 161, 148, 152,
+                 141, 151, 131, 149, 164, 163, 143, 143, 166, 171]
+
+days = [[]]
+
+i = 0
+for d in num_customers:
+    days[i].append(d)
+    
+    if len(days[i]) <= 6:
+        continue
+    else:
+        days.append([])
+        i += 1
+
+print(days)

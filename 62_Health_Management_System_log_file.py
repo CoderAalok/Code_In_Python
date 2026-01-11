@@ -56,8 +56,6 @@ def check_register_id(name, registerID):
 def client_exercise(name, excersise):    
     logging.info(f"Name: {name} -> Excersise: {excersise}")
 
-def client_diet(name, diet):
-    logging.info(f"Name: {name} -> Diet:{diet}")
     
 
 try:

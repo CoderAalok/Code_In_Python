@@ -1,126 +1,111 @@
+# Assign function as variable
 
-#             if client == '1':
-#                 excersise = input("Which excersise has been you done?\n⤷ ").strip().title()
-#                 set_up("Excersise.log", client_name, excersise)
-            
-#             elif client == '2':
-#                 diet = input("Which diet has been you taken?\n⤷ ").strip().title()
-#                 set_up("Diet.log", client_name, diet)
-                
-#             else:
-#                 print("Invalid input!")
-                
-#     else: 
-#         print("Invalid input!!")
+# def fun(x):
+#     def grok(y):
+#         return x+y
+#     return grok
 
-# except KeyboardInterrupt:
-#     print(f"\nOperation cancelled by user")
-
-# finally:
-#     print("DONE")
+# var = fun(10)
+# print(var(10))
 
 
-from datetime import datetime
-import logging
-import json
-logging.basicConfig(filename="Excersise.log", level=logging.INFO, format="%(asctime)s %(message)s")
-logging.basicConfig(filename="Diet.log", level=logging.INFO, format="%(asctime)s %(message)s")
+# # Passing function as argument
 
-def new_register(newclient, registerID):
-    try:
-        with open("register.json", 'r')as f:
-            register_id = json.load(f)
-    except (FileNotFoundError, json.decoder.JSONDecodeError):
-        register_id = {}
+# def gpai(strr):
+#     return f"Hi! {strr}"
+
+# def gpt(fun1,strr1):
+#     return fun1(strr1)
+
+# fun2 = gpt
+# print(fun2(gpai,"gpai"))
+
+
+# def outer(rag):
+#     def inner():
+#         return f"{rag.title()} based AI."
+#     return inner()
     
-    register_id[newclient] = registerID
-    
-    with open("register.json", 'w')as f:
-        json.dump(register_id, f, indent=4)
+# print(outer("rag"))
 
-def check_register_id(name, registerID):
-    try:
-        with open("register.json", 'r')as f:
-            register_id = json.load(f)
-    except (FileNotFoundError, json.decoder.JSONDecodeError):
-        register_id = {}
-    
-    if register_id:
-        for name, id in register_id.items():
-            if register_id.get(name) == registerID or id == registerID:
-                return False #this ensure that ID already registered
-        return True
-    else:
-        return True #not registered
+# li = [1,2,3,4,5]
 
-def client_exercise(name, excersise):    
-    logging.info(f"Name: {name} -> Excersise: {excersise}")
+# def first(li):
+#     return f"Original: {li}"
 
-def client_diet(name, diet):
-    logging.info(f"Name: {name} -> Diet:{diet}")
-    
+# org = first
+# print(org(li))
 
-try:
-    client_unknown = (input("1. New register\n2. Add information\n⤷ ").strip())
-    if client_unknown == '1':
-        # For Register
-        register_name = input("New register name:\n⤷").strip().title()
+# def second(rem):
+#     print(f"Before remove: {rem}")
+#     rem.remove(2)
+#     print(f"{rem}")
+# second(li)
+
+# def third(add):
+#     add.insert(1,2)
+#     print(f"Re-create original list: {add}")
+
+# third(li)
+
+# def add(num):
+#     return  sum([n for n in num])
+
+# def sub(num):
+#     _sub = 0
+#     for n in num:
+#         _sub -= n 
+#     return _sub
+
+# def mul(num):
+#     multi = 1
+#     for n in num:
+#         multi = n * multi
+#     return multi
+
+# cal = {
+#     'add':add,
+#     'sub':sub,
+#     'mul':mul
+# }
+# number = list(map(int,input("Enter Numbers: ").split()))
+# print(f"{list(cal.keys())}")
+# user = input('Enter it:  ')
+# key = cal[user]
+# print(key(number))
+
+
+
+# Find value of x and y from given equations
+# 2x1 + 3y1 = 5
+# 2x2 + 6y2 = 1
+
+# class Equation:
+#     def __init__(self,x1,y1,c1,x2,y2,c2):
+#         self.x1 = x1
+#         self.y1 = y1 
+#         self.c1 = c1
         
-        #Check ID is already registered or not
-        while True:
-            register_id = input("New register ID:\n⤷ ").strip()
-            if len(register_id) < 4:
-                print("ID must be 4 length.")
-                continue
-            
-            is_register = check_register_id(register_name, register_id)
-            
-            if not is_register:
-                print("This ID already has been registered. Try another")
-                continue
-            
-            else:
-                new_register(register_name, register_id)
-                print("Register successful.")
-                break
-
-    elif client_unknown == '2':
-        client_name = input("Name:\n⤷ ").strip().title()
+#         self.x2 = x2
+#         self.y2 = y2 
+#         self.c2 = c2
         
-        found = False
-        while not found:
-            register_id = input("Register ID:\n⤷ ").strip()
-            register = check_register_id(client_name, register_id)
+# class Solution(Equation):
+#     def solve(self):
+        
+#         if abs(self.x1) == abs(self.x2):
+#             x = abs(self.x1) - abs(self.x2)
+#             y = (self.y1) + (-self.y2)
+#             c = (self.c1) + (-self.c2)
             
-            if register:
-                print("ID is not found!") #Request for new registation/not match
-                found = False
-                break
+#             y = round(self.c/self.y)
             
-            # ID is found/match
-            else:
-                found = True
-
-        if found:
-            client = (input("Select:\n1. Excersise\n2. Diet\n⤷ ").replace(" ","").strip())
-
-            if client == '1':
-                excersise = input("Which excersise has been you done?\n⤷ ").strip().title()
-                client_exercise(client_name, excersise)
+#             x = round((self.c1-(self.y*self.y1))/self.x1)
             
-            elif client == '2':
-                diet = input("Which diet has been you taken?\n⤷ ").strip().title()
-                client_diet(client_name, diet)
-                
-            else:
-                print("Invalid input!")
-                
-    else: 
-        print("Invalid input!!")
+#             return (x,y)
 
-except KeyboardInterrupt:
+# x1,y1,c1 = 2,3,6
+# x2,y2,c2 = 2,6,0
 
-    print(f"\nOperation cancelled by user")
-
-finally:
-    print("DONE")
+# eq = Solution(x1,y1,c1,x2,y2,c2)
+# print(f"(x, y) = {eq.solve()}")

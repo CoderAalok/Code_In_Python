@@ -57,3 +57,9 @@
         
 #         i += 1
 
+import shutil  #this module is used to copy the content to the another file.
+file = "GitHub_Setup.txt"
+
+file1 = "words.txt"
+# with open(file, 'r')as f:
+shutil.copyfile(file, file1)
