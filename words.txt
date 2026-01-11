@@ -17,4 +17,4 @@ git config user.email |Both ensure authentication who are you? -> Verify
 ------------------------------------
 
 git --help  -> list out all use case 
-git --list  -> show current author
+git config --list  -> show current author

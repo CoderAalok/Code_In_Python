@@ -663,20 +663,22 @@
 # val = int(str(n).split('.')[1])
 # print(val)
 
-num_customers = [137, 147, 135, 128, 170, 174, 165, 146, 126, 159,
-                 141, 148, 132, 147, 168, 153, 170, 161, 148, 152,
-                 141, 151, 131, 149, 164, 163, 143, 143, 166, 171]
+# num_customers = [137, 147, 135, 128, 170, 174, 165, 146, 126, 159,
+#                  141, 148, 132, 147, 168, 153, 170, 161, 148, 152,
+#                  141, 151, 131, 149, 164, 163, 143, 143, 166, 171]
 
-days = [[]]
+# days = [[]]
 
-i = 0
-for d in num_customers:
-    days[i].append(d)
+# i = 0
+# for d in num_customers:
+#     days[i].append(d)
     
-    if len(days[i]) <= 6:
-        continue
-    else:
-        days.append([])
-        i += 1
+#     if len(days[i]) <= 6:
+#         continue
+#     else:
+#         days.append([])
+#         i += 1
 
-print(days)
+# print(days)
+
+print(f"Schedule    |    Proformance")

@@ -34,21 +34,19 @@ lotteryAlpha =  ['A','E','I','O','U']
 
 prizes = ['Smart Watch⌚️', 'Mouse🖱', 'Power Bank🔋', 'HeadPhone🎧']
 
-lotteryKeyNum = random.sample(lotteryNum, 4)
-lotteryKeyalpha = random.sample(lotteryAlpha, 4)
-print(lotteryKeyalpha)
+lotteryKeyNum = random.sample(lotteryNum, 2)
+lotteryKeyalpha = random.sample(lotteryAlpha, 2)
 
-print(f"\nSelect any four numbers or letter:\n{lotteryNum} and {lotteryAlpha}")
-print("""\nKeep on your mind!
-If your selected any four numbers or letters matching any tickets then wins a prize.""")
-
+print(f"\nSelect any two numbers [1-9] or letter [any vowel letter]")
 print(f"\nPrizes are: {prizes}\n")
 
 # Randomly Select 4-rounds
+max_chance = 2
 while True:
     lucky = []
-    for i in range(4):
-        player = input(f"Pick chance {4-i}: ").strip()
+    for i in range(max_chance):
+        print(f"You have only {max_chance-i} chance.")
+        player = input("Pick any two numbers or letters: ").strip()
         lucky.append(player)
 
     print("\n🔎 Verifing your luck!.....")
@@ -66,3 +64,4 @@ while True:
     # Correct Answer:
     print(f"\nWinning Number Ticket: {lotteryKeyNum}")
     print(f"Winning letter Ticket: {lotteryKeyalpha}")
+    break

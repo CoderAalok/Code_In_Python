@@ -34,3 +34,9 @@ WARNING:2026-01-07 05:52:19,940:tell_and_seek.py -> Successfully name changed.
 WARNING:2026-01-07 05:52:19,940:TrainBook.py -> Successfully name changed.
 WARNING:2026-01-07 05:52:19,940:Word_generator.py -> Successfully name changed.
 WARNING:2026-01-07 05:52:19,946:XOR_duplicate.py -> Successfully name changed.
+WARNING:2026-01-12 02:35:56,270:candidate_info.py -> Successfully name changed.
+WARNING:2026-01-12 02:35:56,272:comprehension.py -> Successfully name changed.
+WARNING:2026-01-12 02:35:56,273:date_birth_calculator.py -> Successfully name changed.
+WARNING:2026-01-12 02:35:56,273:robot_speak.py -> Successfully name changed.
+WARNING:2026-01-12 02:35:56,274:student_pass_fail.py -> Successfully name changed.
+WARNING:2026-01-12 02:35:56,275:Tkinter.py -> Successfully name changed.

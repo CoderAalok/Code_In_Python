@@ -31,10 +31,7 @@ class Train:
 
 Hanuman = Train("Hanuman Express 429272",5,[1,2,3,4,5],150)
 Hanuman.getStatus()
-Hanuman.bookTicket()
-Hanuman.bookTicket()
-Hanuman.bookTicket()
-Hanuman.bookTicket()
-Hanuman.bookTicket()
-Hanuman.bookTicket()
+# for _ in range(5):
+#     Hanuman.bookTicket()
+
 
