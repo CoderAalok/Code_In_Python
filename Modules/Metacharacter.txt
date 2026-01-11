@@ -1,0 +1,72 @@
+Q. What regular expression allows to do us?
+-> In Python Regular Expression (also called REs, or regexes, or regex patterns)
+   is allowing for matching pattern and manipulation of text.
+--------------------------------------------------------------------------------------------------------------
+Below Common Metacharacters are:
+---------------------------------------------------------------------------------------------------------------
+. -> Matches any single character except a newline \n.	
+
+^  -> Matches the start of the string or the start of a line in multiline mode.
+
+$  -> Matches the end of the string or the end of a line in multiline mode.	
+
+*  -> Matches zero or more occurrences of the preceding pattern. (Preceding means coming before something in order or position. eg: 4 coming before 5)
+
++  -> Matches one or more occurrences of the preceding pattern.
+
+?  -> Matches zero or one occurrence of the preceding pattern (makes it optional). 
+
+{m,n}  -> Matches an explicitly specified number of repetitions, from m to n times.
+
+{} -> Exactly the same number specified of occurrences.  
+
+[]	-> Defines a character class, matching any single character within the brackets. 
+
+|	-> Acts as an OR operator, matching either the pattern before or after the pipe.
+
+()	-> Groups patterns together (e.g., to apply quantifiers to the whole group) and captures the matched text.
+
+\\	-> Escapes a metacharacter to treat it as a literal character, or introduces a special sequence.
+--------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------
+Special Sequences: Special sequences begin with a backslash \ and represent predefined character sets or positions.  
+---------------------------------------------------------------------------------------------------------------------
+Below some Special Sequences character are:
+---------------------------------------------
+
+\d: Matches any decimal digit (equivalent to [0-9]).
+
+\D: Matches any non-digit character.
+
+\w: Matches any word character (alphanumeric and underscore: [a-zA-Z0-9_]).
+
+\W: Matches any non-word character.
+
+\s: Matches any single whitespace character (space, tab, newline, etc.).
+
+\S: Matches any non-whitespace character.
+
+\b: Matches a word boundary (the position between a word and a non-word character).
+
+\B: Matches a non-word boundary position.
+
+\A: Matches only at the start of the entire string.
+
+\Z: Matches only at the end of the entire string. 
+-------------------------------------------------------------------------------------
+
+
+=================================================================== 
+‣ Almost cover : search, fullmatch, findall, finditer, sub
+===================================================================
+
+● search: It is a function that used to find any occurrence of a pattern.
+
+● fullmatch: It is a function that check whether it exactly matched with entire string.
+
+● findall: It is a function that find all occurrences of pattern from entire string and stored into a list.
+
+● finditer: It is a function that find all occurrences of pattern from entire string  and gives an iterable object of its.
+
+● sub: It is a function that 
