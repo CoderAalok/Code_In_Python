@@ -1,27 +1,27 @@
 num1 = int(input("Enter the first number: "))
 num2 = int(input("Enter  the second number: ")) 
-operation = input("Enter the operation (+, -, *, / ,!): ")
+operators = input("Enter the operators (+, -, *, / ,!): ")
 
-if operation == '+':
+if operators == '+':
     sum = num1 + num2
     print("The sum is:", sum)
     
-elif operation == '-':      
+elif operators == '-':      
     difference = num1 - num2
     print("The difference is:", difference)
     
-elif operation == '*':
+elif operators == '*':
     product = num1 * num2
     print("The product is:", product)
     
-elif operation == '/':
+elif operators == '/':
     if num2 != 0:
         quotient = num1 / num2
         print("The quotitent is :", quotient)
     else:
         print("Undifined cannot divide by zero") 
           
-elif operation == '!':
+elif operators == '!':
     fact=1
     fact1=1
     
