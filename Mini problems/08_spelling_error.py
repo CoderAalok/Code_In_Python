@@ -16,5 +16,5 @@ defined_word = ['monkey', 'leopard', 'tiger','dog','elephant',
                 'yak','camel','lion','horse','rhinoceros','sheep',
                 'panda','cheetah','deer']
 result = spelling(word , defined_word)
-print(f'There is {result} spelling you mistake.')
+print(f'In {result} spelling you mistake.')
 
