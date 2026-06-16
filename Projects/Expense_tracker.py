@@ -12,12 +12,15 @@ import numpy as np
 import pandas as pd
 import matplotlib.ticker as mticker
 import matplotlib.pyplot as plt
+from pathlib import Path
 import os
 from datetime import datetime
 
 
 #─────────────────* Config *────────────────────────#
-CSV_FILE = "expenses.csv"
+FILE = "expenses.csv"
+BASE_DIR = Path(__file__).parent # current working directory path
+CSV_FILE = BASE_DIR / FILE
 CATEGORIES = ["Food", "Health", "Entertainment", "Transport", "Utilities", "Other"]
 COLORS = ["#56C591", "#F4845F", "#4C9BE8", "#D1A842", "#A78BFA", "#94A3B8"]
 
@@ -34,7 +37,7 @@ def load_file():
     
     # if file does exits but empty
     try:
-        df = pd.read_csv(CSV_FILE, parse_dates=['Date'])
+        df = pd.read_csv(CSV_FILE, parse_dates=["Date"])
         
     except Exception:
         df = pd.DataFrame(columns=['Date', 'Category', 'Description', 'Amount'])
@@ -45,23 +48,14 @@ def load_file():
 
 
 def add_expenses(df):
-    # add date
-    date_str = input("⤷ Date (YYYY-MM-DD) [today] 📅: ").strip()
-    
-    if not date_str:
-        date_str = datetime.today().strftime("%Y-%m-%d")
-        
-    try:
-        date = pd.to_datetime(date_str)
-        
-    except Exception:
-        print("Invalid formate. Expected (YYYY-MM-DD)")
-        date = pd.Timestamp.today()
+    # add current date
+    date_str = datetime.today().strftime("%Y-%m-%d")
+    date = pd.to_datetime(date_str)
     
     # add category
-    print(f"\n✦ CATEGORIES 🛍️:\n●", "\n● ".join(CATEGORIES))
+    print(f"\n✦ CATEGORIES 🛍️  :\n●", "\n● ".join(CATEGORIES))
     
-    category = input("\n⤷ Category 🛍️: ").strip().title()
+    category = input("\n⤷ Category 🛍️ : ").strip().title()
     
     if category not in CATEGORIES:
         category = 'Other'
@@ -106,7 +100,6 @@ def save_data(df):
 #─────────────────* Expenses analysis *─────────────────#
 def spending_per_category(df):
     "Return total spending per category"
-    
     return (
         df.groupby('Category')['Amount']
         .sum()
@@ -118,9 +111,9 @@ def spending_per_category(df):
 
 def spending_per_month(df):
     "Return total spending per month"
-    
     df = df.copy()
     df['Month'] = df['Date'].dt.to_period("M")
+    
     return (
         df.groupby('Month')['Amount']
         .sum()
@@ -130,9 +123,9 @@ def spending_per_month(df):
 
 
 def display_records(df):
-    
     # load data categories wise
     catg = spending_per_category(df)
+    
     print("\n ════════════════ Spending per Category 🛍️  ═════════════════")
     for _, row in catg.iterrows():
         print(f"  {row["Category"]:<15} | 💲{row["Total"]:>8.2f}")
@@ -141,6 +134,7 @@ def display_records(df):
     # load data month wise
     month = spending_per_month(df)
     print("\n ════════════════ Spending per Month 📅 ════════════════")
+    
     for _, row in month.iterrows():
         print(f"  {str(row["Month"]):<15} | 💲{row["Total"]:>8.2f}")
     
@@ -279,9 +273,15 @@ def main():
                 df = add_expenses(df)
                             
             elif choose == "2":
+                if df.empty:
+                    print("Empty DataFrame!!")
+                    return
                 display_records(df)
             
             elif choose == "3":
+                if df.empty:
+                    print("Empty DataFrame!!")
+                    return
                 shows_chart_graph(df)
             
             elif choose == "4":
