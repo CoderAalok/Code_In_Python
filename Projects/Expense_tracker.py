@@ -12,8 +12,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.ticker as mticker
 import matplotlib.pyplot as plt
-from pathlib import Path
 import os
+from pathlib import Path
 from datetime import datetime
 
 
@@ -87,7 +87,7 @@ def add_expenses(df):
     
     # save all
     save_data(df)
-    print(f"\n✔ Successfully added 🗃️.\nCategory 🛍️: {category} ➜  Description 📝: {description} ➜  Amount: 💲{amount:.2f}")
+    print(f"\n✔ Successfully added 🗃️.\nCategory 🛍️ : {category} ➜  Description 📝: {description} ➜  Amount 💸: 💲{amount:.2f}")
     return df
 
 
@@ -243,7 +243,7 @@ def shows_chart_graph(df):
     plt.xticks(rotation=30, ha="right")
     plt.tight_layout()
     
-    output_path = "expense_records.png"
+    output_path = BASE_DIR / "expense_records.png"
     
     plt.savefig(output_path, dpi=150, bbox_inches="tight")
     print(f"\n✓ Expense records saved to 📂: {output_path}")
