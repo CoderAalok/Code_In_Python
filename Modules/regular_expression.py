@@ -25,11 +25,11 @@ strr = "The Gen-AI all most reached at human's level," \
 
 # print(pattern.search(strr))
 
-# a = "python@gmail.com"
-# pattern1 = re.compile(r'(@gmail.com)')
+a = "python@gmail.com"
+pattern1 = re.compile(r'(@gmail.com)')
 
-# pattern = re.compile(r'.+@gmail\.com') #-> fullmatch(a)
-# print(bool(pattern.fullmatch(a)))
+pattern = re.compile(r'.+@gmail\.com') #-> fullmatch(a)
+print(bool(pattern.fullmatch(a)))
 
 # pattern1 = re.compile(r'@gmail.com$')
 
@@ -52,29 +52,29 @@ strr = "The Gen-AI all most reached at human's level," \
 #     phones_number.append(phone.group())
 # print(phones_number)
 
-# emails = """ 
-# While coordinating vendor audits,
-#  the team exchanged notes with Google’s
-#    escalation desk Support.Team@google.com late at night;
-#      meanwhile an internal memo referenced microsoft-help@microsoft.com though
-#        not all tickets were valid. Orders flagged as urgent were forwarded to
-#          “customer.service+priority@amazon.com”, and a legacy document oddly
-#            listed INFO@meta.com next to deprecated URLs. During a streaming outage,
-#              someone mistakenly typed support@netflix.com
-#                before correcting it to support@netflix.com, 
-#                and finally a research proposal draft mentioned 
-#                contact research@openai.com in the footer.
+emails = """ 
+While coordinating vendor audits,
+ the team exchanged notes with Google’s
+   escalation desk Support.Team@google.com late at night;
+     meanwhile an internal memo referenced microsoft-help@microsoft.com though
+       not all tickets were valid. Orders flagged as urgent were forwarded to
+         “customer.service+priority@amazon.com”, and a legacy document oddly
+           listed INFO@meta.com next to deprecated URLs. During a streaming outage,
+             someone mistakenly typed support@netflix.com
+               before correcting it to support@netflix.com, 
+               and finally a research proposal draft mentioned 
+               contact research@openai.com in the footer.
 
-# """
+"""
 
-# email_collector = []
+collect_email = []
 
-# pattern = re.compile(r'[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9_.%+-]+\.com')   #matching pattern of email
+pattern = re.compile(r'[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9_.%+-]+\.com')   # matching pattern of email
 
 # print(pattern.findall(emails))
 # for email in pattern.finditer(emails): 
-#     email_collector.append(email.group())
-# print(email_collector)
+#     collect_email.append(email.group())
+# print(collect_email)
 
 
 # pattern = re.compile(r'[A-z]')
