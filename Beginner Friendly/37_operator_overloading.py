@@ -6,7 +6,7 @@ class Operator:
         self.s = s
 
     def __add__(self,num2):
-        return self.num1+num2.num1 + self.num2+num2.num2, self.num2+self.num1   
+        return self.num1+num2.num1 + self.num2+num2.num2, self.num2+self.num1, num2.num1 + num2.num2   
     
     def __truediv__(self,num2):
         return (self.num1+num2.num1) / (self.num2+num2.num2)  
@@ -25,8 +25,8 @@ class String(Operator):
     def __len__(self):
         return len(self.s)
     
-a = Operator(12,0,'Abstraction') 
-b = Operator(3,4,'Proposal')
+a = Operator(5,4,'Abstraction') 
+b = Operator(6,9,'Proposal')
 print(a+b)
 
 print(a/b)
