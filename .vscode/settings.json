@@ -12,7 +12,9 @@
     "python.REPL.enableREPLSmartSend": false,
     "editor.renderWhitespace": "none",
     "editor.inlineSuggest.enabled": false,
-    "git.enabled": true
+    "git.enabled": true,
+    "git.ignoreLimitWarning": true,
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 
     
 
