@@ -8,7 +8,6 @@ Personal Expense Tracker
 - Visualization: Pie, Bar charts and graph(tends)
 """
 
-import numpy as np
 import pandas as pd
 import matplotlib.ticker as mticker
 import matplotlib.pyplot as plt
@@ -54,7 +53,7 @@ def add_expenses(df):
     
     # add category
     print(f"\n✦ CATEGORIES 🛍️  :\n●", "\n● ".join(CATEGORIES))
-    
+    print("──────────────────────────────────")
     category = input("\n⤷ Category 🛍️ : ").strip().title()
     
     if category not in CATEGORIES:
@@ -261,11 +260,11 @@ def main():
             print("════════════════ Expense 💰 Tracker 🔎 ════════════════")
             print("﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌﹌")
 
-            print("1) Add expenses 💰")
-            print("2) Display records 📑")
-            print("3) Shows chart 📊 and graph 📈")
-            print("4) Recent expense")
-            print("5) Exit➜🚪")
+            print("1️⃣  Add expenses 💰")
+            print("2️⃣  Display records 📑")
+            print("3️⃣  Shows charts 📊 and graph 📈")
+            print("4️⃣  Recent expense 🕒")
+            print("5️⃣  Exit➜🚪")
             
             choose = input("\nEnter any number (1 - 5): ").strip()
             
@@ -274,13 +273,13 @@ def main():
                             
             elif choose == "2":
                 if df.empty:
-                    print("Empty DataFrame!!")
+                    print("No expenses recorded yet!")
                     return
                 display_records(df)
             
             elif choose == "3":
                 if df.empty:
-                    print("Empty DataFrame!!")
+                    print("No expenses recorded yet!")
                     return
                 shows_chart_graph(df)
             
