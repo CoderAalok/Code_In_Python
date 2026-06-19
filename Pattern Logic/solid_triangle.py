@@ -30,23 +30,62 @@ Output:
 # Alternative way
 def solid_Triangle(n):
     for i in range(n):
-        for _ in range(n):
+        for _ in range(n-i):
             print(" ", end="")
         
-        for _ in range(i): 
-            print("*", end=" ") # just stretches left half pyramid
-        
+        for _ in range(i):
+            print("*", end=" ")
+
         print()
 
-solidTriangle(5)
-
+solid_Triangle(5)
 
 """
 Output:
-          * 
-        * * * 
-      * * * * * 
-    * * * * * * * 
-  * * * * * * * * * 
+    * 
+   * * 
+  * * * 
+ * * * * 
+
+"""
+
+# Similarly its Hollow trianlge
+def hollow_triangle(n):
+    for i in range(n):
+        
+        for j in range(n):
+            if i+j == n-1 or i == n-1:
+                print("*", end="")
+            else:
+                print(" ", end="")
+
+        for k in range(1, n):
+            if i == k or i == n-1:
+                print("*", end="")
+            else:
+                print(" ", end="")
+
+        print()
+    
+hollow_triangle(5)
+
+
+"Same logic as left and right half hollow pyramid just ignore middle"
+
+"""
+Output:
+with stretches (end=" ")
+        *         
+      *   *       
+    *       *     
+  *           *   
+* * * * * * * * * 
+
+without stretches (end="")
+    *    
+   * *   
+  *   *  
+ *     * 
+*********
 
 """
