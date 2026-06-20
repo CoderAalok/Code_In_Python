@@ -2,10 +2,14 @@ import json
 from datetime import datetime, timedelta, date
 from time import sleep
 import sys
+from pathlib import Path
+
+# Config
+BASE_DIR = Path(__file__).parent
 
 # Like Backend
-def load_file(filename, default=None):
-    
+def load_file(file_name, default=None):
+    filename = BASE_DIR / file_name
     try:
         with open(filename, "r")as r:
             return json.load(r)
@@ -13,8 +17,8 @@ def load_file(filename, default=None):
         default = []
         return default  #new file create
 
-def write_file(filename, _data_):
-
+def write_file(file_name, _data_):
+    filename = BASE_DIR / file_name
     with open(filename, "w")as w:
         json.dump(_data_, w, indent=4)
 
