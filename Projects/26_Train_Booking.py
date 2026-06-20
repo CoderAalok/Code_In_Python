@@ -1,10 +1,11 @@
 class Train:
-    def __init__(self,name, tickets,seats,place,fare ):
+    def __init__(self,name, tickets, seats, place, fare):
         self.tickets = tickets #list
         self.seats = seats  #list
         self.place = place    #list
         self.fare = fare #int
         self.name = name #str
+        self.net_amount = 0.0
 
     #Distination chose
     def get_place(self):
@@ -102,9 +103,9 @@ class Train:
             while True:
                 #Payment process
                 if count : 
-                    net_amount = self.fare * ticket_no
-                    payment =  (input(f"Your net amount is {net_amount}, Pay now: >>>>"))
-                    if int(payment) != (net_amount) or not payment.isdigit() :
+                    self.net_amount = self.fare * ticket_no
+                    payment =  (input(f"Your net amount is {self.net_amount}, Pay now: >>>>"))
+                    if int(payment) != (self.net_amount) or not payment.isdigit() :
                         print("Payment is Incompleted.")
                         continue  #until execute the loop when the payment != to net_amou
 
@@ -115,7 +116,12 @@ class Train:
                     print("Seat booking process failed.")
 
                 print("\t\t ***** Ticket Booked Details ******\n")
-                print(f"\t\t Name: {(self.name).title()}\n\t\t No. of Tickets: {len(sold_ticket)}\n\t\t Ticket_No.: {sold_ticket},\n\t\t Seat_No.: {seats_book}\n\t\t Place: {(self.place)}\n\t\t Fare: {net_amount}")
+                print(f"Name: {(self.name).title()}\n")
+                print(f"No. of Tickets: {len(sold_ticket)}\n")
+                print(f"Ticket_No.: {sold_ticket}\n") 
+                print(f"Seat_No.: {seats_book}\n") 
+                print(f"Place: {(self.place)}\n")
+                print(f"Fare: {self.net_amount}")
                 print()
                 break
 
