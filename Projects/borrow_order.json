@@ -25,6 +25,14 @@
                 "due_date": "2025-12-27",
                 "status": "CONFIRMED",
                 "Delivery In": "PROCESSING"
+            },
+            {
+                "book_id": "G1302",
+                "order_id": "UoB107",
+                "borrow_date": "2026-06-19",
+                "due_date": "2026-06-24",
+                "status": "CONFIRMED",
+                "Delivery In": "PROCESSING"
             }
         ]
     },
