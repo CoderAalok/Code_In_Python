@@ -6,7 +6,8 @@ import matplotlib.ticker as mticker
 
 
 # # Download data and make Dataframe
-df = yf.download('GOOGL', start="2024-01-23", end="2025-01-23")
+load_data = yf.download('GOOGL', start="2024-01-23", end="2025-01-23")
+df = pd.DataFrame(load_data)
 
 # # Data exploratory
 print(f"Stock dataset :\n {df.head()}\n")
