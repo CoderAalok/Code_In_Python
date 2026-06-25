@@ -192,7 +192,7 @@ def shows_chart_graph(df):
     
     #────────────────* style and artist add *────────────────
     ax2.set_title("Amount per Category", fontsize=13, fontweight="bold", pad=12)
-    ax2.set_xlabel("Total spent (💲)", fontsize=10)
+    ax2.set_xlabel("Total spent ($)", fontsize=10)
     ax2.xaxis.set_major_formatter(mticker.FormatStrFormatter("%.0f"))
     ax2.invert_yaxis()
     ax2.spines[["top", "right", "left"]].set_visible(False)
