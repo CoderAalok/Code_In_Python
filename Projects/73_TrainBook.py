@@ -1,25 +1,37 @@
 class Train:
-    def __init__(self,name,ticket,seats,fare):
+    def __init__(self, ticket, fare=200):
+        self.n = "Hanuman Express 1177"
         self.t = ticket
-        self.s = seats
         self.f = fare
-        self.n = name
+        self.s = list(range(1, 11))
+    
     def getStatus(self):
-        print(f"The Name of Train {self.n}")
+        print("=========== About Train ============")
+        print(f"Name of Train {self.n}")
         print(f"{len(self.s)} Seats available")
-        print(f"The Fare of a ticket Rs. {self.f}")
-        
+        print(f"Fare of per ticket Rs. {self.f}\n")
+
     # Ticket Booking
     def bookTicket(self):
-        if len(self.s) != 0:
-            # passanger = int(input("How many seats do you want to book: "))
-            # if passanger and passanger <= self.s:
-            print(f"Your seats has been booked! And your seat no. is {self.s[0]}")
-            self.s.pop(0)
-            # else:
-            #     print("No longer seats are available!")
+        
+        if len(self.s) >= self.t:
+            
+            print(f"Total fare: {self.f * self.t}")
+            print(f"Your seats has been booked.")
+            
+            seats = []
+            for _ in range(self.t):
+                seats.append(str(self.s[0]))
+                self.s.pop(0)
+                
+            print(f"Seats no.: {",".join(seats)}")
+            
+        elif self.t > len(self.s):
+            print(f"Only {len(self.s)} seats are available.")
+            
         else:
             print("Seats are full!")
+            
     # Ticket Cancellition
     def cancleTicket(self):
         SeatNo = int(input("Which seatsNo. do you want to cancle: "))
@@ -28,11 +40,17 @@ class Train:
         else:
             print(f"Sorry! {SeatNo} No. seat not booked.")
 
-Hanuman = Train("Hanuman Express 429272",5,[1,2,3,4,5],150)
-Hanuman.getStatus()
-Hanuman.bookTicket()
+if __name__ == "__main__":
+    try:
+        
+        ticket = int(input("How many tickets do you want?  ").strip())
+        Hanuman = Train(ticket)
+        Hanuman.getStatus()
+        Hanuman.bookTicket()
+        Hanuman.bookTicket()
+        Hanuman.bookTicket()
+        
+        
+    except ValueError:
+        print("Invalid Input!!")
 
-Hanuman.getStatus()
-Hanuman.bookTicket()
-Hanuman.cancleTicket()
-Hanuman.bookTicket()
