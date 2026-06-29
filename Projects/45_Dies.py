@@ -1,20 +1,20 @@
-# import random
-# class Die:
+import random
+class Die:
 
-#     def __init__(self,sides=6):
-#         self.sides = sides
+    def __init__(self,sides=6):
+        self.sides = sides
     
-#     def roll_die(self):
-#         numbers = random.randint(1,self.sides)
-#         print(f"Sides of die: {self.sides}\nRandom Number: {numbers}")
+    def roll_die(self):
+        numbers = random.randint(1,self.sides)
+        print(f"Sides of die: {self.sides}\nRandom Number: {numbers}")
     
-#     def multi_roll(self):
-#         for i in range(10):
-#             numbers = random.randint(1,self.sides)
-#             print(f"Sides of die: {self.sides}\nRandom Number: {numbers}")
+    def multi_roll(self):
+        for i in range(10):
+            numbers = random.randint(1,self.sides)
+            print(f"Sides of die: {self.sides}\nRandom Number: {numbers}")
 
-# roll = Die()
-# roll.roll_die()
+roll = Die()
+roll.roll_die()
 # roll.multi_roll()
 
 # roll = Die(10)
