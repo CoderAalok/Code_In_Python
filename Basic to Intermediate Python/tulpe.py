@@ -1,5 +1,4 @@
 tuple = (2,3,53,5,7,3)
-del tuple(6)
 print(tuple)
 
 
@@ -198,8 +197,8 @@ print(tuple)
 # Sort a list of tuple based on their second item/element, 
 # But condition: ordered data of tuple holds
 
-li = [(1,3),(3,4),(5,3)]
-k = 1
+li = [(1,3),(3,4),(2,3)]
+k = 0
 sort = sorted(li, key=lambda x: x[k])
 print(sort)
 
