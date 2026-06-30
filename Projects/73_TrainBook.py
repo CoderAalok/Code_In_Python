@@ -16,7 +16,7 @@ class Train:
         
         if len(self.s) >= self.t:
             
-            print(f"Total fare: {self.f * self.t}")
+            print(f"Total fare: Rs. {self.f * self.t}")
             print(f"Your seats has been booked.")
             
             seats = []
@@ -25,13 +25,14 @@ class Train:
                 self.s.pop(0)
                 
             print(f"Seats no.: {",".join(seats)}")
+        
+        elif len(self.s) == 0:
+            print("Seats are full!")
             
         elif self.t > len(self.s):
             print(f"Only {len(self.s)} seats are available.")
             
-        else:
-            print("Seats are full!")
-            
+
     # Ticket Cancellition
     def cancleTicket(self):
         SeatNo = int(input("Which seatsNo. do you want to cancle: "))
