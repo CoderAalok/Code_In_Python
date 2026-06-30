@@ -388,9 +388,15 @@ def count(s1,s2):
     #             break
     # return ''.join(re) == s1
 
-s1 ='Python'.lower()
-s2 = 'aspwitnomfswmyygfph'
-if (count(s1,s2)):
-    print("It is possible")
-else:
-    print("It is not possible")
+# s1 ='Python'.lower()
+# s2 = 'aspwitnomfswmyygfph'
+# if (count(s1,s2)):
+#     print("It is possible")
+# else:
+#     print("It is not possible")
+
+
+hash = {10:'q', 22:'w', 12:'c'}
+print(hash)
+hash[32] = 'z'
+print(hash[22])
