@@ -25,7 +25,20 @@ def butterflyStart(n):
 
 butterflyStart(5)
             
-    
+"""
+Output:
+
+*                 *
+*  *           *  *  
+*  *  *     *  *  *  
+*  *  *  *  *  *  * 
+*  *  *     *  *  *  
+*  *           *  *  
+*                 *  
+
+
+
+"""
     
 print()
     
