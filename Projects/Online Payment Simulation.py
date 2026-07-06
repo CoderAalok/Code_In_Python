@@ -1,5 +1,5 @@
 """
-Mobile Banking Features:
+Online Payment Features:
 1) New account open
 2) Sender & Receiver
 3) Check main balance
