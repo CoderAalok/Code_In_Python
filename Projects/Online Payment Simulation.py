@@ -5,7 +5,7 @@ Online Payment Features:
 3) Check main balance
 4) Show statement
 
-[Send] -> [Processing] -> [Receiver]
+[Send] -> [Processing] -> [Receive]
 """
 
 # Library
