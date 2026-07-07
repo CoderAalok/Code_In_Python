@@ -1,9 +1,22 @@
 [
     {
-        "UserName": "coderaalok",
-        "Phone No.": "9815790010",
-        "Balance": 0.0,
-        "PIN": "1002",
-        "Statement": []
+        "UserName": "aalok",
+        "Phone No.": "9810101010",
+        "Balance": 853980.5,
+        "PIN": "1010",
+        "Statement": [
+            "You sent Rs. 150020.0 on +977-9090909090 account on Tue Jul  7 23:58:25 2026.",
+            "You received Rs. 4000.0 from +977-9090909090 account on Tue Jul  7 23:59:29 2026."
+        ]
+    },
+    {
+        "UserName": "zack",
+        "Phone No.": "9090909090",
+        "Balance": 146020.0,
+        "PIN": "1020",
+        "Statement": [
+            "You received Rs. 150020.0 from +977-9810101010 account on Tue Jul  7 23:58:25 2026.",
+            "You sent Rs. 4000.0 on +977-9810101010 account on Tue Jul  7 23:59:29 2026."
+        ]
     }
 ]
