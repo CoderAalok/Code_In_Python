@@ -1,5 +1,5 @@
 """
-Mobile Banking Features:
+Online Payment Features:
 1) New account open
 2) Sender & Receiver
 3) Check main balance
@@ -226,11 +226,11 @@ def main(user_choice):
 
 # Test
 if __name__ == "__main__":
-    print("=-=-=-=-=-= Online Paymet Simulation =-=-=-=-=-=-=")
+    print("=-=-=-=-=-= Online Payment Simulation =-=-=-=-=-=-=")
     print("1) Create new account")
     print("2) Send/Payment/Transfer")
     print("3) Check main balance")
-    print("4) Statement")
+    print("4) Show statement")
     
     user_choice = input("\n Select any one (1-4): ").strip()
     main(user_choice)
