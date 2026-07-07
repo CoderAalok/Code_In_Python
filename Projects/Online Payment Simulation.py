@@ -10,7 +10,7 @@ Mobile Banking Features:
 
 # Library
 from pathlib import Path
-from datetime import date
+from datetime import datetime
 import json
 
 
@@ -44,7 +44,7 @@ class OnlinePayment:
         self.__pin = sender_pin
         self._amount = amount
         self.system = OnlineSystem()
-        self.date = date.today().strftime("%Y-%m-%d")
+        self.date = datetime.today().ctime()
 
     # check both sender and receiver have accounts
     @property
@@ -73,11 +73,11 @@ class OnlinePayment:
         
         # subtract money from sender
         sender_record['Balance'] -= self._amount
-        sender_record['Statement'].append(f"You sent Rs. {self._amount} on +977-{self._rnumber} account [{self.date}].")
+        sender_record['Statement'].append(f"You sent Rs. {self._amount} on +977-{self._rnumber} account on {self.date}.")
         
         # add money to receiver
         receiver_record['Balance'] += self._amount 
-        receiver_record['Statement'].append(f"You received Rs. {self._amount} from +977-{self._snumber} account [{self.date}].")
+        receiver_record['Statement'].append(f"You received Rs. {self._amount} from +977-{self._snumber} account on {self.date}.")
         
         # update and save
         self.system.update_record()
