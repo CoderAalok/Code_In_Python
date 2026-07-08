@@ -228,19 +228,20 @@ def main(user_choice):
         print("\n".join(statement.showStatement))
     
     else:
-        print("Only select (1-4).")
+        print("Only select (1-5).")
 
 
 # Test
 if __name__ == "__main__":
     print("=-=-=-=-=-= Online Payment Simulation =-=-=-=-=-=-=")
-    print("1) Create new account")
-    print("2) Send/Payment/Transfer")
-    print("3) Check main balance")
-    print("4) Show statement")
-    print("5) Exit")
     
     while True:
+        print("1) Create new account")
+        print("2) Send/Payment/Transfer")
+        print("3) Check main balance")
+        print("4) Show statement")
+        print("5) Exit")
+        
         user_choice = input("\nSelect any one (1-5): ").strip()
         if user_choice == "5":
             print("See you later.")
