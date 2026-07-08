@@ -12,7 +12,7 @@ Online Payment Features:
 from pathlib import Path
 from datetime import datetime
 import json
-
+import hashlib
 
 # Config
 BASE = Path(__file__).parent
@@ -23,6 +23,7 @@ class OnlineSystem:
     def __init__(self):
         self.__records = loadRecord()
     
+    # track user
     def find_user(self, phone_number):
         if not self.__records:
             return None
@@ -30,12 +31,15 @@ class OnlineSystem:
         for record in self.__records:
             if record["Phone No."] == phone_number:
                 return record
-        
         return None
     
+    # save updated record
     def update_record(self):
         updateRecord(self.__records)
-
+    
+    # encode pin
+    def hash_pin(self, pin):
+        return hashlib.sha256(pin.encode()).hexdigest()
     
 class OnlinePayment:
     def __init__(self, sendernumber, receivernumber, sender_pin, amount=0.0):
@@ -48,7 +52,7 @@ class OnlinePayment:
 
     # check both sender and receiver have accounts
     @property
-    def validateTransaction(self):
+    def checkValidate(self):
         # fetch records
         sender_record = self.system.find_user(self._snumber)
         receiver_record = self.system.find_user(self._rnumber)
@@ -57,7 +61,7 @@ class OnlinePayment:
         if not sender_record:
             return f"User (+977-{self._snumber}) not found."
         
-        if sender_record['PIN'] != self.__pin:
+        if sender_record['PIN'] != self.system.hash_pin(self.__pin):
             return "Incorrect PIN."
         
         # check receiver have account 
@@ -67,6 +71,9 @@ class OnlinePayment:
         if sender_record['Phone No.'] == receiver_record['Phone No.']:
             return "Sender and receiver cannot be same."
         
+        return self.transferMoney(sender_record, receiver_record)
+        
+    def transferMoney(self, sender_record, receiver_record):
         # sender sent money
         if self._amount > sender_record['Balance']:
             return "Insufficient balance."
@@ -111,7 +118,7 @@ class Statement:
     def showStatement(self):
         record = self.system.find_user(self._number)
         if not record:
-            return "User not found."
+            return ["User not found."]
         
         return record['Statement']
 
@@ -154,7 +161,7 @@ class Verification:
             "UserName": self.user,
             "Phone No.": self._number,
             "Balance": self._balance,
-            "PIN": self.__pin,
+            "PIN": self.system.hash_pin(self.__pin),
             "Statement": self.statement
         }
         
@@ -208,7 +215,7 @@ def main(user_choice):
         pin = input("Enter your PIN: ").strip()
         
         pay = OnlinePayment(sender_number, receiver_number, pin, amount)
-        print(pay.validateTransaction)
+        print(pay.checkValidate)
     
     elif user_choice == "3":
             user_number = input("User number: +977-").strip()
@@ -219,7 +226,7 @@ def main(user_choice):
         user_number = input("User number: +977-").strip()
         statement = Statement(user_number)
         print("\n".join(statement.showStatement))
-        
+    
     else:
         print("Only select (1-4).")
 
@@ -231,6 +238,11 @@ if __name__ == "__main__":
     print("2) Send/Payment/Transfer")
     print("3) Check main balance")
     print("4) Show statement")
+    print("5) Exit")
     
-    user_choice = input("\n Select any one (1-4): ").strip()
-    main(user_choice)
+    while True:
+        user_choice = input("\nSelect any one (1-5): ").strip()
+        if user_choice == "5":
+            print("See you later.")
+            break
+        main(user_choice)
