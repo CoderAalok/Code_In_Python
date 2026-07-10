@@ -1,6 +1,12 @@
 
 # E-Commerce
 import random
+import sys
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+
 class ECommerce:
     def greet(self):
         print("-"*15,"Welcome Hanuman Store","-"*15)
@@ -329,7 +335,7 @@ else:
             #Item keys are identify through number 
             item_key = {k:v for (k,v) in enumerate(item.keys(), start=1)} #key start from 1
             
-            print(f"{"-"*15}{item_section[customer]}{"-"*15}")
+            print(f"{'-' * 15}{item_section[customer]}{'-' * 15}")
             print('⁃'*30)
             for i,(key,value) in enumerate(item.items(),start=1):
                 print(f"{i}.{key}")
@@ -350,8 +356,13 @@ else:
             "no": False
             }
 
-            if not check.get(customer,False):
+            if customer not in check:
                 print("Typing error!")
+                sys.exit()
+
+            if not check[customer]:
+                print("Shopping cancelled.")
+                sys.exit()
 
             while True:
                 try:
@@ -379,9 +390,13 @@ else:
                     
                 except ValueError:
                     print("Invalid input! Please enter correct items number.")
+
+            if not cart:
+                print("No items selected. Order cancelled.")
+                sys.exit()
         else:
             print("Section are not available...")
-            exit()
+            sys.exit()
 
         while True:
         
