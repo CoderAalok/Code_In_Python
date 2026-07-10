@@ -1,144 +1,173 @@
-class Train:
-    def __init__(self,name, tickets, seats, place, fare):
-        self.tickets = tickets #list
-        self.seats = seats  #list
-        self.place = place    #list
-        self.fare = fare #int
-        self.name = name #str
-        self.net_amount = 0.0
+VALID_PLACES = ["jaynagar", "janakpur", "kolkata", "delhi", "panjab", "japan"]
 
-    #Distination chose
+
+def format_places():
+    return ", ".join(place.title() for place in VALID_PLACES)
+
+
+def ask_number(prompt, minimum=1, maximum=None):
+    while True:
+        value = input(prompt).strip()
+
+        if not value.isdigit():
+            print("Typing mistake! Please enter a number.")
+            continue
+
+        number = int(value)
+        if number < minimum:
+            print(f"Please enter {minimum} or more.")
+            continue
+
+        if maximum is not None and number > maximum:
+            print(f"Please enter {minimum} to {maximum}.")
+            continue
+
+        return number
+
+
+class Train:
+    def __init__(self, name, tickets, seats, place, fare):
+        self.tickets = tickets
+        self.seats = seats
+        self.place = place
+        self.fare = fare
+        self.name = name
+        self.pickup = ""
+        self.net_amount = 0
+
     def get_place(self):
-            # for i in self.place:
-                if self.place.lower()  in ['jaynagar' , 'janakpur','kolkata','delhi','panjab','japan']:
-                    place_hold = input("From which station are you pickup the train? >>> ").lower().strip()
-                    if  place_hold in  ['jaynagar' , 'janakpur','kolkata','delhi','panjab','japan']:
-                        return True
-                    else:
-                        print("Sorry sir! Hanuman Nepal Train only goes ['Jaynagar' , 'Janakpur','kolkata','delhi','panjab','japan'] these places.")
-                        return False
-                else:
-                    print("Sorry sir! Hanuman Nepal Train only goes ['Jaynagar' , 'Janakpur','kolkata','delhi','panjab','japan'] these places.")
-                return False
+        destination = self.place.lower().strip()
+
+        if destination not in VALID_PLACES:
+            print(f"Sorry sir! Hanuman Nepal Train only goes to {format_places()}.")
+            return False
+
+        while True:
+            pickup = input("From which station are you picking up the train? >>> ").lower().strip()
+
+            if pickup not in VALID_PLACES:
+                print(f"Sorry sir! Hanuman Nepal Train only goes to {format_places()}.")
+                continue
+
+            if pickup == destination:
+                print("Pickup station and destination cannot be the same.")
+                continue
+
+            self.place = destination.title()
+            self.pickup = pickup.title()
+            return True
 
     def get_name_ticket_seats_fare(self):
-        net_ticket = 0
-        seats_book = []
-        count = 0
+        available_count = min(len(self.tickets), len(self.seats))
+        ticket_count = ask_number(
+            "How many Tickets do you need? >>> ",
+            minimum=1,
+            maximum=available_count,
+        )
 
-        try:
+        sold_tickets = self.tickets[:ticket_count]
+        del self.tickets[:ticket_count]
+
+        booked_seats = []
+        for ticket_index in range(1, ticket_count + 1):
             while True:
-                #Pre-Ticket booking
-                ticket_no = int(input("How many Tickets do you need? >>> "))
-                if ticket_no <=0 or ticket_no > len(self.tickets):
-                    print(f"Please enter 1 to {len(self.tickets)} ")
-                    continue  #Repeat the iteration until the condition  become false
+                selected_seat = ask_number(f"Ticket_{ticket_index}, Seat_No.: ")
 
-                if net_ticket == 0:  #intial case
-                    net_ticket += len(self.tickets) - ticket_no  #remaming tickets
-                elif net_ticket >= ticket_no:  #more than one execution 
-                    net_ticket -= ticket_no
-                else:
-                    print(f"Sorry! Only {net_ticket} ticket's are available right now.")
-                    continue  #condition true move forward  and break
+                if selected_seat not in self.seats:
+                    print(f"Sorry sir! Seat_No. {selected_seat} is not available right now!")
+                    continue
+
+                booked_seats.append(selected_seat)
+                self.seats.remove(selected_seat)
                 break
 
-            # available_ticket = self.tickets[:-ticket_no]  #remaning tickets
-            sold_ticket = self.tickets[-ticket_no :] #sold tickets
+        while True:
+            choice = input("Do you want to cancel any selected ticket? (yes/no): >>> ").lower().strip()
 
-            #Seat Booking process
-            for i in range(1,(ticket_no)+1):
+            if choice in ("yes", "no"):
+                break
+
+            print("Default input type! Please enter yes or no.")
+
+        if choice == "yes":
+            cancel_count = ask_number(
+                "How many tickets do you want to cancel: >>> ",
+                minimum=1,
+                maximum=len(sold_tickets),
+            )
+
+            for cancel_index in range(1, cancel_count + 1):
                 while True:
-                    try:
-                        select = int(input(f"Ticket_{i}, Seat_No.: "))
-                        if select not in self.seats:
-                            print(f"Sorry sir! Seat_No. {select} is not available right now!.")
-                            continue
+                    cancel_seat = ask_number(
+                        f"Ticket:{cancel_index}, Please enter which seat you want to cancel: >>> "
+                    )
 
-                    except ValueError:
-                        print("Typing Mistake! <Tryaging!>")
+                    if cancel_seat not in booked_seats:
+                        print("Invalid seat no.! Please enter a booked seat number.")
                         continue
-                    if select in self.seats:
-                        seats_book.append(select)
-                        self.seats.remove(select)
-                        count = True
+
+                    seat_index = booked_seats.index(cancel_seat)
+                    cancelled_ticket = sold_tickets.pop(seat_index)
+                    booked_seats.pop(seat_index)
+
+                    self.tickets.append(cancelled_ticket)
+                    self.seats.append(cancel_seat)
+                    self.tickets.sort()
+                    self.seats.sort()
+
+                    print(f"Cancelled! Ticket: {cancelled_ticket}, seat: {cancel_seat}")
                     break
 
-            while True:
-                #Ticket Cancelation process
-                choice = input("Please conform this ticket for further process? Cancel: (Yes or  No): >>>    ").lower().strip()
-                if choice == 'yes':
-                    cancel_ticket = int(input("How many tickets do you want to cancel: >>>  "))
-                    if cancel_ticket > len(sold_ticket) or  cancel_ticket <= 0:
-                        print("Sorry sir! there is no any tickets no. as you mentioned. ")
-                        continue
-                    else:
-                        cancel_ticket1 = len(sold_ticket) - cancel_ticket
-                        ticket_no = cancel_ticket1
-                        net_ticket = ticket_no
-                        sold_ticket = sold_ticket[:-cancel_ticket]
-                        for j in range(1,cancel_ticket+1):
-                            while True:
-                                try:
-                                    cancel_1 = int(input(f"Ticket:{j}, Please enter which seat you cancel: >>>  "))
-                                except ValueError:
-                                    print("Typing Mistake! Please enter a valid input.")
-                                    continue
-                                
-                                if cancel_1 not in seats_book :
-                                    print("Invaild Seat no.! Please enter correct no.: >>> ")
-                                    continue
-                                else:
-                                    seats_book.remove(cancel_1)
-                                    self.seats.append(cancel_1)
-                                    print(f"Cancelled! Ticket: {j} , seat: {cancel_1} ")
-                                    break
-                elif choice  == 'no':
-                    print("Okay! your tickets and seats are confomed. ")
-                else:
-                    print("Default input type!")
-                    continue
-                break
+        if not sold_tickets:
+            print("All tickets were cancelled. No payment is required.")
+            return
 
-            while True:
-                #Payment process
-                if count : 
-                    self.net_amount = self.fare * ticket_no
-                    payment =  (input(f"Your net amount is {self.net_amount}, Pay now: >>>>"))
-                    if int(payment) != (self.net_amount) or not payment.isdigit() :
-                        print("Payment is Incompleted.")
-                        continue  #until execute the loop when the payment != to net_amou
+        self.net_amount = self.fare * len(sold_tickets)
+        while True:
+            payment = input(f"Your net amount is {self.net_amount}, Pay now: >>> ").strip()
 
-                    else:
-                            print("\nPayment Successful.\nNow your ticket has been Booked.")
-                            print()
-                else:
-                    print("Seat booking process failed.")
+            if not payment.isdigit():
+                print("Payment is incomplete. Please enter numbers only.")
+                continue
 
-                print("\t\t ***** Ticket Booked Details ******\n")
-                print(f"Name: {(self.name).title()}\n")
-                print(f"No. of Tickets: {len(sold_ticket)}\n")
-                print(f"Ticket_No.: {sold_ticket}\n") 
-                print(f"Seat_No.: {seats_book}\n") 
-                print(f"Place: {(self.place)}\n")
-                print(f"Fare: {self.net_amount}")
-                print()
-                break
+            if int(payment) != self.net_amount:
+                print("Payment is incomplete.")
+                continue
 
-        except ValueError:
-            print("Typing Mistake?")
+            print("\nPayment Successful.\nNow your ticket has been booked.\n")
+            break
 
-print("____*Welcome To Hanuman Nepal Railway Station*____")
-print()
-name = input("Ticket resister by >>> ")
-while True:
-    place = input("Where do you want to go? >>> ").title()
-    
-    seats = [1,2,3]  #Available seats 
-    tickets = [1,2,3] #Availale tickets
+        print("\t\t ***** Ticket Booked Details ******\n")
+        print(f"Name: {self.name.title()}\n")
+        print(f"No. of Tickets: {len(sold_tickets)}\n")
+        print(f"Ticket_No.: {sold_tickets}\n")
+        print(f"Seat_No.: {booked_seats}\n")
+        print(f"Pickup: {self.pickup}\n")
+        print(f"Place: {self.place}\n")
+        print(f"Fare: {self.net_amount}")
+        print()
 
-    book = Train(name,tickets,seats,place,300)
 
-    if book.get_place():
-        book.get_name_ticket_seats_fare()
-    break
+def main():
+    print("____*Welcome To Hanuman Nepal Railway Station*____")
+    print()
+
+    while True:
+        name = input("Ticket registered by >>> ").strip()
+        if name:
+            break
+        print("Name cannot be empty.")
+
+    while True:
+        place = input("Where do you want to go? >>> ").strip()
+        seats = [1, 2, 3]
+        tickets = [1, 2, 3]
+
+        book = Train(name, tickets, seats, place, 300)
+        if book.get_place():
+            book.get_name_ticket_seats_fare()
+            break
+
+
+if __name__ == "__main__":
+    main()
