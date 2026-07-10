@@ -13,6 +13,7 @@ from pathlib import Path
 from datetime import datetime
 import json
 import hashlib
+import math
 
 # Config
 BASE = Path(__file__).parent
@@ -50,9 +51,20 @@ class OnlinePayment:
         self.system = OnlineSystem()
         self.date = datetime.today().ctime()
 
+    def is_valid_amount(self):
+        return (
+            isinstance(self._amount, (int, float))
+            and not isinstance(self._amount, bool)
+            and math.isfinite(float(self._amount))
+            and self._amount > 0
+        )
+
     # check both sender and receiver have accounts
     @property
     def checkValidate(self):
+        if not self.is_valid_amount():
+            return "Invalid amount."
+
         # fetch records
         sender_record = self.system.find_user(self._snumber)
         receiver_record = self.system.find_user(self._rnumber)
@@ -74,6 +86,9 @@ class OnlinePayment:
         return self.transferMoney(sender_record, receiver_record)
         
     def transferMoney(self, sender_record, receiver_record):
+        if not self.is_valid_amount():
+            return "Invalid amount."
+
         # sender sent money
         if self._amount > sender_record['Balance']:
             return "Insufficient balance."
