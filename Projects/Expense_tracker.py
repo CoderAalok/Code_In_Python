@@ -45,6 +45,9 @@ def load_file():
         
     return df
 
+def is_valid(amount):
+    return (amount < 0 or isinstance(amount, bool))
+        
 
 def add_expenses(df):
     # add current date
@@ -68,6 +71,10 @@ def add_expenses(df):
     # add amount
     try:
         amount = float(input("⤷ Amount 💸: ").strip())
+        # check valid amount
+        if is_valid(amount):
+            print("Invalid amount!")
+            return df
         
     except ValueError:
         print("❌ Invalid amount. Expenses not added.")
