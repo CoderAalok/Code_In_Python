@@ -1,0 +1,5 @@
+Projects/Built mini AI assistant/agentic.env/
+__pycache__/
+.env
+.adk/
+*.pyc
