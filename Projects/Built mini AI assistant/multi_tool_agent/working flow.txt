@@ -1,0 +1,14 @@
+                [User]
+                  │
+                  ▼
+             [Root Agent]
+                  │
+      ┌───────────┼───────────┬──────────────┐
+      │           │           │              │
+      ▼           ▼           ▼              ▼
+ [Weather]   [Date/Time]   [Places]   [Summarize]
+      │           │
+      │           │
+      └──────┬────┘
+             ▼
+      [Open-Meteo APIs]
