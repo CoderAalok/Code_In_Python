@@ -55,35 +55,36 @@ calculates = {
     "1": english_date,
     "2": nepali_date
 }
+try:
+    if user == '1':
+        age = input("Enter your age\n⤷ ")
+        en_date, np_date = age_date_calculate(int(age))
+        print(f"Your Birthday Date in\nEnglish Date: {en_date} and\nNepali Date: {np_date}")
 
-if user == '1':
-    age = input("Enter your age\n⤷ ")
-    en_date, np_date = age_date_calculate(int(age))
-    print(f"Your Birthday Date in\nEnglish Date: {en_date} and\nNepali Date: {np_date}")
+    elif user == '2':
+        date_type = input("Select (1) or (2):\n1. English Date\n2. Nepali Date\n⤷ ")
+        if calculates.get(date_type):
+            year = input("Enter your birth year\n⤷ ")
+            month = input("Enter your birth month\n⤷ ")
+            day = input("Enter your birth day\n⤷ ")
+            age = None
+            
+            if date_type == '1':
+                # English Birth date
+                E_date_format = f"{year}-{month}-{day}"
+                E_date = (datetime.strptime(E_date_format, "%Y-%m-%d")).date()
+                check_age = calculates.get(date_type)
+                if check_age:
+                    age = check_age(E_date)
+            else:
+                # Nepali Birth date
+                N_date_format = f"{year}-{month}-{day}"
+                N_date = (datetime.strptime(N_date_format, "%Y-%m-%d")).date()
+                check_age = calculates.get(date_type)
+                if check_age:
+                    age = check_age(N_date)
 
-elif user == '2':
-    date_type = input("Select (1) or (2):\n1. English Date\n2. Nepali Date\n⤷ ")
-    if calculates.get(date_type):
-        year = input("Enter your birth year\n⤷ ")
-        month = input("Enter your birth month\n⤷ ")
-        day = input("Enter your birth day\n⤷ ")
-        age = None
-        
-        if date_type == '1':
-            # English Birth date
-            E_date_format = f"{year}-{month}-{day}"
-            E_date = (datetime.strptime(E_date_format, "%Y-%m-%d")).date()
-            check_age = calculates.get(date_type)
-            if check_age:
-                age = check_age(E_date)
-        else:
-            # Nepali Birth date
-            N_date_format = f"{year}-{month}-{day}"
-            N_date = (datetime.strptime(N_date_format, "%Y-%m-%d")).date()
-            check_age = calculates.get(date_type)
-            if check_age:
-                age = check_age(N_date)
+            print(f"Your age: {age}")
 
-        print(f"Your age: {age}")
-
-
+except Exception as e:
+    print(f"Error: {e}")
