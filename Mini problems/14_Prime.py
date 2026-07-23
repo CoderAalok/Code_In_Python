@@ -25,7 +25,37 @@
 
 # Using funciton to find whether the given number is prime or not.
 
-from sympy import *
-n1 , n2 ,n3  = 5 , 3 ,10
-print(isprime(20))
-print(isprime(n1),isprime(n2),isprime(n3))
+# from sympy import *
+# n1 , n2 ,n3  = 5 , 3 ,10
+# print(isprime(20))
+# print(isprime(n1),isprime(n2),isprime(n3))
+
+
+
+"""work but slow for larger number"""
+# def isprime(n: int) -> bool:
+#     if n <= 1:
+#         return False
+    
+#     factors = 0
+#     for i in range(1, n+1):
+#         if n % i == 0:
+#             factors += 1
+
+#     return factors == 2
+
+# print(isprime(11))
+
+
+"""much more efficient than entire approach"""
+def isprime(n: int) -> bool:
+    if n <= 1:
+        return False
+
+    for i in range(2, (int(n**0.5) + 1)):
+        if n % i == 0:
+            return False
+    
+    return True
+
+print(isprime(41))
