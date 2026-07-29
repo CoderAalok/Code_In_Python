@@ -6,10 +6,21 @@ A Player makes a target using given card numbers and arithmetic operators.
 
 """
 # Game Rules:
-unique player name or id -> mandatory
-correct answer -> +10 points
+Player name -> mandatory
+Use only given card numbers and arithmetic operators to make target. Also writting an expression must use parentheses.
+Avoid writting wrong expression.
+
+for Easy Level:
+correct answer -> +5 points
 Incorrect answer -> -5 points  
 
+for Medium Level:
+correct answer -> +10 points
+Incorrect answer -> -10 points  
+
+for Hard Level:
+correct answer -> +15 points
+Incorrect answer -> -15 points  
 """
 
 """
@@ -204,7 +215,14 @@ c = Cards()
 def main():
     try:
         """Player can explicitly play no need to create account."""
-        player_name = input("Player name: ").strip().lower()
+        is_name_empty = True # initially no name
+        while is_name_empty:
+            player_name = input("Player name: ").strip().lower()
+            if not player_name:
+                print("Player name is mandatory.")
+            else:
+                is_name_empty = False
+            
         get_player_record(player_name) # if player_name not found in record-file, automatically created.
 
         print("1) Easy Level")
