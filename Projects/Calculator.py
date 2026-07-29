@@ -32,18 +32,17 @@ class Calculator:
             return "Not defined!"
         
         fact1 = 1
-        fact2 = 1
-        
         for n in range(1, N+1):
             fact1 *= n
-            
+    
+        fact2 = 1
         for m in range(1, M+1):
             fact2 *= m
             
         return fact1, fact2
     
 
-if __name__ == '__main__':
+def main():
     print("(+) : Addition")
     print("(-) : Subtraction")
     print("(/) : Division")
@@ -52,27 +51,37 @@ if __name__ == '__main__':
     
     try:
         n1 = int(input("First number =  "))
-        operator = input("Select operator: [ (+), (-), (/), (%), (!) ] =  ")
         n2 = int(input("Second number =  "))
+        operator = input("Select a operator: [ (+), (-), (/), (%), (!) ] =  ")
         
         c = Calculator(n1, n2)
         func_operator = {
-            '+': c.addition(),
-            '-': c.subtraction(),
-            '*': c.multiplication(),
-            '/': c.divide(),
-            '%': c.percentage(),
-            '!': c.factorial()
+            '+': c.addition,
+            '-': c.subtraction,
+            '*': c.multiplication,
+            '/': c.divide,
+            '%': c.percentage,
+            '!': c.factorial
         }
+
+        if func_operator.get(operator) is None:
+            print(f"Operator ({operator}) not supported.")
+            return
         
         if operator == '!':
-            f1, f2 = c.factorial()
+            f1, f2 = func_operator[operator]()
             print(f"{n1}{operator} = {f1}")
-            print(f"{n2}{operator} = {f2}")            
-        
-        else: 
-            print(f"{n1} {operator} {n2} = {func_operator.get(operator)}")
-        
+            print(f"{n2}{operator} = {f2}")
+
+        else:
+            print(f"{n1} {operator} {n2} = {func_operator[operator]()}")
+
+        return
+
     except (ValueError or SyntaxError or NameError):
         print("Invalid input!")
+
+# drive main
+if __name__ == '__main__':
+    main()
         
