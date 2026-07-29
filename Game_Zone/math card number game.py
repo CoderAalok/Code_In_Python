@@ -1,10 +1,28 @@
 """Boost your mentally number calculation ability"""
+"""
+GAME LOGIC:
+A Player makes a target using given card numbers and arithmetic operators.
+"""
 
-from decimal import DivisionByZero
+"""
+# Game Rules:
+unique player name or id -> mandatory
+correct answer -> +10 points
+Incorrect answer -> -5 points  
+
+"""
+
+"""
+Level -> Easy-> Medium-> Hard
+"""
+
 import json
 import random
-from collections import Counter
 from pathlib import Path
+import re
+from typing import List
+from itertools import permutations, product
+from collections import Counter
 
 # Config
 FILE = "card_game.json"
@@ -13,168 +31,228 @@ USER_RECORD = BASE_DIR / FILE
 
 class Cards:
     def __init__(self):
-        self.target = random.randint(0, 99)
-    
-    @property
-    def get_operators(self):
-        """
-        (+) -> Addition
-        (-) -> Subtraction
-        (*) -> Multiplication
-        (/) -> Division
-        (^) -> Power
+        self.operators = ['+', '-', '*', '/']
         
-        """
-        operators = (
-            ['+'] * 4 +
-            ['-'] * 4 +
-            ['*'] * 4 +
-            ['/'] * 4 +
-            ['^'] * 4
-        )
-        return operators
+    def easy_level(self):
+        self.possible_targets = [] # collect all possible values(targets)
+        
+        # generate cards
+        cards = random.choices(list(range(1, 20)), k=2)
+
+        for nums in permutations(cards):
+            for ops in product(self.operators, repeat=1):
+                expre = (
+                    f"{nums[0]}{ops[0]}"
+                    f"{nums[1]}"
+                )
+
+                try:
+                    result = eval(expre)
+                    if result == int(result):
+                        self.possible_targets.append(int(result))
+
+                except Exception:
+                    continue
+
+        # generate target
+        target = random.choice(self.possible_targets)
+        return (cards, target)
 
 
+    def medium_level(self):
+        self.possible_targets = [] # collect all possible values(targets)
+        
+        # generate cards
+        cards = random.choices(list(range(1, 20)), k=3)
+        
+        for nums in permutations(cards):
+            for op in product(self.operators, repeat=2):
+                expre = (
+                    f"{nums[0]}{op[0]}"
+                    f"{nums[1]}{op[1]}"
+                    f"{nums[2]}"
+                )
 
+                try:
+                    # evalulate the expression
+                    result = eval(expre)
+                    if result == int(result):
+                        self.possible_targets.append(int(result))
+                    
+                except Exception as e:
+                    continue
+        
+        # generate target value
+        target = random.choice(self.possible_targets)
+        return (cards, target)
+
+    def hard_level(self):
+        self.possible_targets = [] # collect all possible values(targets)
+        
+        # generate cards
+        cards = random.choices(list(range(1, 20)), k=4)
+        
+        for nums in permutations(cards):
+            for op in product(self.operators, repeat=3):
+                expre = (
+                    f"{nums[0]}{op[0]}"
+                    f"{nums[1]}{op[1]}"
+                    f"{nums[2]}{op[2]}"
+                    f"{nums[3]}"
+                )
+
+                try:
+                    # evalulate the expression
+                    result = eval(expre)
+                    if result == int(result):
+                        self.possible_targets.append(int(result))
+                    
+                except Exception:
+                    continue
+        
+        # generate target value
+        target = random.choice(self.possible_targets)
+        return (cards, target)
+
+    
 def load_record():
     try:
         with open(FILE)as f:
             return json.load(f)
     except Exception:
         return []
+
     
-def add_file(file):
+def update_file(file):
     with open(FILE, 'w')as f:
         json.dump(file, f, indent=4)
 
-def verify_answer(ans: int, target: int) -> bool:
-    return ans == target
 
-def check_player(player_name: str):
+def verify_answer(ans, target, tol=1e-6) -> bool:
+    return abs(ans - target) < tol
+
+
+def get_player_record(player_name: str):
     # load records
     record = load_record()
 
+    # check player does exist
     for rec in record:
         if rec.get('player_id') == player_name:
             return rec
-    
+
+    # add new player
     format = {
         "player_id": player_name,
-        "ways": 0,
-        "operator": [],
-        "points": 0
+        "correct": 0,
+        "incorrect": 0,
+        "scores" : 0,
     }
 
-    # add in the record
+    # update record
     record.append(format)
-    add_file(record)
+    update_file(record)
     
-        
-def player_calculation(
-        num1: int,
-        num2: int,
-        idx_op: int, 
-        target: int, 
-        freq_operators: dict
-    ):
 
-    if num1 > 99 or num2 > 99:
-        return "Number range should be (0-99)."
-    
-    ans = 0
-    operators = {
-        1: "+",
-        2: "-",
-        3: "*",
-        4: "/",
-        5: "^",
+def player_calculation(expre: str, target: int, cards: List[int], player_name: str, level: str):
+    """This function works for all number of cards"""
+
+    #Level-wise points
+    level_points = {
+        '1': 5,  # easy level
+        '2': 10, # medium level
+        '3': 15, # hard level
     }
     
-    if (freq_operators.get(operators.get(idx_op)) != 0):
-        if operators[idx_op] == "+":
-            ans = num1 + num2
-        
-        elif operators[idx_op] == "-":
-            ans = num1 - num2
-        
-        elif operators[idx_op] == "*":
-            ans = num1 * num2
-
-        elif operators[idx_op] == "/":
-            if num2 == 0:
-                return DivisionByZero(f"Cannot divide by {num2}.")
-            
-            if num1 % num2 == 0:
-                ans = num1 / num2
-            else:
-                return f"{num2} is not factor of {num1}."
-        
-        elif operators[idx_op] == "^":
-            if num2 <= 5:
-                ans = num1**num2
-            else:
-                return "Num2: Minimum less than equal to 5."
+    # extract all numbers from player expression
+    chosen_cards = list(map(int, re.findall(r'\d+', expre)))
     
-        freq_operators[operators[idx_op]] -= 1
-        
-        # call function -> verify answer
-        result = verify_answer(int(ans), target)
-        
-        # later scale this part
-        if result:
-            return "Correct! You got +10 points." 
-        else:
-            return "Incorrect! You lost -5 points." 
+    # check all card numbers frequency match
+    if Counter(chosen_cards) != Counter(cards):
+        return "You must use given card numbers."
 
+    # calculate answer
+    try:
+        ans = eval(expre)
+    except Exception:
+        return "Invalid expression."
+    
+    # verify answer
+    result = verify_answer(ans, target)
 
-    return f"Operator ({operators[idx_op]}) limit reached out. Use any differet operator." 
+    # load record
+    record = load_record()
+    for rec in record:
+        if rec.get("player_id") == player_name:
+            if result:
+                rec['correct'] += 1
+                rec['scores'] += level_points[level]
+                print(f"You got +{level_points[level]} points.")
+
+            else:
+                rec['incorrect'] += 1
+                rec['scores'] -= level_points[level]
+                print(f"You lost -{level_points[level]} points.")
+                
+            # update record
+            update_file(record)
+            return
 
 
 c = Cards()
-freq_operators = Counter(c.get_operators)
 
-"""
-GAME LOGIC:
-Player makes target possible ways using different operators.
-"""
-"""
-# Game Rules:
-unique player name or id -> mandatory
-correct answer -> +10 points
-Incorrect answer -> -5 points  
-avoid to use limit reached out number
+def main():
+    try:
+        """Player can explicitly play no need to create account."""
+        player_name = input("Player name: ").strip().lower()
+        get_player_record(player_name) # if player_name not found in record-file, automatically created.
 
-"""
-try:
+        print("1) Easy Level")
+        print("2) Medium Level")
+        print("3) Hard Level")
+        level = input("Select number of level [1-3]: ").strip()
+
+        levels = {
+            '1': c.easy_level,
+            '2': c.medium_level,
+            '3': c.hard_level,
+        }
+
+        # check None type
+        if levels.get(level) is None:
+            print("Choose level only [1-3].")
+            return
     
-    # player_name = input("Player name: ").strip().lower()
-    # is_unique = check_player(player_name)
-    
-    play = True
-    while play:
-        # Target number
-        target = c.target
+        play = True
+        while play:
+            # load cards and target
+            cards, target = levels[level]()
+            
+            print(f"\nCard Numbers: {cards}")
+            print(f"Operators: {['+', '-', '*', '/']}")
+            print(f"Your target: {target}\n")
 
-        print(f"Your target: {target}")
-        
-        # player choose
-        num1, num2 = list(map(int, input("Pick any number (0-99):\n").split()))
-        print("1. (+)")
-        print("2. (-)")
-        print("3. (*)")
-        print("4. (/)")
-        print("5. (^)")
-        op = int(input(f"Select any one operator number:\n").strip())
-        
-        result = player_calculation(num1, num2, op, target, freq_operators)
-        print(result)
-        
-        player = input("Play more (y/n): ").strip().lower()
-        if player == 'y':
-            play = True
-        else:
-            play = False
+            print("NOTE: Use given card nubmers and operators to make target. Also use parentheses.\n")
+            
+            # player
+            expre = input("Let's play:\n").strip()
+            
+            # call function -> result
+            is_error = player_calculation(expre, target, cards, player_name, level)
+            # check error
+            if is_error:
+                print(is_error)
+            
+            # push player the (play more)
+            player = input("Play more (y/n): ").strip().lower()
+            if player == 'y':
+                play = True 
+            else:
+                play = False
 
-except ValueError:
-    print("Invalid input.")
+    except Exception as e:
+        print(f"Invalid input.\n {e}")
 
+
+if __name__ == "__main__":
+    main()
