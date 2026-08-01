@@ -52,10 +52,36 @@ def isprime(n: int) -> bool:
     if n <= 1:
         return False
 
-    for i in range(2, (int(n**0.5) + 1)):
+    for i in range(2, (int(n**0.5) + 1)):  # including 'sqrt(n)'
         if n % i == 0:
             return False
     
     return True
 
 print(isprime(41))
+
+"""Workflow
+
+n = 41
+
+start:
+i = 2
+
+Loop run: int(sqrt(41)) -> 6 
+
+41 % 2 == 0 (False)
+41 % 3 == 0 (False)
+41 % 4 == 0 (False)
+41 % 5 == 0 (False)
+41 % 6 == 0 (False)
+
+end
+
+return True
+
+"""
+"""
+Time Complexity: O(sqrt(n))
+Space Complexity: O(1)
+
+"""
