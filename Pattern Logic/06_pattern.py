@@ -70,7 +70,7 @@ print("---Code Camp---")
 
 for i in range(n):  
     for a in range(i):
-        print(' ','-',end='')
+        print('  -',end='')
     
     for r in range(i,n):
         print('',chr(ord('a')+r),end='-')
