@@ -28,5 +28,5 @@
 
 
 from itertools import permutations
-for word in permutations("cat"):
+for word in permutations(list(range(0,10)), 3):
     print(word)
