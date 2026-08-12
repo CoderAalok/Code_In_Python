@@ -48,8 +48,8 @@ if __name__ == "__main__":
         Hanuman = Train(ticket)
         Hanuman.getStatus()
         Hanuman.bookTicket()
-        Hanuman.bookTicket()
-        Hanuman.bookTicket()
+        # Hanuman.bookTicket()
+        # Hanuman.bookTicket()
         
         
     except ValueError:
