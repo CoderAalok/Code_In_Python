@@ -1,11 +1,14 @@
 """
-Online Payment Features:
+Online Banking Payment Features:
 1) New account open
 2) Sender & Receiver
 3) Check main balance
 4) Show statement
+5) Deposit
 
 [Send] -> [Processing] -> [Receive]
+   |
+[Deposit] 
 """
 
 # Libraries
@@ -58,21 +61,21 @@ class OnlinePayment:
         self._rnumber = receivernumber
         self.__pin = sender_pin
         self._amount = amount
-        self.system = OnlineSystem()
         self.date = datetime.today().ctime()
+        self._system = OnlineSystem()
 
     # check both sender and receiver have accounts
     @property
     def checkValidate(self):
         # fetch records
-        sender_record = self.system.find_user(self._snumber)
-        receiver_record = self.system.find_user(self._rnumber)
+        sender_record = self._system.find_user(self._snumber)
+        receiver_record = self._system.find_user(self._rnumber)
         
         # check sender have account
         if not sender_record:
             return f"User (+977-{self._snumber}) not found."
         
-        if sender_record['PIN'] != self.system.hash_pin(self.__pin):
+        if sender_record['PIN'] != self._system.hash_pin(self.__pin):
             return "Incorrect PIN."
         
         # check receiver have account 
@@ -84,14 +87,17 @@ class OnlinePayment:
         
         return self.transferMoney(sender_record, receiver_record)
         
-    def transferMoney(self, sender_record, receiver_record):
+    def transferMoney(self, sender_record, receiver_record, limit=100000.0):
         # check valid money
-        if not self.system.is_valid_amount(self._amount):
+        if not self._system.is_valid_amount(self._amount):
             return "Invalid amount."
 
         # sender sent money
         if self._amount > sender_record['Balance']:
             return "Insufficient balance."
+
+        if limit > sender_record['Balance']:
+            return "Limit exceeded, per transction 60k only."
         
         # subtract money from sender
         sender_record['Balance'] -= self._amount
@@ -102,8 +108,7 @@ class OnlinePayment:
         receiver_record['Statement'].append(f"You received Rs. {self._amount} from +977-{self._snumber} account on {self.date}.")
         
         # update and save
-        self.system.update_record()
-        
+        self._system.update_record()
         return "Payment successful."
 
 
@@ -111,11 +116,11 @@ class OnlinePayment:
 class BalanceCheck:
     def __init__(self, usernumber):
         self._number = usernumber
-        self.system = OnlineSystem()
+        self._system = OnlineSystem()
     
     @property
     def checkBalance(self):
-        record = self.system.find_user(self._number)
+        record = self._system.find_user(self._number)
         if not record:
             return "User not found."
         
@@ -126,19 +131,18 @@ class BalanceCheck:
 class Statement:
     def __init__(self, usernumber):
         self._number = usernumber
-        self.system = OnlineSystem()
+        self._system = OnlineSystem()
         
-    
     @property
     def showStatement(self):
-        record = self.system.find_user(self._number)
+        record = self._system.find_user(self._number)
         if not record:
             return ["User not found."]
         
-        return record['Statement']
+        return 'Empty' if not record['Statement'] else record['Statement']
 
 
-# New account verification
+# create new account (verification)
 class Verification:
     def __init__(self, username, phonenumber, pin, balance=0.0):
         self.user = username
@@ -148,13 +152,13 @@ class Verification:
         self.statement = []
         self.number_size = 10 # maximum
         self.pin_size = 4 # maximum
-        self.system = OnlineSystem()
+        self._system = OnlineSystem()
         
     # create new account
     @property
     def createAccount(self):
         # check already using this number account created
-        record = self.system.find_user(self._number)
+        record = self._system.find_user(self._number)
         
         if record:
             return "Account already exist."
@@ -176,12 +180,41 @@ class Verification:
             "UserName": self.user,
             "Phone No.": self._number,
             "Balance": self._balance,
-            "PIN": self.system.hash_pin(self.__pin),
+            "PIN": self._system.hash_pin(self.__pin),
             "Statement": self.statement
         }
         
         return saveRecord(record)
 
+# Deposit money (physically send)
+class Deposit:
+    def __init__(self, usernumber=None, amount=0.0):
+        self.usernumber = usernumber
+        self.amt = amount
+        self._system = OnlineSystem()
+
+    def deposit(self):
+        # fetch user record
+        is_found = self._system.find_user(self.usernumber)
+        # check valid amount
+        is_valid = self._system.is_valid_amount(self.amt)
+        
+        # find user from own built-in system environment and check vaild amount
+        if not is_found:
+            return f"User ({self.usernumber}) not found."
+
+        if not is_valid:
+            return "Invalid amount."
+    
+        # add amount
+        record = is_found
+        record['Balance'] += self.amt
+        # add statement
+        record['Statement'].append(f"{self.amt} deposited into +977-{self.usernumber}.")
+        
+        # update record
+        self._system.update_record()
+        return "Transction successful."
 
 # Load record
 def loadRecord():
@@ -233,17 +266,29 @@ def main(user_choice):
         print(pay.checkValidate)
     
     elif user_choice == "3":
-            user_number = input("User number: +977-").strip()
-            balance = BalanceCheck(user_number)
-            print(balance.checkBalance)
+        user_number = input("User number: +977-").strip()
+        balance = BalanceCheck(user_number)
+        print(balance.checkBalance)
     
     elif user_choice == "4":
         user_number = input("User number: +977-").strip()
         statement = Statement(user_number)
         print("\n".join(statement.showStatement))
-    
+
+    elif user_choice == "5":
+        user_number = input("User number: +977-").strip()
+        try:
+            amount = float(input("Amount: ").strip())
+            deposit = Deposit(user_number, amount)
+            mess = deposit.deposit()
+            print(mess)
+
+        except ValueError:
+            print("Invalid amount.")
+            return 
+        
     else:
-        print("Only select (1-5).")
+        print("Only select (1-6).")
 
 
 # Test
@@ -255,10 +300,11 @@ if __name__ == "__main__":
         print("2) Send/Payment/Transfer")
         print("3) Check main balance")
         print("4) Show statement")
-        print("5) Exit")
+        print("5) Deposit")
+        print("6) Exit")
         
-        user_choice = input("\nSelect any one (1-5): ").strip()
-        if user_choice == "5":
-            print("See you later.")
+        user_choice = input("\nSelect any one (1-6): ").strip()
+        if user_choice == "6":
+            print("Thank you for used our service.")
             break
         main(user_choice)
