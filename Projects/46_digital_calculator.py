@@ -2,15 +2,15 @@
 import logging
 
 # def  set_logger(itemprice):
-logging.basicConfig(filename="selling.log", level=logging.INFO, format="%(levelname)s: %(message)s")
+# logging.basicConfig(filename="selling.log", level=logging.INFO, format="%(levelname)s: %(message)s")
 
 def calculate_money(total_amount, given_weight):
-    amount = (total_amount*given_weight)/1000
+    amount = (total_amount * given_weight) / 1000
     return round(amount, 2)
 
 def calculate_weight(total_amount, customer_amount):
     try:
-        weight = (1000*customer_amount)/total_amount
+        weight = (1000 * customer_amount) / total_amount
         return round(weight, 2)
     except ZeroDivisionError:
         return 0
@@ -18,7 +18,8 @@ def calculate_weight(total_amount, customer_amount):
 # STDIN
 # Mode selection
 while True:
-    print("Select mode:\n 1.Calculate Money\n 2.Calculate /weight")
+    print("Select mode: ")
+    print("Calculate:\n 1. Money\n2. Weight")
     seller = input().replace(" ","").strip()
     
     if seller in ["1", "2"]:
@@ -34,10 +35,11 @@ modes = {
 if seller == "1":
     while True:
         try:
-            total_amount = int(input("Given product amount: ").replace(" ","").strip())
-            given_weight = int(input("Given Weight in gram: ").replace(" ","").strip())
+            total_amount = int(input("Item amount: ").replace(" ","").strip())
+            given_weight = int(input("Item weight in gram: ").replace(" ","").strip())
             
-            logging.info(f"Amount: Rs. {modes[seller](total_amount, given_weight)}")
+            print(f"Amount: Rs. {modes[seller](total_amount, given_weight)}")
+            # logging.info(f"Amount: Rs. {modes[seller](total_amount, given_weight)}")
             break 
         
         except ValueError:
@@ -48,8 +50,9 @@ elif seller == "2":
         try:
             total_amount = int(input("Product amount: ").replace(" ","").strip())
             customer_amount = int(input("Customer amount: ").replace(" ","").strip())
-            
-            logging.info(f"Weight: {modes[seller](total_amount, customer_amount)} gm")
+
+            print(f"Weight: {modes[seller](total_amount, customer_amount)} gm")
+            # logging.info(f"Weight: {modes[seller](total_amount, customer_amount)} gm")
             break 
         
         except ValueError:
