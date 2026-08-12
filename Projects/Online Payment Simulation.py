@@ -216,6 +216,7 @@ class Deposit:
         self._system.update_record()
         return "Transction successful."
 
+
 # Load record
 def loadRecord():
     try:
