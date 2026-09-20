@@ -294,15 +294,23 @@ def main(user_choice):
 
 # Test
 if __name__ == "__main__":
-    print("=-=-=-=-=-= Online Payment Simulation =-=-=-=-=-=-=")
     
     while True:
-        print("1) Create new account")
-        print("2) Send/Payment/Transfer")
-        print("3) Check main balance")
-        print("4) Show statement")
-        print("5) Deposit")
-        print("6) Exit")
+        width = 41
+
+        print("╔" + "═" * width + "╗")
+        print(f"║{'ONLINE PAYMENT SIMULATION'.center(width)}║")
+        print("╠" + "═" * width + "╣")
+
+        print(f"║ {'':<{width-2}} ║")
+        print(f"║ {'[1] Create New Account':<{width-2}} ║")
+        print(f"║ {'[2] Send / Payment / Transfer':<{width-2}} ║")
+        print(f"║ {'[3] Check Main Balance':<{width-2}} ║")
+        print(f"║ {'[4] Show Statement':<{width-2}} ║")
+        print(f"║ {'[5] Deposit':<{width-2}} ║")
+        print(f"║ {'[6] Exit':<{width-2}} ║")
+        print(f"║ {'':<{width-2}} ║")
+        print("╚" + "═" * width + "╝")
         
         user_choice = input("\nSelect any one (1-6): ").strip()
         if user_choice == "6":

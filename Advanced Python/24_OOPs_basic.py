@@ -100,27 +100,27 @@
 
 #staticmethod
 
-# class Manager:
-#     company = 'Google'
-#     def __init__(self):
-#         print(f" Great! Opportunity for Security Management in {self.company}. \n fill your details and get this opportunity without delay.")
-#     @staticmethod
-#     def assist(name, address, Email):
-#         print(f"Your Name: {name}")
-#         print(f"Your Address: {address}")
-#         print(f"Your E-mail: {Email}")
-#     @staticmethod
-#     def verify():
-#         print("Thanks! for filling your details.\n You will get message after verification your details.")
-# cal = Manager()
-# # cal.greet()
-# # cal.assist(200,100) # Assistain.assist(200,5000)
-# a = input("Enter your Name: ")
-# b = input("Enter your Address : ")
-# c = input("Enter your E-mail: ")
-# cal.assist(a,b,c)
-# print()
-# cal.verify()
+class Manager:
+    company = 'Google'
+    def __init__(self):
+        print(f" Great! Opportunity for Security Management in {self.company}. \n fill your details and get this opportunity without delay.")
+    @staticmethod
+    def assist(name, address, Email):
+        print(f"Your Name: {name}")
+        print(f"Your Address: {address}")
+        print(f"Your E-mail: {Email}")
+    @staticmethod
+    def verify():
+        print("Thanks! for filling your details.\n You will get message after verification your details.")
+cal = Manager()
+# cal.greet()
+# cal.assist(200,100) # Assistain.assist(200,5000)
+a = input("Enter your Name: ")
+b = input("Enter your Address : ")
+c = input("Enter your E-mail: ")
+cal.assist(a,b,c)
+print()
+cal.verify()
 
 
 

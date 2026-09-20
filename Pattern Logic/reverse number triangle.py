@@ -1,13 +1,13 @@
-def reverseNumberTriangle(n):
-    for i in range(1, n):
-        for _ in range(i):
-            print(" ", end="")
+# def reverseNumberTriangle(n):
+#     for i in range(1, n):
+#         for _ in range(i):
+#             print(" ", end="")
             
-        for j in range(n-i):
-            print((i+j), end=" ")
-        print()
+#         for j in range(n-i):
+#             print((i+j), end=" ")
+#         print()
     
-reverseNumberTriangle(5)
+# reverseNumberTriangle(5)
 
 """
 Output:
@@ -16,4 +16,3 @@ Output:
    3 4 
     4 
 """
-
