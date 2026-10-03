@@ -226,10 +226,5 @@ class LocationsUI:
 
         
 if __name__ == "__main__":
-    # UI.investigation_dashboard('python', 1000,1000,10000,1110,10000,100000)
-    # LocationUI.exhibition_room()
-    # status = {
-    # "case": "Found Key",
-    # "floor": "Searched",
-    # "panel": "Unsearched"
-    # }
+    UI.investigation_dashboard('python', 1000,1000,10000,1110,10000,100000)
+    LocationsUI().exhibition_room()
