@@ -3,3 +3,5 @@ __pycache__/
 .env
 .adk/
 *.pyc
+detective_x
+Projects/Hospital_Visitor_Management_System/hospital_visitors.db
