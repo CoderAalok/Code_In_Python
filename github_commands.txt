@@ -1,0 +1,27 @@
+git init -> initillize the working repo
+
+git status -> check the status of repo (see changes on there if some file created or modified)
+
+git commit -m "message" -> a piece of message either changes or add of file
+
+git push origin main -> changes on main branch
+
+git add . -> all add changes 
+
+git add "file name" -> manually change specific file
+
+git clone "line of repo" -> load complete repo on desktop
+
+git branch -> list out all local branches, indicates the current working branch with '*' 
+
+git branch -d "branch name"  -> delete branch
+
+git log -n -> display last changes details
+
+git config user.gmail "inplace email"
+
+git checkout -b -> create and switch on that branch 
+
+git checkout -> display the current working branch
+
+git checkout "branch name" -> switch into specified branch
