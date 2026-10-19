@@ -14,14 +14,16 @@ git clone "line of repo" -> load complete repo on desktop
 
 git branch -> list out all local branches, indicates the current working branch with '*' 
 
-git branch -d "branch name"  -> delete branch
+git branch -d <branch name>  -> delete branch
 
 git log -n -> display last changes details
 
 git config user.gmail "inplace email"
 
-git checkout -b -> create and switch on that branch 
+git checkout -b <branch name> -> create and switch on it branch 
 
 git checkout -> display the current working branch
 
-git checkout "branch name" -> switch into specified branch
+git checkout <branch name> -> switch into specified branch
+
+git switch <branch name> -> Using this command to switch another branch
