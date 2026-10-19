@@ -46,7 +46,7 @@ def load_file():
     return df
 
 def is_valid(amount):
-    return (amount < 0 or isinstance(amount, bool))
+    return (amount > 0 or isinstance(amount, bool))
         
 
 def add_expenses(df):
@@ -72,29 +72,29 @@ def add_expenses(df):
     try:
         amount = float(input("⤷ Amount 💸: ").strip())
         # check valid amount
-        if is_valid(amount):
+        if not is_valid(amount):
             print("Invalid amount!")
             return df
+
+        # formating new data
+        new_data = pd.DataFrame([{
+            "Date": date,
+            "Category": category,
+            "Description": description,
+            "Amount": amount
+        }])
         
+        # concatenate old and new data
+        df = pd.concat([df, new_data], ignore_index=True)
+        
+        # save all
+        save_data(df)
+        print(f"\n✔ Successfully added 🗃️.\nCategory 🛍️ : {category} ➜  Description 📝: {description} ➜  Amount 💸: 💲{amount:.2f}")
+        return df
+    
     except ValueError:
         print("❌ Invalid amount. Expenses not added.")
         return df
-
-    # formating new data
-    new_data = pd.DataFrame([{
-        "Date": date,
-        "Category": category,
-        "Description": description,
-        "Amount": amount
-    }])
-    
-    # concatenate old and new data
-    df = pd.concat([df, new_data], ignore_index=True)
-    
-    # save all
-    save_data(df)
-    print(f"\n✔ Successfully added 🗃️.\nCategory 🛍️ : {category} ➜  Description 📝: {description} ➜  Amount 💸: 💲{amount:.2f}")
-    return df
 
 
 #─────────────────* Save new dataframe as CSV file *─────────────────#
