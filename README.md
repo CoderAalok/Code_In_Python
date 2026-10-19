@@ -13,7 +13,6 @@ A collection of Python programs I've written while learning and practicing the l
 | `patterns/` | Pattern-printing programs |
 | `projects/` | Small beginner projects |
 
-> Update this table to match the actual folders in the repo.
 
 ## 🚀 Getting Started
 
