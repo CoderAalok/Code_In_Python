@@ -4,6 +4,51 @@
             "Detective": "Alice",
             "Case": "case_005",
             "Difficulty": "medium",
+            "Evidence": [
+                "Wine glass with lipstick at seat 4",
+                "Staff roster: 3 names on night duty",
+                "Crumpled note: '11:30 PM east exit'",
+                "Muddy shoe marks on window ledge"
+            ],
+            "Suspects": [],
+            "Hints": {
+                "Available": [],
+                "Used": []
+            },
+            "Scores": 0,
+            "Progress": 40
+        },
+        {
+            "Detective": "Alice",
+            "Case": "case_001",
+            "Difficulty": "easy",
+            "Evidence": [
+                "Scratch marks on the diamond case lock",
+                "Muddy footprint near the case",
+                "Tampered alarm wire in access panel",
+                "CCTV footage: figure at 11:47 PM",
+                "Access log: Keycard #7 used at 11:45 PM",
+                "Torn uniform cloth on guard desk",
+                "Missing keycard slot #7",
+                "Wine glass with lipstick at seat 4",
+                "Staff roster: 3 names on night duty",
+                "Crumpled note: '11:30 PM east exit'",
+                "Muddy shoe marks on window ledge"
+            ],
+            "Suspects": [],
+            "Hints": {
+                "Available": [],
+                "Used": []
+            },
+            "Scores": 0,
+            "Progress": 99
+        }
+    ],
+    "P0002": [
+        {
+            "Detective": "Aalok",
+            "Case": "case_002",
+            "Difficulty": "medium",
             "Evidence": [],
             "Suspects": [],
             "Hints": {
@@ -14,10 +59,55 @@
             "Progress": 0
         },
         {
-            "Detective": "Alice",
+            "Detective": "Aalok",
             "Case": "case_001",
             "Difficulty": "easy",
             "Evidence": [],
+            "Suspects": [],
+            "Hints": {
+                "Available": [],
+                "Used": []
+            },
+            "Scores": 0,
+            "Progress": 0
+        }
+    ],
+    "P0003": [
+        {
+            "Detective": "Coder",
+            "Case": "case_001",
+            "Difficulty": "easy",
+            "Evidence": [
+                "Scratch marks on the diamond case lock",
+                "Muddy footprint near the case",
+                "Tampered alarm wire in access panel",
+                "CCTV footage: figure at 11:47 PM",
+                "Access log: Keycard #7 used at 11:45 PM",
+                "Torn uniform cloth on guard desk",
+                "Missing keycard slot #7",
+                "Wine glass with lipstick at seat 4",
+                "Staff roster: 3 names on night duty",
+                "Crumpled note: '11:30 PM \u2014 east exit'",
+                "Muddy shoe marks on window ledge"
+            ],
+            "Suspects": [],
+            "Hints": {
+                "Available": [],
+                "Used": []
+            },
+            "Scores": 0,
+            "Progress": 0
+        },
+        {
+            "Detective": "Coder",
+            "Case": "case_002",
+            "Difficulty": "medium",
+            "Evidence": [
+                "Rogue Raspberry Pi plugged into Rack C",
+                "Dropped contractor visitor badge",
+                "Console session open under 'root_admin'",
+                "UPS surge bypass record"
+            ],
             "Suspects": [],
             "Hints": {
                 "Available": [],

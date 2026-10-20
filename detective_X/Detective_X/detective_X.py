@@ -97,36 +97,7 @@ class DetectiveSystem:
                 "location": "university",
                 "objective": "Determine who administered the poison and uncover their motive.",
             },
-            4: {
-                "title": "murder at blackwood hotel",
-                "difficulty": "hard",
-                "location": "blackwood hotel",
-                "objective": "Solve the locked-room murder and identify the killer.",
-            },
-            5: {
-                "title": "the vanishing programmer",
-                "difficulty": "medium",
-                "location": "tech park",
-                "objective": "Find the missing programmer and uncover the reason behind the disappearance.",
-            },
-            6: {
-                "title": "the museum switch",
-                "difficulty": "medium",
-                "location": "city museum",
-                "objective": "Discover how the switch occurred and recover the real artifact.",
-            },
-            7: {
-                "title": "the anonymous letter",
-                "difficulty": "easy",
-                "location": "downtown post office",
-                "objective": "Track down the sender and determine their intentions.",
-            },
-            8: {
-                "title": "the midnight train",
-                "difficulty": "hard",
-                "location": "central station",
-                "objective": "Reconstruct the events on board and solve the disappearance.",
-            }
+
         }
 
         return cases
@@ -137,11 +108,6 @@ class DetectiveSystem:
             1: "A priceless diamond vanished during a charity gala with no signs of forced entry.",
             2: "Confidential company data was stolen after a suspicious midnight network intrusion.",
             3: "A renowned professor collapsed after a faculty dinner under mysterious circumstances.",
-            4: "A wealthy guest was found dead in a locked hotel suite late at night.",
-            5: "A software developer disappeared days before releasing a revolutionary application.",
-            6: "An ancient artifact was secretly replaced with an almost perfect replica.",
-            7: "A series of threatening letters has caused panic throughout the city.",
-            8: "A passenger disappeared from a moving train without leaving any evidence behind.",
         }
 
         return brief
@@ -230,7 +196,6 @@ class PlayerGround:
                 
                 # call main() -> main_menu
                 main(self.id)
-                return
 
             except Exception as e:
                 print(f"Error: {e}")
@@ -246,7 +211,7 @@ class PlayerGround:
             ui.UI.case_library()
 
             try:
-                case = int(input("Select case [0-8]: ").strip())
+                case = int(input("Select case [0-3]: ").strip())
                 
                 # return back to -> main()
                 if case == 0:
@@ -291,7 +256,7 @@ class PlayerGround:
 
 
                 # check case is pending
-                if case not in player_data[id]["Pending_Cases"]:
+                if case_id not in player_data[id]["Pending_Cases"]:
                     player_data[id]["Pending_Cases"].append(case_id)
                     
                 # case activate
@@ -322,6 +287,7 @@ class PlayerGround:
         # fetch investigation record
         data_inv = DS.load_details(FILE_INV)
 
+        # add/append records -> data_inv 
         existing_data = data_inv.setdefault(detective_id, [])
         if not any(data["Case"] == case_id for data in existing_data):
             existing_data.append(
@@ -418,6 +384,7 @@ def main(player_id: str):
                     print("Case record not found.")
 
                 elif select == 5:
+                    # Help
                     print("This feature not added yet.")
                     
                 elif select == 6:
@@ -506,7 +473,7 @@ def case_briefing(player_id, case_id):
                     DS.save_details(player_data, FILE)
                     DS.save_details(investigation_data, FILE_INV)
                     
-                    # investigation action
+                    # call -> investigation action
                     investigation_action(player_id, case_id)
                     return
                     
@@ -528,16 +495,22 @@ def case_briefing(player_id, case_id):
             continue 
 
 
+
+# ------------------- INVESTIGATION ACTION -------------------
 def investigation_action(player_id, case_id):
-    
+    actionable_func = {
+        1: locations.main
+    }
+
+    # ------- INVESTIGATION LOOP -------
     while True:
-        # reload fresh data every loop iteration
+        # fetch existing data
         investigation_data = DS.load_details(FILE_INV)
         player_data = DS.load_details(FILE)
 
         # get the active case record
         active_record = next(
-            (r for r in investigation_data.get(player_id, []) if r["Case"] == case_id),
+            (record for record in investigation_data.get(player_id, []) if record["Case"] == case_id),
             None
         )
 
@@ -546,21 +519,17 @@ def investigation_action(player_id, case_id):
             return
 
         # extract fresh stats
-        name     = active_record["Detective"]
-        level    = active_record["Difficulty"]
-        evidence = active_record["Evidence"]
-        suspects = active_record["Suspects"]
-        hints    = active_record["Hints"]
-        score    = active_record["Scores"]
-        progress = active_record["Progress"]
-
+        RECORDS = ['Detective', 'Difficulty', 'Evidence', 'Suspects', 'Hints', 'Scores', 'Progress']
+        name, level, evidence, suspects, hints, score, progress = [active_record[record] for record in RECORDS]
         evid = len(evidence)
         susp = len(suspects)
         hint = len(hints["Used"])
         prog = progress_bar(progress)
 
-        # show dashboard then action menu
+        # show dashboard
         ui.UI.investigation_dashboard(name, case_id, level, evid, susp, hint, prog, score)
+        
+        # UI -> Investigation action
         ui.UI.investigation_action_ui()
 
         try:
@@ -573,12 +542,15 @@ def investigation_action(player_id, case_id):
                 print("[✓] Progress saved.")
                 return
 
+            # visit location
             elif action == 1:
-                locations.VisitLocation.visit_location(player_id, case_id)
+                actionable_func[action](player_id, case_id)
 
+            # Question Suspects
             elif action == 2:
                 print("[!] Question Suspects Coming soon.")
 
+            # Examine Evidence
             elif action == 3:
                 # examine collected evidence
                 if evidence:
@@ -588,6 +560,7 @@ def investigation_action(player_id, case_id):
                 else:
                     print("[!] No evidence collected yet.")
 
+            # View Suspect Profiles
             elif action == 4:
                 # view suspect list
                 if suspects:
@@ -597,18 +570,23 @@ def investigation_action(player_id, case_id):
                 else:
                     print("[!] No suspects identified yet.")
 
+            # Investigation Notebook
             elif action == 5:
                 print("[!] Investigation Notebook Coming soon.")
 
+            # Crime timeline
             elif action == 6:
                 print("[!] Crime Timeline Coming soon.")
 
+            # Compare evidence
             elif action == 7:
                 print("[!] Compare Evidence Coming soon.")
 
+            # Hint system
             elif action == 8:
                 print("[!] Hint System Coming soon.")
 
+            # Final Accusation
             elif action == 9:
                 print("[!] Final Accusation Coming soon.")
 
@@ -617,8 +595,10 @@ def investigation_action(player_id, case_id):
 
         except ValueError:
             print("[!] Please enter a number.")
+    
         except Exception as e:
             print(f"Error: {e}")
+
 
 if __name__ == "__main__":
     PlayerGround().get_start()
