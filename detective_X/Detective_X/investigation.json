@@ -1,0 +1,30 @@
+{
+    "P0001": [
+        {
+            "Detective": "Alice",
+            "Case": "case_005",
+            "Difficulty": "medium",
+            "Evidence": [],
+            "Suspects": [],
+            "Hints": {
+                "Available": [],
+                "Used": []
+            },
+            "Scores": 0,
+            "Progress": 0
+        },
+        {
+            "Detective": "Alice",
+            "Case": "case_001",
+            "Difficulty": "easy",
+            "Evidence": [],
+            "Suspects": [],
+            "Hints": {
+                "Available": [],
+                "Used": []
+            },
+            "Scores": 0,
+            "Progress": 0
+        }
+    ]
+}

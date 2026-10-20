@@ -1,0 +1,176 @@
+{
+    "case_id": "CASE_001",
+    "title": "The Missing Diamond",
+    "difficulty": "Medium",
+    "location_name": "Blackwood Mansion",
+    "crime": "Diamond Theft",
+    "crime_time": "10:15 PM - 10:45 PM",
+    "value": "$2,000,000",
+    "culprit_id": "SUS_002",
+    "briefing": "A priceless diamond vanished during a charity gala at Blackwood Mansion with no signs of forced entry. The exhibition display case was opened between 10:15 PM and 10:45 PM.",
+    "solution_explanation": "Sophia Miller used her position to steal the diamond during the 10:24-10:34 PM security camera outage. She dropped a broken silver button from her coat in the exhibition room, and her claim of remaining in the dining room was contradicted by security log records placing her near the exhibition corridor.",
+    "suspects": [
+        {
+            "id": "SUS_001",
+            "name": "Adrian Blackwood",
+            "age": 31,
+            "occupation": "Business Executive",
+            "relation": "Son of the owner",
+            "alibi": "Claims he was in the dining hall from 10:20 PM onwards.",
+            "motive": "Has significant personal gambling debts.",
+            "initial_suspicion": 30,
+            "statements": {
+                "where_were_you": "I was in the dining hall chatting with guests starting around 10:20 PM.",
+                "last_saw_diamond": "I saw it on display around 10:00 PM before the dinner service."
+            }
+        },
+        {
+            "id": "SUS_002",
+            "name": "Sophia Miller",
+            "age": 28,
+            "occupation": "Personal Assistant",
+            "relation": "Works directly for Mr. Blackwood",
+            "alibi": "Claims she remained in the dining room from 10:10 PM until the diamond was reported missing.",
+            "motive": "Recently discovered her employment contract is being terminated.",
+            "initial_suspicion": 20,
+            "statements": {
+                "where_were_you": "I remained in the dining room from around 10:10 PM until the theft was discovered.",
+                "last_saw_diamond": "I walked past the display case around 10:10 PM on my way to dinner."
+            }
+        },
+        {
+            "id": "SUS_003",
+            "name": "Marcus Reed",
+            "age": 42,
+            "occupation": "Security Supervisor",
+            "relation": "Responsible for mansion security",
+            "alibi": "Claims he was monitoring security feeds in the control room.",
+            "motive": "Understands security system override protocols.",
+            "initial_suspicion": 50,
+            "statements": {
+                "where_were_you": "I was in the security control room monitoring the live video feeds.",
+                "camera_outage": "The corridor camera suddenly went black at 10:24 PM due to an system error."
+            }
+        },
+        {
+            "id": "SUS_004",
+            "name": "Elena Stone",
+            "age": 35,
+            "occupation": "Art Dealer",
+            "relation": "Family friend",
+            "alibi": "Claims she was speaking with guests in the lounge.",
+            "motive": "Has previously attempted to purchase the Blackwood Diamond.",
+            "initial_suspicion": 20,
+            "statements": {
+                "where_were_you": "I was in the main lounge discussing artwork with several guests.",
+                "last_saw_diamond": "I admired it briefly at 10:05 PM."
+            }
+        }
+    ],
+    "locations": [
+        {
+            "id": "LOC_001",
+            "name": "Exhibition Room",
+            "description": "The display case is open. No broken glass is visible.",
+            "searchable_objects": [
+                {
+                    "name": "Display Case",
+                    "evidence_unlocked": "EVI_001"
+                },
+                {
+                    "name": "Floor near Display",
+                    "evidence_unlocked": "EVI_002"
+                }
+            ]
+        },
+        {
+            "id": "LOC_002",
+            "name": "Security Room",
+            "description": "Monitors and server racks line the walls.",
+            "searchable_objects": [
+                {
+                    "name": "System Logs",
+                    "evidence_unlocked": "EVI_003"
+                },
+                {
+                    "name": "Camera Maintenance Log",
+                    "evidence_unlocked": "EVI_004"
+                }
+            ]
+        }
+    ],
+    "evidence": [
+        {
+            "id": "EVI_001",
+            "title": "Access Panel Activity Log",
+            "type": "Digital",
+            "reliability": 100,
+            "description": "The display case was opened at 10:31 PM using a valid staff keycard.",
+            "linked_suspect": "SUS_002"
+        },
+        {
+            "id": "EVI_002",
+            "title": "Broken Silver Button",
+            "type": "Physical",
+            "reliability": 94,
+            "description": "A small silver button torn from a coat found near the display pedestal.",
+            "linked_suspect": "SUS_002",
+            "match_target": "Sophia's Coat"
+        },
+        {
+            "id": "EVI_003",
+            "title": "Corridor Access Record",
+            "type": "Document",
+            "reliability": 90,
+            "description": "Door sensor logged entry into the exhibition corridor at 10:27 PM.",
+            "linked_suspect": "SUS_002"
+        },
+        {
+            "id": "EVI_004",
+            "title": "Firmware Restart Log (Red Herring Clearance)",
+            "type": "Digital",
+            "reliability": 100,
+            "description": "Shows the 10:24 PM camera outage was an automatic scheduled reboot, clearing Marcus Reed of intentional tampering.",
+            "clears_suspect": "SUS_003"
+        }
+    ],
+    "timeline": [
+        {
+            "time": "10:00 PM",
+            "event": "Party begins"
+        },
+        {
+            "time": "10:15 PM",
+            "event": "Diamond confirmed inside display"
+        },
+        {
+            "time": "10:22 PM",
+            "event": "Adrian enters dining hall"
+        },
+        {
+            "time": "10:24 PM",
+            "event": "Exhibition corridor camera stops (Firmware Reboot)"
+        },
+        {
+            "time": "10:27 PM",
+            "event": "Sophia logged near exhibition corridor"
+        },
+        {
+            "time": "10:31 PM",
+            "event": "Exhibition display opened"
+        },
+        {
+            "time": "10:36 PM",
+            "event": "Sophia returns to dining area"
+        },
+        {
+            "time": "10:45 PM",
+            "event": "Diamond reported missing"
+        }
+    ],
+    "hints": [
+        "Compare Sophia's statement about remaining in the dining hall with security access logs.",
+        "Check the evidence found on the exhibition room floor against suspect clothing.",
+        "Examine camera logs in the Security Room to verify if Marcus caused the blackout."
+    ]
+}
