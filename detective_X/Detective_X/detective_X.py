@@ -184,7 +184,7 @@ class PlayerGround:
                     # check player exist
                     if not record:
                         print("Player not found!")
-                        return
+                        continue
 
                     # loaded greet
                     print(f"\n[✓] Loaded Detective Profile successfully for {record['Name']} [{record['Rank']}]!")
@@ -315,30 +315,7 @@ DS = DetectiveSystem()
 PG = PlayerGround()   
 
 
-def detective_profile(records: dict):
-    if not records:
-        return
-
-    key_width, value_width = 20, 30
-    box_width = key_width + value_width + 5
-
-    print("╔" + "═" * box_width + "╗")
-    print(f"║{'DETECTIVE PROFILE'.center(box_width)}║")
-    print("╠" + "═" * box_width + "╣")
-
-    print(f"║ {'Name':<{key_width}}: {records['Name']:<{value_width}}  ║")
-    print(f"║ {'Rank':<{key_width}}: {records['Rank']:<{value_width}}  ║")
-    print(f"║ {'Cases Won':<{key_width}}: {str(records['Cases_Won']):<{value_width}}  ║")
-    print(f"║ {'Cases Lost':<{key_width}}: {str(records['Cases_Lost']):<{value_width}}  ║")
-    print(f"║ {'XP':<{key_width}}: {str(records['XP']):<{value_width}}  ║")
-    print(f"║ {'Rating':<{key_width}}: {str(records['Rating']):<{value_width}}  ║")
-
-    print(f"║{'':<{box_width}}║")
-    print("╚" + "═" * box_width + "╝")
-    
-    return 
-
-
+# --------------- MAIN --------------------
 def main(player_id: str):
 
     while True:
@@ -358,35 +335,43 @@ def main(player_id: str):
         # funtions
         call_func = {
             1: PG.select_case,
-            3: detective_profile,
+            2: continue_investigation,
+            3: ui.UI.detective_profile,
         }
 
         try:
             select = int(input("Select option [1-6]: ").strip())
             if menu_options.get(select):
-                # call -> select_case()
+                
+                # CALL -> select_case
                 if select == 1:
                     call_func[select](player_id)
-                    
-                elif select == 2:
-                    #later: add continuous  investigation  
-                    print("This features not added yet.")
 
+                # CALL -> continue investigation
+                elif select == 2:
+                    call_func[select](player_id)
+
+                # Call -> load player's record
                 elif select == 3:
                     # load player records
                     records = DS.load_details(FILE)[player_id]
-                    
-                    # detective profile
-                    detective_profile(records)
-                
-                elif select == 4:
-                    # later : case record  add
-                    print("Case record not found.")
 
-                elif select == 5:
-                    # Help
-                    print("This feature not added yet.")
+                    if not records:
+                        print("Record not found!")
+                        return
                     
+                    # show -> detective profile
+                    call_func[select](records)
+
+                # Call -> Case record
+                elif select == 4:
+                    case_records(player_id)
+
+                # Call -> help to see how to play
+                elif select == 5:
+                    help()
+
+                # Exit from game
                 elif select == 6:
                     print("Play next time.")
                     return
@@ -400,10 +385,10 @@ def main(player_id: str):
             continue
 
 
-# curr_progress in %
-def progress_bar(curr_progress, width=10):
+# ------------------ CALCULATE PROGRESS ------------------------
+def progress_bar(curr_progress: int, width=10):
     # curr_progress between 0 and 100
-    progress = max(0.0, min(100.0, float(curr_progress)))
+    progress = max(0, min(100, curr_progress))
     
     # filled bar
     filled = int((progress / 100 ) * width)
@@ -414,8 +399,39 @@ def progress_bar(curr_progress, width=10):
     return f"{prog_bar} {progress:.1f}%"
 
 
-def case_briefing(player_id, case_id):
+# ------------- CALCULATE XP (BASED ON SCORE) ----------------
+def xp_bar(score: int, rank: str, width=10):
+    if score < 0:
+        print("Score can't be negative.")
+        return
+    
+    rank_map = {
+        "Rookie": 499, # 0-499
+        "Investigator": 500,  # total Investigator rank >= 500
+        "Senior Investigator": 1000, # >= 1000
+        "Lead Detective": 2000,  # >= 2000
+        "Master Detective": 3500,  # >= 3500
+        
+    }
+    
+    if not rank_map.get(rank):
+        print("Rank not found!")
+        return 
 
+    total_rank = rank_map[rank]
+    x_score = max(0, min(total_rank, score))
+    
+    # number of filled bar use
+    filled = int((10 * x_score) / total_rank)
+    # empty bar
+    empty = width - filled
+
+    xp_bar = "█" * filled  + "░" * empty
+    return f"{xp_bar} {x_score} / {total_rank}"
+
+
+# ----------- CASE BRIEFING ---------------
+def case_briefing(player_id: str, case_id: str):
     # load detective record
     player_data = DS.load_details(FILE)
 
@@ -495,11 +511,94 @@ def case_briefing(player_id, case_id):
             continue 
 
 
+# ----------- CONTINUE INVESTIGATION ---------------
+def continue_investigation(player_id: str):
+    # load player's record
+    record = DetectiveSystem().load_details(FILE_INV)
+
+    # fetch player record
+    player_record = record.get(player_id)
+    
+    if not player_record:
+        print("Record is empty!")
+        return
+
+    # fetch case id
+    case_id = player_record[-1]['Case']
+
+    # call -> case briefing
+    case_briefing(player_id, case_id)
+
+    return
+
+
+# ----------- CASE RECORDS ---------------
+def case_records(player_id: str):
+    # load cases from investigation.json
+    inv = DS.load_details(FILE_INV)
+    
+    records = inv.get(player_id, [])
+
+    if not records:
+        print("[!] No records found.")
+        return
+
+    width = 57
+    # print simple box
+    print("╔" + "═" * (width) + "╗")
+    print(f"║{'CASE RECORDS'.center(width)}║")
+
+    # case record show in formate
+    for record in records:
+        print("╠" + "═" * width + "╣")
+        print(f"║ Case     : {record['Case']:<{width-13}} ║")
+        print(f"║ Clues    : {len(record['Evidence'])}/12{'':<{width-16}}║")
+        print(f"║ Progress : {progress_bar(record['Progress']):<{width-12}}║")
+        print(f"║ Score    : {record['Scores']:<{width-12}}║")
+    print("╚" + "═" * width + "╝")
+
+    return
+
+def help():
+    """This function job is to guide the new player HOW TO PLAY?"""
+    GUIDE = {
+        1: "Search locations, find 12 clues, question suspects, and accuse the true culprit.",
+        2: "Enter numbers at each menu to inspect rooms, talk to suspects, or view records.",
+        3: "Visit all 3 crime scenes per case. Each room contains 4 distinct spots to search.",
+        4: "Start at 1000 pts. Clues give +30, contradictions +50. Hints cost -50. Climb from Rookie to Master Detective!",
+        5: "Track your clue discovery '%' in the dashboard. Each found clue adds ~8% progress.",
+        6: "Use hints if you get stuck finding evidence, but remember they deduct 50 points!",
+    }
+
+    while True:
+        # display Guide Lines/ Help UI
+        ui.UI.help_ui()
+        try:
+            guide_option = int(input("Select guide [0-6]: ").strip())
+            if guide_option == 0:
+                return # exit
+            
+            if guide_option not in GUIDE:
+                print("[!] Invalid option.")
+                continue
+
+            # show guide
+            print(f"\n➥  {GUIDE[guide_option]}\n")
+                
+        except ValueError as e:
+            print(f"Error: {e}")
+            continue
+
 
 # ------------------- INVESTIGATION ACTION -------------------
 def investigation_action(player_id, case_id):
+    import suspects
+    
     actionable_func = {
-        1: locations.main
+        1: locations.main,
+        2: suspects.Dispatch.question_suspects,
+        4: suspects.Dispatch.view_suspect_profiles,
+        
     }
 
     # ------- INVESTIGATION LOOP -------
@@ -548,7 +647,7 @@ def investigation_action(player_id, case_id):
 
             # Question Suspects
             elif action == 2:
-                print("[!] Question Suspects Coming soon.")
+                actionable_func[action](player_id, case_id)
 
             # Examine Evidence
             elif action == 3:
@@ -562,13 +661,7 @@ def investigation_action(player_id, case_id):
 
             # View Suspect Profiles
             elif action == 4:
-                # view suspect list
-                if suspects:
-                    print("\nSuspects Identified")
-                    for i, sus in enumerate(suspects, 1):
-                        print(f"  {i}. {sus}")
-                else:
-                    print("[!] No suspects identified yet.")
+                actionable_func[action](player_id, case_id)
 
             # Investigation Notebook
             elif action == 5:

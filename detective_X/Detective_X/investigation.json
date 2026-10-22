@@ -35,7 +35,11 @@
                 "Crumpled note: '11:30 PM east exit'",
                 "Muddy shoe marks on window ledge"
             ],
-            "Suspects": [],
+            "Suspects": [
+                "Arthur Vance",
+                "Evelyn Reed",
+                "Thomas Blackwood"
+            ],
             "Hints": {
                 "Available": [],
                 "Used": []
@@ -50,7 +54,11 @@
             "Case": "case_002",
             "Difficulty": "medium",
             "Evidence": [],
-            "Suspects": [],
+            "Suspects": [
+                "Kevin Miller",
+                "Sarah Lin",
+                "Marcus Vance"
+            ],
             "Hints": {
                 "Available": [],
                 "Used": []

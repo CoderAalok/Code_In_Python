@@ -4,15 +4,15 @@ from pathlib import Path
 
 base = Path(__file__).parent
 FILE_INV = base / "investigation.json"
-
+FILE = base / "player_record.json"
 
 # ──────────── Helpers ──────────────────────
 class Helper:
     # Load investigation record
     @staticmethod
-    def _load_inv():
+    def _load_record(file_name):
         try:
-            with open(FILE_INV) as f:
+            with open(file_name) as f:
                 return json.load(f)
             
         except (FileNotFoundError, json.JSONDecodeError):
@@ -20,17 +20,96 @@ class Helper:
 
     # Save update record
     @staticmethod
-    def _save_inv(data):
-        with open(FILE_INV, 'w') as f:
+    def _save_record(data, file_name):
+        with open(file_name, 'w') as f:
             json.dump(data, f, indent=4)
 
     # fetch player active case record
     @staticmethod
     def _get_record(inv_data, player_id, case_id):
         return next(
-            (r for r in inv_data.get(player_id, []) if r["Case"] == case_id),
+            (rec for rec in inv_data.get(player_id, []) if rec["Case"] == case_id),
             None
         )
+
+    # fetch player record from player_record.json
+    @staticmethod
+    def _player_record(records, player_id):
+        return records.get(player_id)
+
+    # ------------- FIND RANK ---------------
+    @staticmethod
+    def get_rank(xp: int):
+        if xp >= 3500:
+            return "Master Detective"
+        elif xp >= 2000:
+            return "Lead Detective"
+        elif xp >= 1000:
+            return "Senior Investigator"
+        elif xp >= 500:
+            return "Investigator"
+        else:
+            return "Rookie"
+
+    # ────────── SEARCH EVIDENCE ─────────
+    @staticmethod
+    def _search_evidence(location_ui, player_id, case_id, key, clue, total_evidence=12):
+        evidence, message = clue
+        
+        # load investigation record
+        inv_record = Helper()._load_record(FILE_INV)
+
+        # fetch active case record
+        record = Helper()._get_record(inv_record, player_id, case_id)
+        
+        # load player record
+        player_record = Helper()._load_record(FILE)
+        detective_record = Helper()._player_record(player_record, player_id)
+        
+        # check: whether record empty
+        if not record or not detective_record:
+            print("Record not found!")
+            return
+        
+        # Check: whether already evidence SEARCHED
+        if location_ui.status[key] == 'SEARCHED':
+            print(f"[Already searched]  {evidence}")
+            record["Scores"] = max(0, record["Scores"] - 10)
+            print("Panelty: -10")
+            Helper()._save_record(inv_record, FILE_INV)
+            return
+
+        # show clue
+        print(message)
+        
+        # update status
+        location_ui.status[key] = 'SEARCHED'
+
+        if evidence not in record['Evidence']:
+            # add new evidence
+            record['Evidence'].append(evidence)
+
+            # progress update
+            record["Progress"] = min(100, int((len(record['Evidence']) / total_evidence) * 100))
+
+            # score update (per clue +30)
+            record["Scores"] += 30
+
+            # update xp (per clue +15)
+            detective_record["XP"] += 15
+
+            # find rank
+            rank = Helper().get_rank(detective_record['XP'])
+
+            # update rank
+            detective_record["Rank"] = rank
+
+            # save record
+            Helper()._save_record(inv_record, FILE_INV)
+            Helper()._save_record(player_record, FILE)
+            print(f"[✓] Evidence saved: '{evidence}'")
+            
+        return
 
 
 # ────── MAIN CLASS OF CASE_1  ───────
@@ -94,7 +173,7 @@ class VisitLocationCase1:
             1: 'case',
             2: 'floor', 
             3: 'panel',
-            0: 'exit',
+            4: 'exit',
         }
 
         #  ────── LOOP ──────
@@ -103,7 +182,7 @@ class VisitLocationCase1:
             loc.exhibition_room_ui()
             
             try:
-                spot = int(input("Search [0-3]: ").strip())
+                spot = int(input("Search [0-4]: ").strip())
                 if spot == 0:
                     return
                 
@@ -112,7 +191,8 @@ class VisitLocationCase1:
                     print("[!] Invalid option.")
                     continue
                 
-                VisitLocationCase1._search_spot(loc, player_id, case_id, key, CLUES[key])
+                # ─────────── Call: Helper -> SEARCH EVIDENCE ─────────────
+                Helper()._search_evidence(loc, player_id, case_id, key, CLUES[key])
                 
             except Exception as e:
                 print(f"Error: {e}")
@@ -158,8 +238,9 @@ class VisitLocationCase1:
                     print("[!] Invalid option.")
                     continue
                 
-                VisitLocationCase1._search_spot(loc, player_id, case_id, key, CLUES[key])
-                
+                # ─────────── Call: Helper -> SEARCH EVIDENCE ─────────────
+                Helper()._search_evidence(loc, player_id, case_id, key, CLUES[key])
+                                
             except Exception as e:
                 print(f"Error: {e}")
                 continue
@@ -204,43 +285,14 @@ class VisitLocationCase1:
                     print("[!] Invalid option.")
                     continue
                 
-                VisitLocationCase1._search_spot(loc, player_id, case_id, key, CLUES[key])
+                # ─────────── Call: Helper -> SEARCH EVIDENCE ─────────────
+                Helper()._search_evidence(loc, player_id, case_id, key, CLUES[key])
                 
             except Exception as e:
                 print(f"Error: {e}")
                 continue
 
 
-    # ────────── SHARED SEARCH HELPER ──────────
-    @staticmethod
-    def _search_spot(loc, player_id, case_id, status_key, clue, total_evidence=12):
-        evidence_label, reveal_msg = clue
-
-        # Whether already searched
-        if loc.status[status_key] == 'Searched':
-            print(f"[Already Searched]  {evidence_label}")
-            return
-
-        # reveal the clue
-        print(reveal_msg)
-
-        # mark spot as searched on UI object
-        loc.status[status_key] = 'Searched'
-
-        # save evidence into investigation.json file
-        inv = Helper()._load_inv()
-        record = Helper()._get_record(inv, player_id, case_id)
-        
-        if record and evidence_label not in record["Evidence"]:
-            record["Evidence"].append(evidence_label)
-            
-            # each of 12 total spots = ~8% progress
-            record["Progress"] = min(100, int((len(record['Evidence']) / total_evidence) * 100))
-            Helper()._save_inv(inv)
-            
-            print(f"[✓] Evidence saved: '{evidence_label}'")
-
-        return
 
 
 
@@ -319,8 +371,8 @@ class VisitLocationCase2:
                     print("[!] Invalid option.")
                     continue
 
-                # update and save
-                VisitLocationCase2._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
+                # ─────────── Call: Helper -> SEARCH EVIDENCE ─────────────
+                Helper()._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
                 
             except ValueError as e:
                 print(f"Error: {e}")
@@ -367,8 +419,8 @@ class VisitLocationCase2:
                     print("[!] Invalid option.")
                     continue
 
-                # update and save
-                VisitLocationCase2._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
+                # ─────────── Call: Helper -> SEARCH EVIDENCE ─────────────
+                Helper()._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
                 
             except ValueError as e:
                 print(f"Error: {e}")
@@ -416,47 +468,13 @@ class VisitLocationCase2:
                     print("[!] Invalid option.")
                     continue
 
-                # update and save
-                VisitLocationCase2._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
+                # ─────────── Call: Helper -> SEARCH EVIDENCE ─────────────
+                Helper()._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
                 
             except ValueError as e:
                 print(f"Error: {e}")
                 continue
     
-    @staticmethod
-    def _search_evidence(location_ui, player_id, case_id, key, clue, total_evidence=12):
-        evidence, message = clue
-
-        if location_ui.status[key] == 'SEARCHED':
-            print(f"[Already searched]   {evidence}")
-            return
-
-        # show clue/message -> evidence
-        print(message)
-
-        # update status
-        location_ui.status[key] = 'SEARCHED'
-
-        # load investigation record
-        inv_record = Helper()._load_inv()
-
-        # fetch player record
-        record = Helper()._get_record(inv_record, player_id, case_id)
-
-        # prevent duplicate evidence
-        if record and evidence not in record["Evidence"]:
-            # add new evidence
-            record['Evidence'].append(evidence)
-
-            # case_id -> Medium level
-            record["Progress"] = min(100, int((len(record['Evidence']) / total_evidence) * 100))
-
-            # save updated record
-            Helper()._save_inv(inv_record)
-
-            print(f"[✓] Evidence saved: '{evidence}'")
-
-        return
 
 
 # ──────────── MAIN CLASS ────────────
@@ -534,8 +552,8 @@ class VisitLocationCase3:
                     print("[!] Invalid option.")
                     continue
 
-                # search evidence
-                VisitLocationCase3._search_evidence(location_ui, player_id,  case_id, key, CLUES[key])
+                # ─────────── Call: Helper -> SEARCH EVIDENCE ─────────────
+                Helper()._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
 
             except ValueError as e:
                 print(f"Error: {e}")
@@ -581,8 +599,8 @@ class VisitLocationCase3:
                     print("[!] Invalid option.")
                     continue
 
-                # search evidence
-                VisitLocationCase3._search_evidence(location_ui, player_id,  case_id, key, CLUES[key])
+                # ─────────── Call: Helper -> SEARCH EVIDENCE ─────────────
+                Helper()._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
 
             except ValueError as e:
                 print(f"Error: {e}")
@@ -603,7 +621,12 @@ class VisitLocationCase3:
                        "🧤 Disposable gloves found under the sink test positive for cyanide residue."),
         }
         
-        spot_map = {1: 'coffee', 2: 'fridge', 3: 'board', 4: 'gloves'}
+        spot_map = {
+            1: 'coffee', 
+            2: 'fridge', 
+            3: 'board', 
+            4: 'gloves'
+        }
         
         while True:
             location_ui.faculty_lounge()
@@ -611,44 +634,19 @@ class VisitLocationCase3:
                 spot = int(input("Search [0-4]: ").strip())
                 if spot == 0:
                     return
+                
                 key = spot_map.get(spot)
                 if not key:
                     print("[!] Invalid option.")
                     continue
-                VisitLocationCase3._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
+                
+                # ─────────── Call: Helper -> SEARCH EVIDENCE ─────────────
+                Helper()._search_evidence(location_ui, player_id, case_id, key, CLUES[key])
+                
             except Exception as e:
                 print(f"Error: {e}")
 
-    # ────────── SEARCH EVIDENCE ─────────
-    @staticmethod
-    def _search_evidence(location_ui, player_id, case_id, key, clue, total_evidence=12):
-        evidence, message = clue
 
-        # Check: whether already evidence SEARCHED
-        if location_ui.status[key] == 'SEARCHED':
-            print(f"[Already searched]  {evidence}")
-            return
-        
-        print(message)
-        location_ui.status[key] = 'SEARCHED'
-
-        # load investigation record
-        inv_record = Helper()._load_inv()
-
-        # fetch active case record
-        record = Helper()._get_record(inv_record, player_id, case_id)
-
-        if record and evidence not in record['Evidence']:
-            # add new evidence
-            record['Evidence'].append(evidence)
-
-            # progress update
-            record["Progress"] = min(100, int((len(record['Evidence']) / total_evidence) * 100))
-
-            Helper()._save_inv(inv_record)
-            print(f"[✓] Evidence saved: '{evidence}'")
-
-        return
 
 
 # MAIN DRIVE CLASS

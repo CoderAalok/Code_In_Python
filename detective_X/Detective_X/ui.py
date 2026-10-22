@@ -32,6 +32,33 @@ class UI:
         print("║" + " " * width + "║")
         print("╚" + "═" * width + "╝")
 
+
+    #  ------------------- DETECTIVE PROFILE -------------------
+    @staticmethod
+    def detective_profile(records: dict):
+        if not records:
+            return
+
+        key_width, value_width = 20, 30
+        box_width = key_width + value_width + 5
+
+        print("╔" + "═" * box_width + "╗")
+        print(f"║{'DETECTIVE PROFILE'.center(box_width)}║")
+        print("╠" + "═" * box_width + "╣")
+
+        print(f"║ {'Name':<{key_width}}: {records['Name']:<{value_width}}  ║")
+        print(f"║ {'Rank':<{key_width}}: {records['Rank']:<{value_width}}  ║")
+        print(f"║ {'Cases Won':<{key_width}}: {str(records['Cases_Won']):<{value_width}}  ║")
+        print(f"║ {'Cases Lost':<{key_width}}: {str(records['Cases_Lost']):<{value_width}}  ║")
+        print(f"║ {'XP':<{key_width}}: {str(records['XP']):<{value_width}}  ║")
+        print(f"║ {'Rating':<{key_width}}: {str(records['Rating']):<{value_width}}  ║")
+
+        print(f"║{'':<{box_width}}║")
+        print("╚" + "═" * box_width + "╝")
+        
+        return 
+
+
     @staticmethod
     def case_selection():
         print("╔" + "═" * 50 + "╗")
@@ -85,23 +112,47 @@ class UI:
         print("║" + " " * (width + 2) + "║")
         print("╚" + "═" * (width + 2) + "╝")
 
+
     @staticmethod
-    def investigation_dashboard(name, case, level, evd, sus, hint, pro, total_evidence=12, score=0):
+    def help_ui():
+        width = 50
+        print("╔" + "═" * (width) + "╗")
+        print(f"║{'DETECTIVE X — HELP'.center(width)}║")
+        print("║" + " " * (width) + "║")
+        print("╠" + "═" * (width) + "╣")
+        
+        print(f"║ [1] Game Rules & Objectives {'':<20} ║")
+        print(f"║ [2] Commands & Controls  {'':<23} ║")
+        print(f"║ [3] Investigation Guide {'':<24} ║")
+        print(f"║ [4] Scoring & Detective Ranks {'':<18} ║")
+        print(f"║ [5] Investigation Progress  {'':<20} ║")
+        print(f"║ [6] Hints & Assistance {'':<25} ║")
+        print(f"║ [0] Return to Main Menu {'':<24} ║")
+        
+        
+        print("║" + " " * (width) + "║")
+        print("╚" + "═" * (width) + "╝")
+
+
+    @staticmethod
+    def investigation_dashboard(name, case, level, evd, sus, hint, pro, score=1000, total_evidence=12):
         width = 55
+        ev_str = f"{evd} / {total_evidence}"
+        
         print("╔" + "═" * (width + 2) + "╗")
         print(f"║{'INVESTIGATION DASHBOARD'.center(width + 2)}║")
         print("╠" + "═" * (width + 2) + "╣")
         print(f"║ {'':<{width}} ║")
+        
         print(f"║ Detective  :  {str(name):<{width-14}} ║")
         print(f"║ Case       :  {str(case):<{width-14}} ║")
-        print(f"║ Difficulty : {str(level):<{width-13}} ║")
-        print(f"║ Evidence   :  {str(evd):<8}" + f"/{str(total_evidence):<40}" +  f"{'║':>30}")
+        print(f"║ Difficulty :  {str(level):<{width-13}}║")
+        print(f"║ Evidence   :  {ev_str:<{width-14}} ║")
         print(f"║ Suspects   :  {str(sus):<{width-15}}  ║")
         print(f"║ Hints Used :  {str(hint):<{width-14}} ║")
         print(f"║ Score      :  {str(score):<{width-14}} ║")
         print(f"║ Progress   :  {str(pro):<{width-14}} ║")
-        print("║" + " " * (width + 2) + "║")
-        print("╠" + "═" * (width + 2) + "╣")
+        
         print("║" + " " * (width + 2) + "║")
         print("╚" + "═" * (width + 2) + "╝")
 
@@ -112,6 +163,7 @@ class UI:
         print(f"║{'INVESTIGATION ACTIONS'.center(width + 2)}║")
         print("╠" + "═" * (width + 2) + "╣")
         print(f"║ {'':<{width}} ║")
+        
         print(f"║ {'[1] Visit Location':<{width}} ║")
         print(f"║ {'[2] Question Suspects':<{width}} ║")
         print(f"║ {'[3] Examine Evidence':<{width}} ║")
@@ -122,7 +174,58 @@ class UI:
         print(f"║ {'[8] Request Hint':<{width}} ║")
         print(f"║ {'[9] Make Final Accusation':<{width}} ║")
         print(f"║ {'[0] Save and Exit':<{width}} ║")
+        
         print(f"║ {'':<{width}} ║")
+        print("╚" + "═" * (width + 2) + "╝")
+
+
+    @staticmethod
+    def suspect_selection_ui(suspects: dict, title="SELECT SUSPECT"):
+        width = 55
+        print("╔" + "═" * (width + 2) + "╗")
+        print(f"║{title.center(width + 2)}║")
+        print("╠" + "═" * (width + 2) + "╣")
+        print(f"║{'':<{width + 2}}║")
+        for num, data in suspects.items():
+            name_str = f"[{num}] {data['name']}"
+            role_str = f"[{data['role']}]"
+            print(f"║ {name_str:<28} {role_str:<26} ║")
+        print(f"║ {'[0] Return to Dashboard':<{width}} ║")
+        print(f"║{'':<{width + 2}}║")
+        print("╚" + "═" * (width + 2) + "╝")
+
+
+    @staticmethod
+    def suspect_profile_ui(suspect: dict):
+        width = 55
+        print("╔" + "═" * (width + 2) + "╗")
+        print(f"║{'SUSPECT PROFILE'.center(width + 2)}║")
+        print("╠" + "═" * (width + 2) + "╣")
+        print(f"║{'':<{width + 2}}║")
+        print(f"║ Name         : {suspect['name']:<{width-15}} ║")
+        print(f"║ Role         : {suspect['role']:<{width-15}} ║")
+        print(f"║ Stated Alibi : {suspect['alibi']:<{width-14}}║")
+        print(f"║ Motive       : {suspect['motive']:<{width-14}}║")
+        print(f"║ Status       : {suspect['status']:<{width-14}}║")
+        print(f"║{'':<{width + 2}}║")
+        print("╚" + "═" * (width + 2) + "╝")
+
+    @staticmethod
+    def interrogation_ui(name: str, questions: dict):
+        width = 55
+        
+        title = f"INTERROGATING: {name.upper()}"
+        print("╔" + "═" * (width + 2) + "╗")
+        print(f"║{title.center(width + 2)}║")
+        print("╠" + "═" * (width + 2) + "╣")
+        print(f"║{'':<{width + 2}}║")
+        
+        for num, q_data in questions.items():
+            q_label = f"[{num}]  {q_data[0]}"
+            print(f"║ {q_label:<{width}} ║")
+            
+        print(f"║ {'[0] Back to Suspects':<{width}} ║")
+        print(f"║{'':<{width + 2}}║")
         print("╚" + "═" * (width + 2) + "╝")
 
 
@@ -466,7 +569,7 @@ class LocationCase3:
         print("╚" + "═" * width + "╝")
 
 
-    # ── 1. Chemistry Research Lab ─────────────────────────────────
+    # ────────── Chemistry Research Lab ────────────
     def chemistry_lab(self):
         width = 55
         l_width, r_width = 22, 23
@@ -477,7 +580,7 @@ class LocationCase3:
         print("╠" + "═" * width + "╣")
         print("║" + " " * width + "║")
         print(f"║         ___________________________            {'║':>8}")
-        print(f"║        | [BEAKERS]     [FUME HOOD] |           {'║':>8}")
+        print(f"║        | [BEAKERS]    [ FUME HOOD] |           {'║':>8}")
         print(f"║        | [========]   [POISON CAB] |          {'║':>9}")
         print(f"║        |___________________________|           {'║':>8}")
         print("║" + " " * width + "║")
@@ -504,7 +607,7 @@ class LocationCase3:
         print("║" + " " * width + "║")
         print("╚" + "═" * width + "╝")
 
-    # ── 2. Professor Personal Study ───────────────────────────────
+    # ──────── Professor Personal Study ───────────────────────────────
     def professor_study(self):
         width = 55
         l_width, r_width = 22, 23
@@ -524,7 +627,7 @@ class LocationCase3:
         print("║" + " " * width + "║")
         print("╚" + "═" * width + "╝")
 
-        # Search Spots
+        # ────  Search Spots ──────
         stat_tea  = f"[{self.status['tea']}]"
         stat_lett = f"[{self.status['letter']}]"
         stat_draw = f"[{self.status['drawer']}]"
@@ -542,7 +645,7 @@ class LocationCase3:
         print("║" + " " * width + "║")
         print("╚" + "═" * width + "╝")
 
-    # ── 3. Faculty Dining Lounge ──────────────────────────────────
+    # ──────── Faculty Dining Lounge ────────
     def faculty_lounge(self):
         width = 55
         l_width, r_width = 22, 23
@@ -581,10 +684,12 @@ class LocationCase3:
         print("╚" + "═" * width + "╝")
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # loc3 = LocationCase3()
     # loc3.chemistry_lab()
     # loc3.professor_study()
     # loc3.faculty_lounge()
-    
-    UI.investigation_dashboard('bob', 'case001', 'hard', '84', 'alie', 0, 0)
+    # name, case, level, evd, sus, hint, pro, total_evidence=12, score=0):
+    # UI.investigation_dashboard('bob', 'case001', 'hard', 5, 'alie', "hint1", 90)
+    # UI.help_ui()
+    # UI.interrogation_ui('alice', {'name':'alice', 'role':'listout', 'alibi':'unknow', 'motive':'unknow', 'status':"None"})
