@@ -337,6 +337,7 @@ class CaseSuspects:
         for s in self.SUSPECTS.values():
             if s["name"] not in existing:
                 existing.append(s["name"])
+                
         Helper._save_record(inv_data, FILE_INV)
 
         while True:
@@ -356,6 +357,7 @@ class CaseSuspects:
 
             except ValueError:
                 print("[!] Please enter a number.")
+                
             except Exception as e:
                 print(f"Error: {e}")
 

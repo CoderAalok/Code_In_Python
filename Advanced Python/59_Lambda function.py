@@ -1,7 +1,7 @@
 
 # # Level 1:
 # # Question:1
-# li = [2, 4, 6, 8]
+li = [2, 4, 6, 8]
 # square = list(map(lambda x: x**2,li))
 # print(square)
 # # ("OR")
@@ -304,36 +304,65 @@
 # print(f"Total Price: {total_price}")
 
 
-from functools import reduce
+# from functools import reduce
 
-products = [
-    {"name": "Laptop", "price": 1200, "rating": 4.5, "stock": 15},
-    {"name": "Phone", "price": 800, "rating": 4.7, "stock": 5},
-    {"name": "Tablet", "price": 400, "rating": 4.2, "stock": 30},
-    {"name": "Monitor", "price": 300, "rating": 4.6, "stock": 25},
-    {"name": "Camera", "price": 90000, "rating": 4.8, "stock": 8}
-]
+# products = [
+#     {"name": "Laptop", "price": 1200, "rating": 4.5, "stock": 15},
+#     {"name": "Phone", "price": 800, "rating": 4.7, "stock": 5},
+#     {"name": "Tablet", "price": 400, "rating": 4.2, "stock": 30},
+#     {"name": "Monitor", "price": 300, "rating": 4.6, "stock": 25},
+#     {"name": "Camera", "price": 90000, "rating": 4.8, "stock": 8}
+# ]
 
-filtered = list(filter(
-    lambda p: p['price'] >= 500 and p['rating'] >= 4.5 and p['stock'] >= 8,products
-    )
-)
+# filtered = list(filter(
+#     lambda p: p['price'] >= 500 and p['rating'] >= 4.5 and p['stock'] >= 8,products
+#     )
+# )
 
-result = list(
-    map(lambda p: f"{p['name']} | Price: {p['price']}| Rating: {p['rating']}",
-        sorted(filtered,key=lambda x: (x['rating'] , x['price']), reverse=True 
-        )
+# result = list(
+#     map(lambda p: f"{p['name']} | Price: {p['price']}| Rating: {p['rating']}",
+#         sorted(filtered,key=lambda x: (x['rating'] , x['price']), reverse=True 
+#         )
     
-    )
-)
+#     )
+# )
 
-total_price = reduce(lambda x,y: x+y,
-    map(lambda p: p['price'],list(filtered)
-    )
-)
+# total_price = reduce(lambda x,y: x+y,
+#     map(lambda p: p['price'],list(filtered)
+#     )
+# )
 
 
 
-print("\n".join(result))
+# print("\n".join(result))
 
-print(f"\nTotal Price: {total_price}")
+# print(f"\nTotal Price: {total_price}")
+
+# def cal_area(a, b, area):
+#     areas = {
+#         "rectangle": a * b,
+#         "square": (a * a, b * b),
+#         "triangle": (1/2) * a * b,
+#     }
+#     return areas[area]
+
+# area = input("Shape: ").strip().lower()
+# res = list(map(lambda x, y: cal_area(x, y, area), [2], [4]))
+
+# print(f"Area of {area} = {res}")
+
+
+# even = list(filter(lambda x: x % 2 == 0, list(range(10))))
+# odd = list(filter(lambda x: x % 2 != 0, list(range(10))))
+
+# print(even, odd)
+
+
+# from functools import reduce
+
+# li = list(map(int, input("Number: ").split()))
+li = [1,2,3,4,5,6]
+result = [list(map(lambda x, y: x * y, li, li)), list(filter(lambda x: x % 2 == 0, li))]
+
+print(result[0])
+print(result[1])

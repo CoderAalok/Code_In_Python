@@ -9,6 +9,7 @@ FILE = base / "player_record.json"
 # ──────────── Helpers ──────────────────────
 class Helper:
     # Load investigation record
+    
     @staticmethod
     def _load_record(file_name):
         try:
@@ -23,6 +24,7 @@ class Helper:
     def _save_record(data, file_name):
         with open(file_name, 'w') as f:
             json.dump(data, f, indent=4)
+
 
     # fetch player active case record
     @staticmethod

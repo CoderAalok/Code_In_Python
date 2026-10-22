@@ -33,7 +33,8 @@
                 "Wine glass with lipstick at seat 4",
                 "Staff roster: 3 names on night duty",
                 "Crumpled note: '11:30 PM east exit'",
-                "Muddy shoe marks on window ledge"
+                "Muddy shoe marks on window ledge",
+                "Scratched emergency exit push-bar"
             ],
             "Suspects": [
                 "Arthur Vance",
@@ -44,8 +45,8 @@
                 "Available": [],
                 "Used": []
             },
-            "Scores": 0,
-            "Progress": 99
+            "Scores": 30,
+            "Progress": 100
         }
     ],
     "P0002": [
@@ -70,14 +71,27 @@
             "Detective": "Aalok",
             "Case": "case_001",
             "Difficulty": "easy",
-            "Evidence": [],
-            "Suspects": [],
+            "Evidence": [
+                "Scratch marks on the diamond case lock",
+                "Muddy footprint near the case",
+                "Tampered alarm wire in access panel",
+                "Scratched emergency exit push-bar",
+                "CCTV footage: figure at 11:47 PM",
+                "Access log: Keycard #7 used at 11:45 PM",
+                "Torn uniform cloth on guard desk",
+                "Missing keycard slot #7"
+            ],
+            "Suspects": [
+                "Arthur Vance",
+                "Evelyn Reed",
+                "Thomas Blackwood"
+            ],
             "Hints": {
                 "Available": [],
                 "Used": []
             },
-            "Scores": 0,
-            "Progress": 0
+            "Scores": 240,
+            "Progress": 66
         }
     ],
     "P0003": [

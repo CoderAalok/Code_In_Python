@@ -4,7 +4,7 @@
         "Rank": "Rookie",
         "Cases_Won": 0,
         "Cases_Lost": 0,
-        "XP": 0,
+        "XP": 15,
         "Rating": 0,
         "Pending_Cases": [
             "case_005",
@@ -18,7 +18,7 @@
         "Rank": "Rookie",
         "Cases_Won": 0,
         "Cases_Lost": 0,
-        "XP": 0,
+        "XP": 120,
         "Rating": 0,
         "Pending_Cases": [
             "case_002",

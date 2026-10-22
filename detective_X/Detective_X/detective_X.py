@@ -1,7 +1,7 @@
 # Libraries
 import json
 from pathlib import Path
-import re, ui, locations
+import re, ui, locations, evidence, notebook
 
 
 #  Config:
@@ -129,18 +129,18 @@ class PlayerGround:
             print("║" + " " * (width) + "║")
             print(f"║ {'[1] Create New Detective':<{width-2}} ║")
             print(f"║ {'[2] Load Existing Detective':<{width-2}} ║")
-            print(f"║ {'[3] Exit':<{width-3}}  ║")
+            print(f"║ {'[0] Exit':<{width-3}}  ║")
             print("║" + " " * (width) + "║")
             print("╚" + "═" *(width) + "╝")
             
             try:
-                player = int(input("Select option [1-3]: ").strip())
+                player = int(input("Select option [0-2]: ").strip())
                 
-                if not player in {1, 2, 3}:
-                    print("Invalid input! Only select [1], [2] or [3].")
+                if player not in [0, 1, 2]:
+                    print("Invalid input! Only select [0], [1] or [2].")
                     
-                elif player == 3:
-                    print("\nPlay next time.")
+                elif player == 0:
+                    print("\nThank you for play.")
                     return # exit from game
                 
                 # create new detective identity
@@ -373,7 +373,6 @@ def main(player_id: str):
 
                 # Exit from game
                 elif select == 6:
-                    print("Play next time.")
                     return
             
             else:
@@ -559,6 +558,7 @@ def case_records(player_id: str):
 
     return
 
+# ----------- HELP/SUPPORT ---------------
 def help():
     """This function job is to guide the new player HOW TO PLAY?"""
     GUIDE = {
@@ -617,11 +617,11 @@ def investigation_action(player_id, case_id):
             print("Investigation record not found!")
             return
 
-        # extract fresh stats
+        # extract saved record
         RECORDS = ['Detective', 'Difficulty', 'Evidence', 'Suspects', 'Hints', 'Scores', 'Progress']
-        name, level, evidence, suspects, hints, score, progress = [active_record[record] for record in RECORDS]
-        evid = len(evidence)
-        susp = len(suspects)
+        name, level, _evidence, _suspects, hints, score, progress = [active_record[record] for record in RECORDS]
+        evid = len(_evidence)
+        susp = len(_suspects)
         hint = len(hints["Used"])
         prog = progress_bar(progress)
 
@@ -652,12 +652,8 @@ def investigation_action(player_id, case_id):
             # Examine Evidence
             elif action == 3:
                 # examine collected evidence
-                if evidence:
-                    print("\nEvidence Collected")
-                    for i, ev in enumerate(evidence, 1):
-                        print(f"  {i}. {ev}")
-                else:
-                    print("[!] No evidence collected yet.")
+                print("\nEvidence Collected")
+                evidence.ExamineEvidence().examine_evidence(player_id, case_id)
 
             # View Suspect Profiles
             elif action == 4:
@@ -665,7 +661,7 @@ def investigation_action(player_id, case_id):
 
             # Investigation Notebook
             elif action == 5:
-                print("[!] Investigation Notebook Coming soon.")
+                notebook.InvestigationNotebook.display_notebook(player_id, case_id)
 
             # Crime timeline
             elif action == 6:

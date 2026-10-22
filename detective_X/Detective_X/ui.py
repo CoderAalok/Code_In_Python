@@ -1,3 +1,11 @@
+from pathlib import Path
+import locations
+
+# ---------- Config -----------
+base = Path(__file__).parent
+FILE = base / "player_record.json"
+FILE_INV = base / "investigation.json"
+
 class UI:
     @staticmethod
     def opening_screen():
@@ -297,7 +305,7 @@ class LocationCase1:
         print(f"║ {'[1] Display Case':<{l_width}}        {f'[{self.status['case']}]':<{r_width}} ║")
         print(f"║ {'[2] Exhibition Floor':<{l_width}}        {f'[{self.status['floor']}]':<{r_width}} ║")
         print(f"║ {'[3] Access Panel':<{l_width}}        {f'[{self.status['panel']}]':<{r_width}} ║")
-        print(f"║ {'[4] Emergency Fire Exit':<{l_width}}        {f'[{self.status['exit']}]':<{r_width}} ║")
+        print(f"║ {'[4] Emergency Fire Exit':<{l_width}}       {f'[{self.status['exit']}]':<{r_width}} ║")
         print(f"║ {'[0] Return':<{l_width + r_width + 8}} ║")
         print("║" + " " * width + "║")
         print("╚" + "═" * width + "╝")
@@ -683,6 +691,38 @@ class LocationCase3:
         print("║" + " " * width + "║")
         print("╚" + "═" * width + "╝")
 
+
+
+class EvidenceUI:
+    @staticmethod
+    def evidence_ui(player_id: str, case_id: str):
+        # load record
+        inv_record = locations.Helper._load_record(FILE_INV)
+        player_record = locations.Helper._get_record(inv_record, player_id, case_id)  # dictionay 
+
+        if not player_record:
+            print("Record not found!")
+            return
+
+        width = 50
+        print("╔" + "═" * width + "╗")
+        print(f"║{'COLLECTED EVIDENCE'.center(width)}║")
+        print("╠" + "═" * width + "╣")
+        print(f"║{'':<{width}}║")
+
+        # show collected evidence
+        evidence_collector = {}
+        for i, evidence in enumerate(player_record['Evidence'], 1):
+            evidence_collector[i] = evidence
+            item_str = f"[{i}] {evidence}"
+            print(f"║  {item_str:<{width-4}}  ║")
+            
+        print(f"║  [0] {'Return back to dashboard':<{width-7}} ║")
+        
+        print("║" + " " * width + "║")
+        print("╚" + "═" * width + "╝")
+
+        return evidence_collector
 
 # if __name__ == "__main__":
     # loc3 = LocationCase3()
