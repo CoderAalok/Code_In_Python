@@ -1,12 +1,13 @@
 from pathlib import Path
-import locations
+import detective_system, detective_x
 
 # ---------- Config -----------
 base = Path(__file__).parent
 FILE = base / "player_record.json"
 FILE_INV = base / "investigation.json"
 
-class UI:
+SYSTEM = detective_system.DetectiveSystem()
+class ScreenUI:
     @staticmethod
     def opening_screen():
         print("╔" + "═" * 52 + "╗")
@@ -49,16 +50,18 @@ class UI:
 
         key_width, value_width = 20, 30
         box_width = key_width + value_width + 5
-
+        rank = records['Rank']
+        xp_bar = SYSTEM.xp_bar(records["XP"], rank)
+        
         print("╔" + "═" * box_width + "╗")
         print(f"║{'DETECTIVE PROFILE'.center(box_width)}║")
         print("╠" + "═" * box_width + "╣")
 
         print(f"║ {'Name':<{key_width}}: {records['Name']:<{value_width}}  ║")
-        print(f"║ {'Rank':<{key_width}}: {records['Rank']:<{value_width}}  ║")
+        print(f"║ {'Rank':<{key_width}}: {rank:<{value_width}}  ║")
         print(f"║ {'Cases Won':<{key_width}}: {str(records['Cases_Won']):<{value_width}}  ║")
         print(f"║ {'Cases Lost':<{key_width}}: {str(records['Cases_Lost']):<{value_width}}  ║")
-        print(f"║ {'XP':<{key_width}}: {str(records['XP']):<{value_width}}  ║")
+        print(f"║ {'XP':<{key_width}}: {xp_bar:<{value_width}}  ║")
         print(f"║ {'Rating':<{key_width}}: {str(records['Rating']):<{value_width}}  ║")
 
         print(f"║{'':<{box_width}}║")
@@ -66,7 +69,7 @@ class UI:
         
         return 
 
-
+class CaseUI:
     @staticmethod
     def case_selection():
         print("╔" + "═" * 50 + "╗")
@@ -141,7 +144,7 @@ class UI:
         print("║" + " " * (width) + "║")
         print("╚" + "═" * (width) + "╝")
 
-
+class InvestigationUI:
     @staticmethod
     def investigation_dashboard(name, case, level, evd, sus, hint, pro, score=1000, total_evidences=12, total_suspects=3):
         width = 55
@@ -188,17 +191,22 @@ class UI:
         print("╚" + "═" * (width + 2) + "╝")
 
 
+class SuspectUI:
     @staticmethod
     def suspect_selection_ui(suspects: dict, title="SELECT SUSPECT"):
-        width = 55
+        width = 62
         print("╔" + "═" * (width + 2) + "╗")
         print(f"║{title.center(width + 2)}║")
         print("╠" + "═" * (width + 2) + "╣")
         print(f"║{'':<{width + 2}}║")
+        
         for num, data in suspects.items():
             name_str = f"[{num}] {data['name']}"
             role_str = f"[{data['role']}]"
-            print(f"║ {name_str:<28} {role_str:<26} ║")
+            
+            print(f"║ {name_str:<{width-23}} {role_str:<{width-18}} ║")
+            
+            
         print(f"║ {'[0] Return to Dashboard':<{width}} ║")
         print(f"║{'':<{width + 2}}║")
         print("╚" + "═" * (width + 2) + "╝")
@@ -237,7 +245,19 @@ class UI:
         print(f"║{'':<{width + 2}}║")
         print("╚" + "═" * (width + 2) + "╝")
 
-
+class HintUI:
+    @staticmethod
+    def hint_ui(remaining_hint: int, penalty=50):
+        width = 50
+        print("╔" + "═" * (width + 2) + "╗")
+        print(f"║{"DETECTIVE ASSISTANCE".center(width + 2)}║")
+        print("╠" + "═" * (width + 2) + "╣")
+        print(f"║{'':<{width + 2}}║")
+        print(f"║  {'Hints Remaining  :'} {str(remaining_hint):<{width - 19}}║")
+        print(f"║  {'Score Penalty    :'} -{str(penalty):<{width - 21}} ║")
+        print(f"║{'':<{width + 2}}║")
+        print("╚" + "═" * (width + 2) + "╝")
+          
 class LocationCase1:
     """UI display for Case_1: The Missing Diamond locations."""
     
@@ -454,7 +474,7 @@ class LocationCase2:
         print("║" + " " * width + "║")
         print(f"║ {'[1] Server Rack C':<{l_width}}         {stat_rack:<{r_width}}║")
         print(f"║ {'[2] Cooling Floor Vents':<{l_width}}        {stat_vent:<{r_width}}║")
-        print(f"║ {'[3] Maintenance Terminal':<{l_width}}       {stat_term:<{r_width}}║")
+        print(f"║ {'[3] Maintenance Terminal':<{l_width}}        {stat_term:<{r_width}}║")
         print(f"║ {'[4] Emergency Power Backup':<{l_width}}     {stat_powr:<{r_width}}║")
         print(f"║ {'[0] Return':<{l_width + r_width + 8}} ║")
         print("║" + " " * width + "║")
@@ -471,9 +491,9 @@ class LocationCase2:
         print(f"║ {'LOCATION: NETWORK OPERATIONS CENTER'.center(width-2)} ║")
         print("╠" + "═" * width + "╣")
         print("║" + " " * width + "║")
-        print(f"║     [---------------------------------]       {'║':>9}")
-        print(f"║     |   NETWORK TRAFFIC: HIGH SPIKE   |       {'║':>9}")
-        print(f"║     [---------------------------------]       {'║':>9}")
+        print(f"║        [---------------------------------]       {'║':>6}")
+        print(f"║        |   NETWORK TRAFFIC: HIGH SPIKE   |       {'║':>6}")
+        print(f"║        [---------------------------------]       {'║':>6}")
         print(f"║          [DESK-1]   [DESK-2]   [DESK-3]       {'║':>9}")
         print("║" + " " * width + "║")
         print(f"║ {'  • The monitoring wall shows massive data transfer.':<{width-2}} ║")
@@ -493,7 +513,7 @@ class LocationCase2:
         print("║" + " " * width + "║")
         print(f"║ {'[1] Central Wall Monitor':<{l_width}}      {stat_mon:<{r_width}} ║")
         print(f"║ {'[2] Operator Desk':<{l_width}}        {stat_oper:<{r_width}} ║")
-        print(f"║ {'[3] Firewall Log Printer':<{l_width}}     {stat_fire:<{r_width}} ║")
+        print(f"║ {'[3] Firewall Log Printer':<{l_width}}      {stat_fire:<{r_width}} ║")
         print(f"║ {'[4] Paper Waste Bin':<{l_width}}        {stat_trsh:<{r_width}} ║")
         print(f"║ {'[0] Return':<{l_width + r_width + 8}} ║")
         print("║" + " " * width + "║")
@@ -698,8 +718,8 @@ class EvidenceUI:
     @staticmethod
     def evidence_ui(player_id: str, case_id: str):
         # load record
-        inv_record = locations.Helper._load_record(FILE_INV)
-        player_record = locations.Helper._get_record(inv_record, player_id, case_id)  # dictionay 
+        inv_record = SYSTEM.load_records(FILE_INV)
+        player_record = SYSTEM._get_record(inv_record, player_id, case_id)  # dictionay 
 
         if not player_record:
             print("Record not found!")
@@ -725,7 +745,98 @@ class EvidenceUI:
 
         return evidence_collector
 
-# if __name__ == "__main__":
+class AccusationUI:
+    @staticmethod
+    def accusation_ui(suspect: list):
+        width = 50
+        warning_msg = "Your accusation may close the investigation."
+        
+        print("╔" + "═" * width + "╗")
+        print(f"║{'FINAL ACCUSATION'.center(width)}║")
+        print("╠" + "═" * width + "╣")
+        print(f"║{'':<{width}}║")
+        
+        print(f"║ {'WARNING:':<{width - 2}} ║")
+        print(f"║ {warning_msg:<{width - 2}} ║")
+        print(f"║{'':<{width}}║")
+
+        for i, sup_name in enumerate(suspect, 1):
+            suspect_name = f"[{i}] {sup_name}"
+            print(f"║ {suspect_name:<{width - 2}} ║")
+
+        print(f"║ [0] {'Return Back to Dashboard':<{width-6}} ║")
+        print("║" + " " * width + "║")
+        print("╚" + "═" * width + "╝")
+
+    @staticmethod
+    def culprit_ui(records: dict, total_evidence=12):
+        key_width, value_width = 20, 30
+        box_width = key_width + value_width + 5
+        rank = records['rank']
+        xp_bar = SYSTEM.xp_bar(records["xp"], rank)
+        evid = f"{str(len(records['evidence']))} / {total_evidence}"
+        contradictions = f"{str(len(records['contradictions']))}"
+        hint = f"{str(len(records['hints']))}"
+        
+        print("╔" + "═" * box_width + "╗")
+        print(f"║{'CASE SOLVED'.center(box_width)}║")
+        print("╠" + "═" * box_width + "╣")
+
+        print(f"║ {'Culprit':<{key_width}}: {records['culprit']:<{value_width}}  ║")
+        print(f"║ {'Score':<{key_width}}: {str(records['scores']):<{value_width}}  ║")
+        print(f"║ {'Evidence':<{key_width}}: {evid:<{value_width}}  ║")
+        print(f"║ {'Contradictions':<{key_width}}: {contradictions:<{value_width}}  ║")
+        print(f"║ {'Hints Used':<{key_width}}: {hint:<{value_width}}  ║")
+        print(f"║ {'XP':<{key_width}}: {xp_bar:<{value_width}}  ║")
+        print(f"║ {'Rating':<{key_width}}: {str(records['rating']):<{value_width}}  ║")
+
+        print(f"║{'':<{box_width}}║")
+        print("╚" + "═" * box_width + "╝")
+
+
+    @staticmethod
+    def confirm_accusation(evidence: list, culprit: str):
+        width = 50
+        print("╔" + "═" * width + "╗")
+        print(f"║{'CONFIRM ACCUSATION'.center(width)}║")
+        print("╠" + "═" * width + "╣")
+        print(f"║ Accused Suspect: {culprit:<{width-19}} ║")
+        print(f"║" + " "*width +  "║")
+        print(f"║ {'Supporting Evidence:':<{width-2}} ║")
+        print(f"║" + " "*width +  "║")
+
+        for evid in evidence:
+            print(f"║  ✓  {evid:<{width - 6}} ║")
+
+        print(f"║{'':<{width}}║")
+        print("╚" + "═" * width + "╝")
+        
+
+    @staticmethod
+    def wrong_accusation(accused: str, actual_culprit: str, missing_evidence: list):
+        width = 50
+        print("╔" + "═" * width + "╗")
+        print(f"║{'WRONG ACCUSATION'.center(width)}║")
+        print("╠" + "═" * width + "╣")
+        print(f"║ Accused        : {accused:<{width-19}} ║")
+        
+        print(f"║ Actual Culprit : {actual_culprit:<{width-19}} ║")
+        print(f"║" + " "*width +  "║")
+        print(f"║ {'Important Evidence Missed:':<10}║")
+
+        for evid in missing_evidence:
+            print(f"║ • {evid:<{width - 4}} ║")
+        
+        print(f"║{'':<{width}}║")
+        print("╚" + "═" * width + "╝")
+        
+
+
+        
+if __name__ == "__main__":
+    # LocationCase2().network_operations_center()
+    HintUI.hint_ui(3)
+    # AccusationUI.confirm_accusation(["Torn uniform cloth on guard desk ", "Torn uniform cloth on guard desk "], "Arthur")
     # loc3 = LocationCase3()
     # loc3.chemistry_lab()
     # loc3.professor_study()

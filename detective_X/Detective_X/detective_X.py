@@ -1,33 +1,21 @@
 # Libraries
 import json
 from pathlib import Path
-import re, ui, locations, evidence, notebook, timeline
+import re, ui, locations, evidence, notebook, timeline, compare, detective_system
 
-
-#  Config:
+# ------------  Config --------------:
 base = Path(__file__).parent
 FILE = base/"player_record.json"
 FILE_INV = base/"investigation.json"
 
-class DetectiveSystem:
+SYSTEM = detective_system.DetectiveSystem()
+class GenerativeSystem:
 
-    # player details save
-    def save_details(self, data, file):
-        with open(file, 'w') as fw:
-            json.dump(data, fw, indent=4) 
-        return
-
-    # load player details
-    def load_details(self, file):
-        try:
-            with open(file) as fr:
-                return json.load(fr)
-        except (FileNotFoundError ,  json.decoder.JSONDecodeError):
-            return {}
-
+    @staticmethod
     # player ID generation
-    def player_id(self, file):
-        player_record = self.load_details(file)
+    def player_id(file):
+        player_record = SYSTEM.load_records(file)
+        
         if not player_record:
             id = "P0001"
             return id
@@ -43,7 +31,7 @@ class DetectiveSystem:
     # new account details 
     def account_verify(self, name=None):
         # load data
-        data = self.load_details(FILE)
+        data = SYSTEM.load_records(FILE)
         
         if not name:
             return None, "Requirement not full fill."
@@ -70,7 +58,7 @@ class DetectiveSystem:
             "Completed_Cases": [],
         }
         
-        self.save_details(data, FILE)
+        SYSTEM.save_record(data, FILE)
         
         player_info = data.get(id)
         return [player_info, id], "Successfully your account has been created."
@@ -117,7 +105,7 @@ class PlayerGround:
         self.id = None
         
     def get_start(self):
-        ui.UI.opening_screen()
+        ui.ScreenUI.opening_screen()
         input("""\n               PRESS ENTER TO BEGIN       \n""")
 
         while True:
@@ -174,7 +162,7 @@ class PlayerGround:
 
                 
                 elif player == 2:
-                    player_id = DS.load_details(FILE)
+                    player_id = SYSTEM.load_records(FILE)
 
                     # user id
                     id = input("Your ID (hint: Pxxxx):\n⮩ ").strip()
@@ -202,13 +190,12 @@ class PlayerGround:
                 continue
 
         
-    @staticmethod
-    def select_case(id: str):  # -> call by main()
-        player_data = DS.load_details(FILE)
+    def select_case(self, id: str):  # -> call by main()
+        player_data = SYSTEM.load_records(FILE)
         
         while True:
             # cases are show up
-            ui.UI.case_library()
+            ui.CaseUI.case_library()
 
             try:
                 case = int(input("Select case [0-3]: ").strip())
@@ -270,7 +257,7 @@ class PlayerGround:
                 PG.investigation_state(player_name, id, case_id, level)
 
                 # save updated record
-                DS.save_details(player_data, FILE)
+                SYSTEM.save_record(player_data, FILE)
                 
                 # call case_briefing() -> investigation dashboard or back to case library
                 case_briefing(id, case_id)
@@ -281,11 +268,9 @@ class PlayerGround:
                 print(f"ERROR: {e}")
                 return 
 
-
-    @staticmethod
-    def investigation_state(detective, detective_id, case_id, level):
+    def investigation_state(self, detective, detective_id, case_id, level):
         # fetch investigation record
-        data_inv = DS.load_details(FILE_INV)
+        data_inv = SYSTEM.load_records(FILE_INV)
 
         # add/append records -> data_inv 
         existing_data = data_inv.setdefault(detective_id, [])
@@ -300,7 +285,7 @@ class PlayerGround:
                     "Contradictions": [],
                     "Comparisons": [],
                     "Hints": {
-                        "Available": [],
+                        "Available": ["hint_1", "hint_2", "hint_3"],  # By default
                         "Used": [],
                     },
                     "Scores": 0,
@@ -309,11 +294,11 @@ class PlayerGround:
             )
 
         # save record
-        DS.save_details(data_inv, FILE_INV)
+        SYSTEM.save_record(data_inv, FILE_INV)
         return 
 
 
-DS = DetectiveSystem()
+DS = GenerativeSystem()
 PG = PlayerGround()   
 
 
@@ -322,7 +307,7 @@ def main(player_id: str):
 
     while True:
         # show up main menu
-        ui.UI.main_menu()
+        ui.ScreenUI.main_menu()
 
         # menu options
         menu_options = {
@@ -338,7 +323,7 @@ def main(player_id: str):
         call_func = {
             1: PG.select_case,
             2: continue_investigation,
-            3: ui.UI.detective_profile,
+            3: ui.ScreenUI.detective_profile,
         }
 
         try:
@@ -356,7 +341,7 @@ def main(player_id: str):
                 # Call -> load player's record
                 elif select == 3:
                     # load player records
-                    records = DS.load_details(FILE)[player_id]
+                    records = SYSTEM.load_records(FILE)[player_id]
 
                     if not records:
                         print("Record not found!")
@@ -386,58 +371,14 @@ def main(player_id: str):
             continue
 
 
-# ------------------ CALCULATE PROGRESS ------------------------
-def progress_bar(curr_progress: int, width=10):
-    # curr_progress between 0 and 100
-    progress = max(0, min(100, curr_progress))
-    
-    # filled bar
-    filled = int((progress / 100 ) * width)
-    # empty bar
-    empty = width - filled
-    
-    prog_bar = "█" * filled  + "░" * empty
-    return f"{prog_bar} {progress:.1f}%"
-
-
-# ------------- CALCULATE XP (BASED ON SCORE) ----------------
-def xp_bar(score: int, rank: str, width=10):
-    if score < 0:
-        print("Score can't be negative.")
-        return
-    
-    rank_map = {
-        "Rookie": 499, # 0-499
-        "Investigator": 500,  # total Investigator rank >= 500
-        "Senior Investigator": 1000, # >= 1000
-        "Lead Detective": 2000,  # >= 2000
-        "Master Detective": 3500,  # >= 3500
-        
-    }
-    
-    if not rank_map.get(rank):
-        print("Rank not found!")
-        return 
-
-    total_rank = rank_map[rank]
-    x_score = max(0, min(total_rank, score))
-    
-    # number of filled bar use
-    filled = int((10 * x_score) / total_rank)
-    # empty bar
-    empty = width - filled
-
-    xp_bar = "█" * filled  + "░" * empty
-    return f"{xp_bar} {x_score} / {total_rank}"
-
 
 # ----------- CASE BRIEFING ---------------
 def case_briefing(player_id: str, case_id: str):
     # load detective record
-    player_data = DS.load_details(FILE)
+    player_data = SYSTEM.load_records(FILE)
 
     # load investigation record
-    investigation_data = DS.load_details(FILE_INV)
+    investigation_data = SYSTEM.load_records(FILE_INV)
 
     if not player_data or not investigation_data:
         print("Data is empty.")
@@ -462,14 +403,16 @@ def case_briefing(player_id: str, case_id: str):
     evid = len(evidence)
     susp = len(suspects)
     hint = len(hints['Used'])
+
+    # BY DEFAULT: Available Hints = 3
     
     while True:
         # call case briefing ui -> display case options
-        ui.UI.case_briefing_ui()
+        ui.CaseUI.case_briefing_ui()
         try:
             briefing_option = int(input("Select case briefing [0-2]: ").strip()) 
             cases = {
-                1: ui.UI.investigation_dashboard,
+                1: ui.InvestigationUI.investigation_dashboard,
                 2: PG.select_case
             }
             
@@ -487,8 +430,8 @@ def case_briefing(player_id: str, case_id: str):
                     cases[briefing_option](name, case_id, level, evid, susp, hint, prog, score)
 
                     # save updated record
-                    DS.save_details(player_data, FILE)
-                    DS.save_details(investigation_data, FILE_INV)
+                    SYSTEM.save_record(player_data, FILE)
+                    SYSTEM.save_record(investigation_data, FILE_INV)
                     
                     # call -> investigation action
                     investigation_action(player_id, case_id)
@@ -499,8 +442,8 @@ def case_briefing(player_id: str, case_id: str):
                     
             elif briefing_option == 0:
                 # save updated record
-                DS.save_details(player_data, FILE)
-                DS.save_details(investigation_data, FILE_INV)
+                SYSTEM.save_record(player_data, FILE)
+                SYSTEM.save_record(investigation_data, FILE_INV)
                 return
             
             else:
@@ -515,28 +458,53 @@ def case_briefing(player_id: str, case_id: str):
 # ----------- CONTINUE INVESTIGATION ---------------
 def continue_investigation(player_id: str):
     # load player's record
-    record = DetectiveSystem().load_details(FILE_INV)
+    record = SYSTEM.load_records(FILE_INV)
 
     # fetch player record
-    player_record = record.get(player_id)
+    player_inv = record.get(player_id)
     
-    if not player_record:
+    if not player_inv:
         print("Record is empty!")
         return
 
-    # fetch case id
-    case_id = player_record[-1]['Case']
+    while True:
+        try:
+            # fetch case id
+            case_id = input("Enter your Case ID (e.g. case_001): ").strip().lower()
 
-    # call -> case briefing
-    case_briefing(player_id, case_id)
+            norm_case_id = case_id.split("_")
+            
+            # verify case id
+            if (
+                norm_case_id[0].isalpha() and
+                norm_case_id[-1].isdigit() and
+                1 <= int(norm_case_id[-1]) <= 3
+            ):
+                is_exist = next(
+                    (True for rec in player_inv if rec['Case'] == case_id),
+                    False
+                )
 
-    return
+                if not is_exist:
+                    print("[!] Case ID not found")
+                    continue 
+                
+                # call -> case briefing
+                case_briefing(player_id, case_id)
+                return
 
+            else:
+                print("[!] Case ID does not match.")
+                continue 
+             
+        except Exception as e:
+            print(f"Error: {e}")
+        
 
 # ----------- CASE RECORDS ---------------
 def case_records(player_id: str):
     # load cases from investigation.json
-    inv = DS.load_details(FILE_INV)
+    inv = SYSTEM.load_records(FILE_INV)
     
     records = inv.get(player_id, [])
 
@@ -554,7 +522,7 @@ def case_records(player_id: str):
         print("╠" + "═" * width + "╣")
         print(f"║ Case     : {record['Case']:<{width-13}} ║")
         print(f"║ Clues    : {len(record['Evidence'])}/12{'':<{width-16}}║")
-        print(f"║ Progress : {progress_bar(record['Progress']):<{width-12}}║")
+        print(f"║ Progress : {SYSTEM.progress_bar(record['Progress']):<{width-12}}║")
         print(f"║ Score    : {record['Scores']:<{width-12}}║")
     print("╚" + "═" * width + "╝")
 
@@ -574,7 +542,7 @@ def help():
 
     while True:
         # display Guide Lines/ Help UI
-        ui.UI.help_ui()
+        ui.CaseUI.help_ui()
         try:
             guide_option = int(input("Select guide [0-6]: ").strip())
             if guide_option == 0:
@@ -606,8 +574,8 @@ def investigation_action(player_id, case_id):
     # ------- INVESTIGATION LOOP -------
     while True:
         # fetch existing data
-        investigation_data = DS.load_details(FILE_INV)
-        player_data = DS.load_details(FILE)
+        investigation_data = SYSTEM.load_records(FILE_INV)
+        player_data = SYSTEM.load_records(FILE)
 
         # get the active case record
         active_record = next(
@@ -625,21 +593,21 @@ def investigation_action(player_id, case_id):
         evid = len(_evidence)
         susp = len(_suspects)
         hint = len(hints["Used"])
-        prog = progress_bar(progress)
+        prog = SYSTEM.progress_bar(progress)
 
         # show dashboard
-        ui.UI.investigation_dashboard(name, case_id, level, evid, susp, hint, prog, score)
+        ui.InvestigationUI.investigation_dashboard(name, case_id, level, evid, susp, hint, prog, score)
         
         # UI -> Investigation action
-        ui.UI.investigation_action_ui()
+        ui.InvestigationUI.investigation_action_ui()
 
         try:
             action = int(input("Select action [0-9]: ").strip())
 
             if action == 0:
                 # save and exit to main menu
-                DS.save_details(investigation_data, FILE_INV)
-                DS.save_details(player_data, FILE)
+                SYSTEM.save_record(investigation_data, FILE_INV)
+                SYSTEM.save_record(player_data, FILE)
                 print("[✓] Progress saved.")
                 return
 
@@ -671,15 +639,19 @@ def investigation_action(player_id, case_id):
 
             # Compare evidence
             elif action == 7:
-                print("[?] Compare Evidence Coming soon.")
+                compare.CompareEvidence.compare_evidence(player_id, case_id)
 
             # Hint system
             elif action == 8:
-                print("[?] Hint System Coming soon.")
-
+                import hints
+                hints.HintSystem.request_hint(player_id, case_id)
+            
             # Final Accusation
             elif action == 9:
-                print("[?] Final Accusation Coming soon.")
+                import accusation
+                ended = accusation.FinalAccusation.final_accusation(player_id, case_id)
+                if ended:
+                    return
 
             else:
                 print("[!] Invalid option. Select [0-9].")
@@ -690,6 +662,3 @@ def investigation_action(player_id, case_id):
         except Exception as e:
             print(f"Error: {e}")
 
-
-if __name__ == "__main__":
-    PlayerGround().get_start()

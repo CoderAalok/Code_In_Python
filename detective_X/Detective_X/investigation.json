@@ -1,7 +1,7 @@
 {
     "P0001": [
         {
-            "Detective": "Coder",
+            "Detective": "Aalok",
             "Case": "case_001",
             "Difficulty": "easy",
             "Evidence": [
@@ -24,15 +24,46 @@
                 "Thomas Blackwood"
             ],
             "Contradictions": [
-                "Thomas Blackwood"
+                "Arthur Vance"
             ],
-            "Comparisions": [],
+            "Comparisons": [],
             "Hints": {
-                "Available": [],
+                "Available": [
+                    "hint_3"
+                ],
+                "Used": [
+                    "hint_1",
+                    "hint_2"
+                ]
+            },
+            "Scores": 1260,
+            "Progress": 100
+        }
+    ],
+    "P0002": [
+        {
+            "Detective": "Coder",
+            "Case": "case_002",
+            "Difficulty": "medium",
+            "Evidence": [
+                "Rogue Raspberry Pi plugged into Rack C",
+                "Dropped contractor visitor badge",
+                "Console session open under 'root_admin'",
+                "UPS surge bypass record"
+            ],
+            "Suspects": [],
+            "Contradictions": [],
+            "Comparisons": [],
+            "Hints": {
+                "Available": [
+                    "hint_1",
+                    "hint_2",
+                    "hint_3"
+                ],
                 "Used": []
             },
-            "Scores": 410,
-            "Progress": 100
+            "Scores": 110,
+            "Progress": 33
         }
     ]
 }

@@ -1,4 +1,4 @@
-import ui
+import ui, detective_system
 import json
 from pathlib import Path
 
@@ -6,52 +6,10 @@ base = Path(__file__).parent
 FILE_INV = base / "investigation.json"
 FILE = base / "player_record.json"
 
+SYSTEM = detective_system.DetectiveSystem()
+
 # ──────────── Helpers ──────────────────────
 class Helper:
-    # Load investigation record
-    
-    @staticmethod
-    def _load_record(file_name):
-        try:
-            with open(file_name) as f:
-                return json.load(f)
-            
-        except (FileNotFoundError, json.JSONDecodeError):
-            return {}
-
-    # Save update record
-    @staticmethod
-    def _save_record(data, file_name):
-        with open(file_name, 'w') as f:
-            json.dump(data, f, indent=4)
-
-
-    # fetch player active case record
-    @staticmethod
-    def _get_record(inv_data, player_id, case_id):
-        return next(
-            (rec for rec in inv_data.get(player_id, []) if rec["Case"] == case_id),
-            None
-        )
-
-    # fetch player record from player_record.json
-    @staticmethod
-    def _player_record(records, player_id):
-        return records.get(player_id)
-
-    # ------------- FIND RANK ---------------
-    @staticmethod
-    def get_rank(xp: int):
-        if xp >= 3500:
-            return "Master Detective"
-        elif xp >= 2000:
-            return "Lead Detective"
-        elif xp >= 1000:
-            return "Senior Investigator"
-        elif xp >= 500:
-            return "Investigator"
-        else:
-            return "Rookie"
 
     # ────────── SEARCH EVIDENCE ─────────
     @staticmethod
@@ -59,14 +17,14 @@ class Helper:
         evidence, message = clue
         
         # load investigation record
-        inv_record = Helper()._load_record(FILE_INV)
+        inv_record = SYSTEM.load_records(FILE_INV)
 
         # fetch active case record
-        record = Helper()._get_record(inv_record, player_id, case_id)
+        record = SYSTEM._get_record(inv_record, player_id, case_id)
         
         # load player record
-        player_record = Helper()._load_record(FILE)
-        detective_record = Helper()._player_record(player_record, player_id)
+        player_record = SYSTEM.load_records(FILE)
+        detective_record = SYSTEM._player_record(player_record, player_id)
         
         # check: whether record empty
         if not record or not detective_record:
@@ -78,7 +36,7 @@ class Helper:
             print(f"[Already searched]  {evidence}")
             record["Scores"] = max(0, record["Scores"] - 10)
             print("Panelty: -10")
-            Helper()._save_record(inv_record, FILE_INV)
+            SYSTEM.save_record(inv_record, FILE_INV)
             return
 
         # show clue
@@ -101,14 +59,14 @@ class Helper:
             detective_record["XP"] += 15
 
             # find rank
-            rank = Helper().get_rank(detective_record['XP'])
+            rank = SYSTEM.get_rank(detective_record['XP'])
 
             # update rank
             detective_record["Rank"] = rank
 
             # save record
-            Helper()._save_record(inv_record, FILE_INV)
-            Helper()._save_record(player_record, FILE)
+            SYSTEM.save_record(inv_record, FILE_INV)
+            SYSTEM.save_record(player_record, FILE)
             print(f"[✓] Evidence saved: '{evidence}'")
             
         return

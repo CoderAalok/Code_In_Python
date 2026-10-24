@@ -1,14 +1,11 @@
 import json
 from pathlib import Path
-import ui, locations
+import ui, detective_system
 base = Path(__file__).parent
 FILE_INV = base / "investigation.json"
 FILE = base / "player_record.json"
 
-
-
-# ──────────── HELPERS ──────────────────────
-Helper = locations.Helper
+SYSTEM = detective_system.DetectiveSystem()
 
 # ──────────── ROUTING DISPATCH ────────────
 class Dispatch:
@@ -323,10 +320,9 @@ class CaseSuspects:
     def __init__(self, suspects):
         self.SUSPECTS = suspects
 
-
     def view_profiles(self, player_id, case_id):
-        inv_data = Helper._load_record(FILE_INV)
-        record = Helper._get_record(inv_data, player_id, case_id)
+        inv_data = SYSTEM.load_records(FILE_INV)
+        record = SYSTEM._get_record(inv_data, player_id, case_id)
 
         if not record:
             print("Record is empty!")
@@ -336,11 +332,11 @@ class CaseSuspects:
         record["Suspects"].extend(suspect["name"] for suspect in self.SUSPECTS.values() if suspect["name"] not in record["Suspects"])
 
         # save record
-        Helper._save_record(inv_data, FILE_INV)
+        SYSTEM.save_record(inv_data, FILE_INV)
 
         # --------- LOOP ----------
         while True:
-            ui.UI.suspect_selection_ui(self.SUSPECTS, title="SUSPECT DOSSIERS")
+            ui.SuspectUI.suspect_selection_ui(self.SUSPECTS, title="SUSPECT DOSSIERS")
             try:
                 choice = int(input("Select suspect to inspect [0-3]: ").strip())
                 if choice == 0:
@@ -352,7 +348,7 @@ class CaseSuspects:
                     continue
                 
                 # suspect profile
-                ui.UI.suspect_profile_ui(suspect)
+                ui.SuspectUI.suspect_profile_ui(suspect)
                 
                 input("\nPress Enter to return to suspect list...")
 
@@ -364,8 +360,8 @@ class CaseSuspects:
 
 
     def question_suspects(self, player_id, case_id):
-        inv_data = Helper._load_record(FILE_INV)
-        record = Helper._get_record(inv_data, player_id, case_id)
+        inv_data = SYSTEM.load_records(FILE_INV)
+        record = SYSTEM._get_record(inv_data, player_id, case_id)
 
         if not record:
             print("Investigation record not found!")
@@ -375,11 +371,11 @@ class CaseSuspects:
         record["Suspects"].extend(suspect["name"] for suspect in self.SUSPECTS.values() if suspect["name"] not in record["Suspects"])
 
         # save record
-        Helper._save_record(inv_data, FILE_INV)
+        SYSTEM.save_record(inv_data, FILE_INV)
 
         # --------- LOOP ----------
         while True:
-            ui.UI.suspect_selection_ui(self.SUSPECTS, title="QUESTION SUSPECTS")
+            ui.SuspectUI.suspect_selection_ui(self.SUSPECTS, title="QUESTION SUSPECTS")
             try:
                 choice = int(input("Select suspect to interrogate [0-3]: ").strip())
                 if choice == 0:
@@ -406,7 +402,7 @@ class CaseSuspects:
     # Interrrogate pluged to question_suspects
     def _interrogate(self, player_id, case_id, suspect):
         while True:
-            ui.UI.interrogation_ui(suspect["name"], suspect["questions"])
+            ui.SuspectUI.interrogation_ui(suspect["name"], suspect["questions"])
             try:
                 q_choice = int(input("Choose question [0-3]: ").strip())
                 if q_choice == 0:
@@ -434,9 +430,9 @@ class CaseSuspects:
 
     # _handle_confrontation  pluged to interrogate
     def _handle_confrontation(self, player_id, case_id, suspect):
-        inv_data = Helper._load_record(FILE_INV)
-        record = Helper._get_record(inv_data, player_id, case_id)
-        player_data = Helper._load_record(FILE)
+        inv_data = SYSTEM.load_records(FILE_INV)
+        record = SYSTEM._get_record(inv_data, player_id, case_id)
+        player_data = SYSTEM.load_records(FILE)
         detective = player_data.get(player_id, {})
 
         if not record or not detective:
@@ -468,20 +464,21 @@ class CaseSuspects:
             # give award
             record["Scores"] += 50
             detective["XP"] += 25
-            detective["Rank"] = Helper.get_rank(detective["XP"])
+            detective["Rank"] = SYSTEM.get_rank(detective["XP"])
 
         # save record
-        Helper._save_record(inv_data, FILE_INV)
-        Helper._save_record(player_data, FILE)
+        SYSTEM.save_record(inv_data, FILE_INV)
+        SYSTEM.save_record(player_data, FILE)
 
-        print("╔" + "═" * 55 + "╗")
-        print("║" + "🚨 CONTRADICTION DETECTED! 🚨".center(55) + "║")
-        print("╠" + "═" * 55 + "╣")
+        width = 55
+        print("╔" + "═" * width + "╗")
+        print("║" + "🚨 CONTRADICTION DETECTED! 🚨".center(width-2) + "║")
+        print("╠" + "═" * width + "╣")
         
-        print(f"║ {'• Contradiction proven against ' + suspect['name'] + '!':<53} ║")
-        print(f"║ {'• Score +50 pts awarded!':<53} ║")
-        print(f"║ {'• Detective XP +25 awarded! (Rank: ' + detective['Rank'] + ')':<53} ║")
+        print(f"║ {'• Contradiction proven against ' + suspect['name'] + '!':<{width-2}} ║")
+        print(f"║ {'• Score +50 pts awarded!':<{width-2}} ║")
+        print(f"║ {'• Detective XP +25 awarded! (Rank: ' + detective['Rank'] + ')':<{width-2}} ║")
         
-        print("╚" + "═" * 55 + "╝\n")
+        print("╚" + "═" * width + "╝\n")
 
     
