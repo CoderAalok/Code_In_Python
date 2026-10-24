@@ -6,7 +6,7 @@ package_dir = Path(__file__).parent / "Detective_X"
 sys.path.insert(0, str(package_dir))
 
 # Import main game engine
-import detective_x as detective
+import Detective_X.detective_x as detective
 
 # Drive main
 if __name__ == "__main__":
