@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 import textwrap
-import locations, ui, detective_system
+import ui, detective_system
 
 # ---------- Config -----------
 base = Path(__file__).parent

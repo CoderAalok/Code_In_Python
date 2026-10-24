@@ -1,12 +1,13 @@
 import json
 from pathlib import Path
-import locations
+import detective_system
 
 # ---------- Config -----------
 base = Path(__file__).parent
 FILE = base / "player_record.json"
 FILE_INV = base / "investigation.json"
 
+SYSTEM = detective_system.DetectiveSystem()
 
 class InvestigationNotebook:
     """Dynamic detective notebook tracking confirmed findings and open questions."""
@@ -215,7 +216,7 @@ class InvestigationNotebook:
     @classmethod
     def display_notebook(cls, player_id: str, case_id: str):
         # load record
-        RECORDS = locations.Helper._load_record(FILE_INV)
+        RECORDS = SYSTEM.load_records(FILE_INV)
         if not RECORDS:
             print("[!] Record not found.")
             return
@@ -267,6 +268,3 @@ class InvestigationNotebook:
         
         input("\nPress Enter to return to Dashboard...")
         
-        
-if __name__ == "__main__":
-    InvestigationNotebook.display_notebook('P0001', "case_001")

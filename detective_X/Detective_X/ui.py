@@ -1,5 +1,5 @@
 from pathlib import Path
-import detective_system, detective_x
+import detective_system
 
 # ---------- Config -----------
 base = Path(__file__).parent

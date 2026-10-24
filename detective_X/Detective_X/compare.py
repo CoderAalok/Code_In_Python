@@ -1,14 +1,14 @@
 import json
 from pathlib import Path
 import textwrap
-import locations
+import detective_system
 
 # ---------- Config -----------
 base = Path(__file__).parent
 FILE = base / "player_record.json"
 FILE_INV = base / "investigation.json"
 
-
+SYSTEM = detective_system.DetectiveSystem()
 class CompareEvidence:
     """Forensic lab module to cross-reference and correlate two gathered clues."""
 
@@ -113,9 +113,9 @@ class CompareEvidence:
     @classmethod
     def compare_evidence(cls, player_id: str, case_id: str):
         # fetch data
-        inv_data = locations.Helper._load_record(FILE_INV)
-        record = locations.Helper._get_record(inv_data, player_id, case_id)  # dictionary
-        player_data = locations.Helper._load_record(FILE)
+        inv_data = SYSTEM.load_records(FILE_INV)
+        record = SYSTEM._get_record(inv_data, player_id, case_id)  # dictionary
+        player_data = SYSTEM.load_records(FILE)
         detective = player_data.get(player_id, {})
 
         if record is None:
@@ -204,11 +204,11 @@ class CompareEvidence:
                         # give points and update rank
                         record['Scores'] += 40
                         detective['XP'] += 20
-                        detective['Rank'] = locations.Helper.get_rank(detective['XP'])
+                        detective['Rank'] = SYSTEM.get_rank(detective['XP'])
 
                         # Save updated records
-                        locations.Helper._save_record(inv_data, FILE_INV)
-                        locations.Helper._save_record(player_data, FILE)
+                        SYSTEM.save_record(inv_data, FILE_INV)
+                        SYSTEM.save_record(player_data, FILE)
                         
                         # Display deduction
                         display_deduction(matched_evidence['title'], matched_evidence['deduction'])
@@ -246,7 +246,3 @@ def display_deduction(title, deduction):
     print(f"║{'':<{width + 2}}║")
     print("╚" + "═" * (width + 2) + "╝")
 
-
-
-if __name__ == "__main__":
-    CompareEvidence.compare_evidence("P0001", "case_001")

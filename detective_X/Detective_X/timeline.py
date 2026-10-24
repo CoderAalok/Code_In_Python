@@ -1,11 +1,11 @@
-import locations
+import detective_system
 from pathlib import Path
 
 # ------------ Config ------------
 base = Path(__file__).parent
 FILE_INV = base / "investigation.json"
 
-
+SYSTEM = detective_system.DetectiveSystem()
 class TimeLine:
     TIMELINE_DATA = {
         "case_001": [
@@ -45,7 +45,7 @@ class TimeLine:
     @classmethod
     def time_line(cls, player_id: str, case_id: str):
         # load record
-        RECORDS = locations.Helper._load_record(FILE_INV)
+        RECORDS = SYSTEM.load_records(FILE_INV)
         if not RECORDS:
             print("[!] No investigation record not found.")
             return
@@ -91,7 +91,3 @@ class TimeLine:
         print("╚" + "═" * width + "╝")
         
         input("\nPress Enter to return to Dashboard...")
-
-
-if __name__ == "__main__":
-    TimeLine.time_line('P0003', 'case_002')

@@ -1,5 +1,4 @@
 # Libraries
-import json
 from pathlib import Path
 import re, ui, locations, evidence, notebook, timeline, compare, detective_system
 
