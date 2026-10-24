@@ -1,7 +1,7 @@
 # Libraries
 import json
 from pathlib import Path
-import re, ui, locations, evidence, notebook
+import re, ui, locations, evidence, notebook, timeline
 
 
 #  Config:
@@ -297,6 +297,8 @@ class PlayerGround:
                     "Difficulty": level,
                     "Evidence": [],
                     "Suspects": [],
+                    "Contradictions": [],
+                    "Comparisons": [],
                     "Hints": {
                         "Available": [],
                         "Used": [],
@@ -329,7 +331,7 @@ def main(player_id: str):
             3: 'Detective Profile',
             4: 'Case Records',
             5: 'Help',
-            6: 'Exit'
+            0: 'Exit'
         }
 
         # funtions
@@ -340,7 +342,7 @@ def main(player_id: str):
         }
 
         try:
-            select = int(input("Select option [1-6]: ").strip())
+            select = int(input("Select option [0-5]: ").strip())
             if menu_options.get(select):
                 
                 # CALL -> select_case
@@ -372,11 +374,11 @@ def main(player_id: str):
                     help()
 
                 # Exit from game
-                elif select == 6:
+                elif select == 0:
                     return
             
             else:
-                print("Invalid option. select only [1-6].")
+                print("Invalid option. select only [0-5].")
                 continue
                 
         except Exception as e:
@@ -451,12 +453,12 @@ def case_briefing(player_id: str, case_id: str):
         None
     ) # -> dictionary
     
-    if not active_record:
+    if active_record is None:
         print("Investigation record not found!")
         return
 
-    RECORDS = ['Detective', 'Difficulty', 'Evidence', 'Suspects', 'Hints', 'Progress']
-    name, level, evidence, suspects, hints, prog = [active_record[record] for record in RECORDS]
+    KEYS = ['Detective', 'Difficulty', 'Evidence', 'Suspects', 'Hints', 'Scores', 'Progress']
+    name, level, evidence, suspects, hints, score,  prog = [active_record[record] for record in KEYS]
     evid = len(evidence)
     susp = len(suspects)
     hint = len(hints['Used'])
@@ -482,7 +484,7 @@ def case_briefing(player_id: str, case_id: str):
                     player_data[player_id]["Active_Case"] = case_id
                     
                     # investigation dashboard
-                    cases[briefing_option](name, case_id, level, evid, susp, hint, prog)
+                    cases[briefing_option](name, case_id, level, evid, susp, hint, prog, score)
 
                     # save updated record
                     DS.save_details(player_data, FILE)
@@ -618,8 +620,8 @@ def investigation_action(player_id, case_id):
             return
 
         # extract saved record
-        RECORDS = ['Detective', 'Difficulty', 'Evidence', 'Suspects', 'Hints', 'Scores', 'Progress']
-        name, level, _evidence, _suspects, hints, score, progress = [active_record[record] for record in RECORDS]
+        KEYS = ['Detective', 'Difficulty', 'Evidence', 'Suspects', 'Hints', 'Scores', 'Progress']
+        name, level, _evidence, _suspects, hints, score, progress = [active_record[record] for record in KEYS]
         evid = len(_evidence)
         susp = len(_suspects)
         hint = len(hints["Used"])
@@ -662,22 +664,22 @@ def investigation_action(player_id, case_id):
             # Investigation Notebook
             elif action == 5:
                 notebook.InvestigationNotebook.display_notebook(player_id, case_id)
-
+                
             # Crime timeline
             elif action == 6:
-                print("[!] Crime Timeline Coming soon.")
+                timeline.TimeLine.time_line(player_id, case_id)
 
             # Compare evidence
             elif action == 7:
-                print("[!] Compare Evidence Coming soon.")
+                print("[?] Compare Evidence Coming soon.")
 
             # Hint system
             elif action == 8:
-                print("[!] Hint System Coming soon.")
+                print("[?] Hint System Coming soon.")
 
             # Final Accusation
             elif action == 9:
-                print("[!] Final Accusation Coming soon.")
+                print("[?] Final Accusation Coming soon.")
 
             else:
                 print("[!] Invalid option. Select [0-9].")

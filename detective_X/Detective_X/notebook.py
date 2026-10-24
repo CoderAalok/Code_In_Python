@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import locations
 
 # ---------- Config -----------
 base = Path(__file__).parent
@@ -9,209 +10,263 @@ FILE_INV = base / "investigation.json"
 
 class InvestigationNotebook:
     """Dynamic detective notebook tracking confirmed findings and open questions."""
-
-    NOTEBOOK_ITEMS = {
+    NOTEBOOK_ENTRIES = {
         "case_001": [
             {
-                "trigger": "Scratch marks on the diamond case lock",
-                "confirmed": "Diamond case lock was picked from inside",
-                "open": "Was diamond case forced open or picked from inside?"
+                "category": "Finding",
+                "clue_needed": "Scratch marks on the diamond case lock",
+                "confirmed_text": "Diamond case lock picked from inside",
+                "open_text": "Was diamond case forced or picked?"
             },
             {
-                "trigger": "Tampered alarm wire in access panel",
-                "confirmed": "Security alarm wire was deliberately cut in access panel",
-                "open": "How was the exhibition room alarm silenced?"
+                "category": "Finding",
+                "clue_needed": "Tampered alarm wire in access panel",
+                "confirmed_text": "Alarm wire cleanly severed in panel",
+                "open_text": "How was the security alarm disabled?"
+            },
+
+            {
+                "category": "Timeline",
+                "clue_needed": "Access log: Keycard #7 used at 11:45 PM",
+                "confirmed_text": "11:45 PM: Keycard #7 used at security door",
+                "open_text": "Whose keycard was used before blackout?"
             },
             {
-                "trigger": "Access log: Keycard #7 used at 11:45 PM",
-                "confirmed": "Keycard #7 swiped at security door at 11:45 PM",
-                "open": "Whose keycard was swiped prior to the blackout?"
+                "category": "Timeline",
+                "clue_needed": "CCTV footage: figure at 11:47 PM",
+                "confirmed_text": "11:47 PM: Figure in guard uniform on CCTV",
+                "open_text": "Who was the shadowy figure on CCTV?"
             },
             {
-                "trigger": "CCTV footage: figure at 11:47 PM",
-                "confirmed": "CCTV captured shadowy figure fleeing at 11:47 PM",
-                "open": "Who was the shadowy figure captured on CCTV cameras?"
+                "category": "Timeline",
+                "clue_needed": "Crumpled note: '11:30 PM — east exit'",
+                "confirmed_text": "11:30 PM: Note planned rendezvous at east exit",
+                "open_text": "Did the thief plan a midnight meeting?"
+            },
+
+            {
+                "category": "Compared Evidence",
+                "clue_needed": "Scratched emergency exit push-bar",
+                "confirmed_text": "Lock scratches match emergency push-bar",
+                "open_text": "Which exit door did the thief escape through?"
             },
             {
-                "trigger": "Crumpled note: '11:30 PM — east exit'",
-                "confirmed": "Rendezvous note planned meeting at east exit at 11:30 PM",
-                "open": "Did an insider coordinate a midnight escape plan?"
+                "category": "Compared Evidence",
+                "clue_needed": "Muddy shoe marks on window ledge",
+                "confirmed_text": "Window ledge prints match escape footwear",
+                "open_text": "Were windows used as an escape route?"
+            },
+
+            {
+                "category": "Contradiction",
+                "clue_needed": "Crumpled note: '11:30 PM — east exit'",
+                "confirmed_text": "Arthur's alibi contradicted by rendezvous note",
+                "open_text": "Was Arthur Vance asleep in his quarters?"
             },
             {
-                "trigger": "Scratched emergency exit push-bar",
-                "confirmed": "East emergency exit push-bar was forced for the escape",
-                "open": "Which exit door did the perpetrator escape through?"
+                "category": "Contradiction",
+                "clue_needed": "Wine glass with lipstick at seat 4",
+                "confirmed_text": "Evelyn's presence confirmed near crime scene",
+                "open_text": "Was Evelyn Reed truly in the ballroom?"
             },
             {
-                "trigger": "Muddy footprint near the case",
-                "confirmed": "Thomas Blackwood's size 10 shoes match muddy prints",
-                "open": "Who left the size 10 muddy prints near the case?"
+                "category": "Contradiction",
+                "clue_needed": "Muddy footprint near the case",
+                "confirmed_text": "Thomas's shoes match size 10 muddy footprint",
+                "open_text": "Who left the size 10 prints near the case?"
             },
-            {
-                "trigger": "Wine glass with lipstick at seat 4",
-                "confirmed": "Evelyn Reed's lipstick confirms presence near crime scene",
-                "open": "Was Evelyn Reed truly in the main ballroom all night?"
-            },
-            {
-                "trigger": "Torn uniform cloth on guard desk",
-                "confirmed": "Torn uniform cloth links night guard to the crime scene",
-                "open": "Was security personnel involved in the theft?"
-            },
-            {
-                "trigger": "Muddy shoe marks on window ledge",
-                "confirmed": "Muddy shoe prints on window ledge match escape trail",
-                "open": "Were windows used as an alternate entry or exit?"
-            }
         ],
+
+
         "case_002": [
             {
-                "trigger": "Rogue Raspberry Pi plugged into Rack C",
-                "confirmed": "Marcus Vance's rogue Raspberry Pi created a hardware backdoor",
-                "open": "Who installed the unauthorized hardware sniffer?"
+                "category": "Finding",
+                "clue_needed": "Rogue Raspberry Pi plugged into Rack C",
+                "confirmed_text": "Hardware sniffer identified on Rack C",
+                "open_text": "How was encrypted project data tapped?"
             },
             {
-                "trigger": "Dropped contractor visitor badge",
-                "confirmed": "Sarah Lin's contractor badge confirms unauthorized access",
-                "open": "Did third-party contractors have off-hours server access?"
+                "category": "Finding",
+                "clue_needed": "Console session open under 'root_admin'",
+                "confirmed_text": "Root admin console active during breach",
+                "open_text": "Whose credentials bypassed root security?"
             },
             {
-                "trigger": "Sticky note with override password",
-                "confirmed": "Kevin Miller's override password compromised root access",
-                "open": "How were root administrative privileges obtained?"
+                "category": "Finding",
+                "clue_needed": "Empty encrypted drive compartment",
+                "confirmed_text": "Source code SSD missing from server bay",
+                "open_text": "What physical storage media was taken?"
+            },
+
+            {
+                "category": "Timeline",
+                "clue_needed": "Fast food receipt at 11:40 PM",
+                "confirmed_text": "11:40 PM: Suspect purchase near server facility",
+                "open_text": "Who was near facility prior to breach?"
             },
             {
-                "trigger": "Console session open under 'root_admin'",
-                "confirmed": "Root admin console session was active during the breach",
-                "open": "Whose credentials were used to bypass the root firewall?"
+                "category": "Timeline",
+                "clue_needed": "UPS surge bypass record",
+                "confirmed_text": "11:58 PM: UPS surge triggered power outage",
+                "open_text": "What caused the midnight power surge?"
+            },
+
+            {
+                "category": "Compared Evidence",
+                "clue_needed": "Unlocked fire escape latch",
+                "confirmed_text": "Fire escape latch matches intruder exit path",
+                "open_text": "How did physical intruder leave building?"
             },
             {
-                "trigger": "Foreign IP address traffic destination",
-                "confirmed": "Exfiltrated company data was routed to offshore foreign IP",
-                "open": "Where was the stolen confidential project data sent?"
+                "category": "Compared Evidence",
+                "clue_needed": "Foreign IP address traffic destination",
+                "confirmed_text": "Port 8080 alteration routed data to foreign IP",
+                "open_text": "Where was the exfiltrated data sent?"
+            },
+
+            {
+                "category": "Contradiction",
+                "clue_needed": "Sticky note with override password",
+                "confirmed_text": "Kevin's alibi broken: Left password on sticky note",
+                "open_text": "Was Kevin Miller's admin account secure?"
             },
             {
-                "trigger": "Unlocked fire escape latch",
-                "confirmed": "Physical intruder escaped via unlocked fire escape latch",
-                "open": "How did the physical intruder enter and leave the facility?"
+                "category": "Contradiction",
+                "clue_needed": "Dropped contractor visitor badge",
+                "confirmed_text": "Sarah Lin's contractor badge confirms presence",
+                "open_text": "Did Sarah Lin work purely remotely that night?"
             },
             {
-                "trigger": "UPS surge bypass record",
-                "confirmed": "UPS surge bypass was triggered to induce simulated blackout",
-                "open": "What caused the momentary power surge in Server Room B?"
-            }
+                "category": "Contradiction",
+                "clue_needed": "Rogue Raspberry Pi plugged into Rack C",
+                "confirmed_text": "Marcus Vance's MAC address matches rogue hardware",
+                "open_text": "Was Marcus Vance involved after resignation?"
+            },
         ],
+
+
         "case_003": [
             {
-                "trigger": "Missing 50ml Potassium Cyanide bottle",
-                "confirmed": "Potassium Cyanide identified as the missing lethal agent",
-                "open": "What toxic substance caused Professor Sterling's collapse?"
+                "category": "Finding",
+                "clue_needed": "Missing 50ml Potassium Cyanide bottle",
+                "confirmed_text": "Potassium Cyanide missing from chemical vault",
+                "open_text": "What lethal agent poisoned the professor?"
             },
             {
-                "trigger": "Lethal dose of cyanide in Earl Grey cup",
-                "confirmed": "Cyanide was administered via Sterling's Earl Grey cup",
-                "open": "How was the poison delivered to the victim?"
+                "category": "Finding",
+                "clue_needed": "Corrosive acid wash down the drain",
+                "confirmed_text": "Acid flushed down sink drain to destroy toxins",
+                "open_text": "How did culprit destroy chemical residue?"
             },
             {
-                "trigger": "Hostile tenure dispute letter",
-                "confirmed": "Dr. Clara Higgins's dispute letter reveals hostile tenure motive",
-                "open": "Did rival faculty members harbor motives against Sterling?"
+                "category": "Finding",
+                "clue_needed": "Discarded vinyl gloves smelling of almonds",
+                "confirmed_text": "Cyanide-tainted vinyl gloves found in bin",
+                "open_text": "Where did poisoner discard forensic gear?"
             },
-            {
-                "trigger": "Patent dispute lawsuit draft",
-                "confirmed": "Dean Robert Hayes suppressed patent dispute royalties",
-                "open": "Were valuable commercial research patents contested?"
-            },
-            {
-                "trigger": "Falsified checkout signature in log",
-                "confirmed": "Julian Drake's forged chemical checkout signature confirmed",
-                "open": "Who signed out the restricted chemical inventory?"
-            },
-            {
-                "trigger": "Discarded vinyl gloves smelling of almonds",
-                "confirmed": "Discarded vinyl gloves with cyanide residue found in trash",
-                "open": "Where did the poisoner discard their forensic gear?"
-            },
-            {
-                "trigger": "Traces of bitter almond residue",
-                "confirmed": "Bitter almond cyanide residue confirms targeted poisoning",
-                "open": "Was the collapse accidental or premeditated poisoning?"
-            }
-        ]
-    }
 
+            {
+                "category": "Timeline",
+                "clue_needed": "Torn calendar page marked 'Dinner 8 PM'",
+                "confirmed_text": "8:00 PM: Faculty dinner took place before collapse",
+                "open_text": "When did victim last meet with suspects?"
+            },
+            {
+                "category": "Timeline",
+                "clue_needed": "Lethal dose of cyanide in Earl Grey cup",
+                "confirmed_text": "9:30 PM: Lethal cyanide ingested in Earl Grey tea",
+                "open_text": "How was the lethal poison administered?"
+            },
+
+            {
+                "category": "Compared Evidence",
+                "clue_needed": "Sugar dispenser contaminated with powder",
+                "confirmed_text": "Sugar dispenser powder matches Earl Grey tea cup",
+                "open_text": "Was toxin put in tea cup or sugar container?"
+            },
+            {
+                "category": "Compared Evidence",
+                "clue_needed": "Traces of bitter almond residue",
+                "confirmed_text": "Bitter almond scent matches missing Cyanide vial",
+                "open_text": "Was the collapse caused by natural causes?"
+            },
+
+            {
+                "category": "Contradiction",
+                "clue_needed": "Hostile tenure dispute letter",
+                "confirmed_text": "Dr. Higgins's dispute letter exposes tenure motive",
+                "open_text": "Did Dr. Clara Higgins hold a grudge?"
+            },
+            {
+                "category": "Contradiction",
+                "clue_needed": "Falsified checkout signature in log",
+                "confirmed_text": "Julian Drake forged signature in chemical log",
+                "open_text": "Did Julian Drake check out chemicals legitimately?"
+            },
+            {
+                "category": "Contradiction",
+                "clue_needed": "Patent dispute lawsuit draft",
+                "confirmed_text": "Dean Hayes concealed multi-million patent lawsuit",
+                "open_text": "Was Dean Hayes truthful about grant disputes?"
+            },
+        ]
+    }      
+    
     @classmethod
     def display_notebook(cls, player_id: str, case_id: str):
-        """Renders the investigation notebook showing confirmed findings and open questions."""
-        try:
-            with open(FILE_INV, "r", encoding="utf-8") as f:
-                inv_data = json.load(f)
-        except Exception:
-            inv_data = {}
-
-        player_cases = inv_data.get(player_id, [])
-        record = next((c for c in player_cases if c.get("Case") == case_id), None)
-
-        if not record:
-            print("[!] Investigation record not found.")
+        # load record
+        RECORDS = locations.Helper._load_record(FILE_INV)
+        if not RECORDS:
+            print("[!] Record not found.")
             return
 
-        evidence_collected = [e.lower() for e in record.get("Evidence", [])]
-        contradictions_caught = [c.lower() for c in record.get("Contradictions", [])]
+        # get active case record
+        player_record = next(
+            (record for record in RECORDS.get(player_id, []) if record['Case'] == case_id),
+            None
+        )
 
-        items = cls.NOTEBOOK_ITEMS.get(case_id, cls.NOTEBOOK_ITEMS.get("case_001", []))
+        if not player_record:
+            print("[!] Player record not found.")
+            return
 
-        confirmed_list = []
-        open_list = []
+        if not player_record['Evidence']:
+            print("[!] No evidence found.")
+            return 
 
-        for item in items:
-            trigger = item["trigger"].lower()
-            # Clean trigger and evidence for robust fuzzy matching
-            import re
-            clean_trigger = re.sub(r"[^a-z0-9 ]", "", trigger)
+        ENTRIES = cls.NOTEBOOK_ENTRIES.get(case_id)
+        if not ENTRIES:
+            print("[!] No Entries found.")
+            return
 
-            is_confirmed = False
-            for ev in evidence_collected:
-                clean_ev = re.sub(r"[^a-z0-9 ]", "", ev)
-                if clean_trigger in clean_ev or clean_ev in clean_trigger:
-                    is_confirmed = True
-                    break
-                # Also check core keyword match
-                words = [w for w in clean_trigger.split() if len(w) > 3]
-                if words and all(w in clean_ev for w in words[:3]):
-                    is_confirmed = True
-                    break
-
-            if not is_confirmed:
-                for c in contradictions_caught:
-                    clean_c = re.sub(r"[^a-z0-9 ]", "", c)
-                    if clean_trigger in clean_c or clean_c in clean_trigger:
-                        is_confirmed = True
-                        break
-
-            if is_confirmed:
-                confirmed_list.append(f"✓ {item['confirmed']}")
+        confirmation_rec = []
+        open_text = []
+        for entries in ENTRIES:                
+            text_cleaner = lambda s: " ".join(s.replace("—", " ").replace("-", " ").split())
+            
+            if any(text_cleaner(entries["clue_needed"]) == text_cleaner(clue) for clue in player_record.get("Evidence", [])):
+                confirmation_rec.append(f"✓ {entries['confirmed_text']}")
+                
             else:
-                open_list.append(f"? {item['open']}")
+                open_text.append(f"? {entries['open_text']}")
+        
 
-        all_lines = confirmed_list + open_list
+        width = 60
+        print("╔" + "═" * width + "╗")
+        print(f"║{'INVESTIGATION NOTEBOOK'.center(width)}║")
+        print("╠" + "═" * width + "╣")
 
-        width = 72
-        title = "INVESTIGATION NOTEBOOK".center(width + 2)
-        print("\n" + "╔" + "═" * (width + 2) + "╗")
-        print("║" + title + "║")
-        print("╠" + "═" * (width + 2) + "╣")
-        print("║ " + " " * width + " ║")
-
-        for line in all_lines:
-            if len(line) > width:
-                line = line[:width - 3] + "..."
-            pad = width - len(line)
-            print("║ " + line + " " * pad + " ║")
-
-        print("║ " + " " * width + " ║")
-        print("╚" + "═" * (width + 2) + "╝")
+        for confirm in confirmation_rec:
+            print(f"║{confirm:<{width}}║")
+        
+        for lines in open_text:
+            print(f"║{lines:<{width}}║")
+        
+        print("║" + " " * width + "║")
+        print("╚" + "═" * width + "╝")
+        
         input("\nPress Enter to return to Dashboard...")
-
-
+        
+        
 if __name__ == "__main__":
-    InvestigationNotebook.display_notebook("P0001", "case_009")
+    InvestigationNotebook.display_notebook('P0001', "case_001")

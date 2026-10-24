@@ -33,12 +33,12 @@ class ExamineEvidence:
         },
 
         # Security Room 
-        "CCTV footage: figure at 11:47 PM": {
+        "CCTV footage figure at 11:47 PM": {
             "location": "Security Room",
             "category": "Digital",
             "details": "Footage shows a hooded figure near the display at exactly 11:47 PM."
         },
-        "Access log: Keycard #7 used at 11:45 PM": {
+        "Access log Keycard #7 used at 11:45 PM": {
             "location": "Security Room",
             "category": "Digital",
             "details": "Badge log shows Keycard #7 swiped 2 minutes before the theft."
@@ -60,12 +60,12 @@ class ExamineEvidence:
             "category": "Chemical",
             "details": "Wine glass with distinctive red lipstick residue left at seat 4."
         },
-        "Staff roster: 3 names on night duty": {
+        "Staff roster 3 names on night duty": {
             "location": "Dining Hall",
             "category": "Document",
             "details": "Roster records only 3 staff on night duty: Elena, Marcus, and Doyle."
         },
-        "Crumpled note: '11:30 PM — east exit'": {
+        "Crumpled note 11:30 PM east exit": {
             "location": "Dining Hall",
             "category": "Document",
             "details": "Handwritten note planning a meeting at the east exit before the theft."
@@ -185,7 +185,7 @@ class ExamineEvidence:
         "Torn calendar page marked 'Dinner 8 PM'": {
             "location": "Professor Study",
             "category": "Document",
-            "details": "Torn calendar page with a circled note: '8 PM - Dinner with Dr. Voss'."
+            "details": "Torn calendar page with a circled note: '8 PM Dinner with Dr. Voss'."
         },
 
         # ── Faculty Dining Lounge ──

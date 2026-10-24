@@ -31,7 +31,7 @@ class UI:
             3: 'Detective Profile',
             4: 'Case Records',
             5: 'Help',
-            6: 'Exit'
+            0: 'Exit'
         }
 
         for num, option in menu_options.items():
@@ -143,9 +143,10 @@ class UI:
 
 
     @staticmethod
-    def investigation_dashboard(name, case, level, evd, sus, hint, pro, score=1000, total_evidence=12):
+    def investigation_dashboard(name, case, level, evd, sus, hint, pro, score=1000, total_evidences=12, total_suspects=3):
         width = 55
-        ev_str = f"{evd} / {total_evidence}"
+        evidences = f"{evd} / {total_evidences}"
+        suspects = f"{sus} / {total_suspects}"
         
         print("╔" + "═" * (width + 2) + "╗")
         print(f"║{'INVESTIGATION DASHBOARD'.center(width + 2)}║")
@@ -155,8 +156,8 @@ class UI:
         print(f"║ Detective  :  {str(name):<{width-14}} ║")
         print(f"║ Case       :  {str(case):<{width-14}} ║")
         print(f"║ Difficulty :  {str(level):<{width-13}}║")
-        print(f"║ Evidence   :  {ev_str:<{width-14}} ║")
-        print(f"║ Suspects   :  {str(sus):<{width-15}}  ║")
+        print(f"║ Evidence   :  {evidences:<{width-14}} ║")
+        print(f"║ Suspects   :  {suspects:<{width-15}}  ║")
         print(f"║ Hints Used :  {str(hint):<{width-14}} ║")
         print(f"║ Score      :  {str(score):<{width-14}} ║")
         print(f"║ Progress   :  {str(pro):<{width-14}} ║")
@@ -205,7 +206,7 @@ class UI:
 
     @staticmethod
     def suspect_profile_ui(suspect: dict):
-        width = 55
+        width = 80
         print("╔" + "═" * (width + 2) + "╗")
         print(f"║{'SUSPECT PROFILE'.center(width + 2)}║")
         print("╠" + "═" * (width + 2) + "╣")
@@ -220,7 +221,7 @@ class UI:
 
     @staticmethod
     def interrogation_ui(name: str, questions: dict):
-        width = 55
+        width = 60
         
         title = f"INTERROGATING: {name.upper()}"
         print("╔" + "═" * (width + 2) + "╗")
@@ -232,7 +233,7 @@ class UI:
             q_label = f"[{num}]  {q_data[0]}"
             print(f"║ {q_label:<{width}} ║")
             
-        print(f"║ {'[0] Back to Suspects':<{width}} ║")
+        print(f"║ {'[0]  Back to Suspects':<{width}} ║")
         print(f"║{'':<{width + 2}}║")
         print("╚" + "═" * (width + 2) + "╝")
 
@@ -730,6 +731,6 @@ class EvidenceUI:
     # loc3.professor_study()
     # loc3.faculty_lounge()
     # name, case, level, evd, sus, hint, pro, total_evidence=12, score=0):
-    # UI.investigation_dashboard('bob', 'case001', 'hard', 5, 'alie', "hint1", 90)
+    # UI.investigation_dashboard('bob', 'case001', 'hard', 5, '2', "hint1", 90)
     # UI.help_ui()
     # UI.interrogation_ui('alice', {'name':'alice', 'role':'listout', 'alibi':'unknow', 'motive':'unknow', 'status':"None"})

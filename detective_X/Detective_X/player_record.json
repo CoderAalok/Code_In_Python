@@ -1,44 +1,15 @@
 {
     "P0001": {
-        "Name": "Alice",
-        "Rank": "Rookie",
-        "Cases_Won": 0,
-        "Cases_Lost": 0,
-        "XP": 15,
-        "Rating": 0,
-        "Pending_Cases": [
-            "case_005",
-            "case_001"
-        ],
-        "Active_Case": "case_001",
-        "Completed_Cases": []
-    },
-    "P0002": {
-        "Name": "Aalok",
-        "Rank": "Rookie",
-        "Cases_Won": 0,
-        "Cases_Lost": 0,
-        "XP": 120,
-        "Rating": 0,
-        "Pending_Cases": [
-            "case_002",
-            "case_001"
-        ],
-        "Active_Case": "case_001",
-        "Completed_Cases": []
-    },
-    "P0003": {
         "Name": "Coder",
         "Rank": "Rookie",
         "Cases_Won": 0,
         "Cases_Lost": 0,
-        "XP": 0,
+        "XP": 205,
         "Rating": 0,
         "Pending_Cases": [
-            "case_001",
-            "case_002"
+            "case_001"
         ],
-        "Active_Case": "case_002",
+        "Active_Case": "case_001",
         "Completed_Cases": []
     }
 }

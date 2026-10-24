@@ -286,9 +286,9 @@ class Dispatch:
         'case_003': SUSPECTS3,
     }
     
-    @staticmethod
-    def view_suspect_profiles(player_id: str, case_id: str):
-        suspect = Dispatch.suspects_map.get(case_id)
+    @classmethod
+    def view_suspect_profiles(cls, player_id: str, case_id: str):
+        suspect = cls.suspects_map.get(case_id)
         if not suspect:
             print("[!] Case ID not match.")
             return
@@ -301,9 +301,9 @@ class Dispatch:
             print(f"Error: {e}")
 
     # Detective ask questions to suspects 
-    @staticmethod
-    def question_suspects(player_id: str, case_id: str):
-        suspect = Dispatch.suspects_map.get(case_id)
+    @classmethod
+    def question_suspects(cls, player_id: str, case_id: str):
+        suspect = cls.suspects_map.get(case_id)
         
         if not suspect:
             print("[!] Case ID not match.")
@@ -332,14 +332,13 @@ class CaseSuspects:
             print("Record is empty!")
             return
         
-        # Register all 3 suspects in investigation.json if not already tracked
-        existing = record.setdefault("Suspects", [])
-        for s in self.SUSPECTS.values():
-            if s["name"] not in existing:
-                existing.append(s["name"])
-                
+        # collect those suspects name who profile already viewed
+        record["Suspects"].extend(suspect["name"] for suspect in self.SUSPECTS.values() if suspect["name"] not in record["Suspects"])
+
+        # save record
         Helper._save_record(inv_data, FILE_INV)
 
+        # --------- LOOP ----------
         while True:
             ui.UI.suspect_selection_ui(self.SUSPECTS, title="SUSPECT DOSSIERS")
             try:
@@ -351,8 +350,10 @@ class CaseSuspects:
                 if not suspect:
                     print("[!] Invalid option. Select [0-3].")
                     continue
-
+                
+                # suspect profile
                 ui.UI.suspect_profile_ui(suspect)
+                
                 input("\nPress Enter to return to suspect list...")
 
             except ValueError:
@@ -361,23 +362,22 @@ class CaseSuspects:
             except Exception as e:
                 print(f"Error: {e}")
 
+
     def question_suspects(self, player_id, case_id):
         inv_data = Helper._load_record(FILE_INV)
         record = Helper._get_record(inv_data, player_id, case_id)
-        player_data = Helper._load_record(FILE)
-        detective = Helper._load_record(FILE).get(player_id, {})
 
         if not record:
             print("Investigation record not found!")
             return
 
-        # Ensure suspects list is populated
-        existing_suspects = record.setdefault("Suspects", [])
-        for s in self.SUSPECTS.values():
-            if s["name"] not in existing_suspects:
-                existing_suspects.append(s["name"])
+        # collect those suspects name who profile already viewed
+        record["Suspects"].extend(suspect["name"] for suspect in self.SUSPECTS.values() if suspect["name"] not in record["Suspects"])
+
+        # save record
         Helper._save_record(inv_data, FILE_INV)
 
+        # --------- LOOP ----------
         while True:
             ui.UI.suspect_selection_ui(self.SUSPECTS, title="QUESTION SUSPECTS")
             try:
@@ -386,7 +386,7 @@ class CaseSuspects:
                     return
 
                 suspect = self.SUSPECTS.get(choice)
-                if not suspect:
+                if suspect is None:
                     print("[!] Invalid option. Select [0-3].")
                     continue
 
@@ -397,7 +397,8 @@ class CaseSuspects:
                 self._interrogate(player_id, case_id, suspect)
 
             except ValueError:
-                print("[!] Please enter a number.")
+                print("[!] Select valid option[0-3].")
+                
             except Exception as e:
                 print(f"Error: {e}")
 
@@ -412,11 +413,11 @@ class CaseSuspects:
                     return
 
                 if q_choice not in suspect["questions"]:
-                    print("[!] Invalid choice.")
+                    print("[!] Invalid choice. Only select [0-3].")
                     continue
 
                 q_label, q_response = suspect["questions"][q_choice]
-                print(f"\n[Detective]: {q_label}")
+                print(f"\n[{suspect["name"]}]: {q_label}")
                 print(f"{q_response}\n")
 
                 # Handle Question 3 (Confrontation & Contradiction)
@@ -426,7 +427,7 @@ class CaseSuspects:
                 input("Press Enter to continue questioning...")
 
             except ValueError:
-                print("[!] Please enter a number.")
+                print("[!] Select valid option [0-3].")
             except Exception as e:
                 print(f"Error: {e}")
 
@@ -444,8 +445,10 @@ class CaseSuspects:
         needed_clue = suspect["contradiction_clue"]
         collected_evidence = record.get("Evidence", [])
 
+        text_cleaner = lambda s: " ".join(s.replace("-", " ").replace("—", " ").split())
+        
         # Check whether detective has found the required clue
-        has_clue = any(needed_clue.lower() in ev.lower() for ev in collected_evidence)
+        has_clue = any(text_cleaner(needed_clue.lower()) in text_cleaner(ev.lower()) for ev in collected_evidence)
 
         if not has_clue:
             print(f"⚠️  [HINT]: You have not found the clue '{needed_clue}' yet!")
@@ -453,17 +456,21 @@ class CaseSuspects:
             return
 
         # Check if contradiction was already caught
-        contradictions_caught = record.setdefault("Contradictions", [])
-        if suspect["name"] in contradictions_caught:
+        if suspect["name"] in record['Contradictions']:
             print(f"[✓] You already exposed {suspect['name']}'s contradiction earlier.\n")
             return
 
-        # NEW CONTRADICTION DETECTED!
-        contradictions_caught.append(suspect["name"])
-        record["Scores"] += 50
-        detective["XP"] += 25
-        detective["Rank"] = Helper.get_rank(detective["XP"])
+        # prevent giving points to the same suspects
+        if suspect["name"] not in record["Contradictions"]:
+            # ADD CONTRADICTION DETECTED!
+            record['Contradictions'].append(suspect["name"])  # This suspect lying proven
 
+            # give award
+            record["Scores"] += 50
+            detective["XP"] += 25
+            detective["Rank"] = Helper.get_rank(detective["XP"])
+
+        # save record
         Helper._save_record(inv_data, FILE_INV)
         Helper._save_record(player_data, FILE)
 
