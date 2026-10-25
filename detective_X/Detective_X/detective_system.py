@@ -4,7 +4,7 @@ class DetectiveSystem:
     # load player details/record
     def load_records(self, file):
         try:
-            with open(file, 'r') as fr:
+            with open(file, 'r', encoding='utf-8') as fr:
                 return json.load(fr)
         except (FileNotFoundError ,  json.decoder.JSONDecodeError):
             return {}
@@ -24,8 +24,8 @@ class DetectiveSystem:
         
     # player details save
     def save_record(self, data, file):
-        with open(file, 'w') as fw:
-            json.dump(data, fw, indent=4) 
+        with open(file, 'w', encoding='utf-8') as fw:
+            json.dump(data, fw, indent=4, ensure_ascii=False) 
         return
 
 
