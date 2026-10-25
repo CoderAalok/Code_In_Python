@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1064.589 1218.516" width="1064.589" height="1218.516" style="--bg:#18181B;--fg:#F4F4F5;--line:#71717A;--muted:#A1A1AA;--surface:#27272A;--border:#3F3F46;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="S1" data-label="1. ENTRY &amp; PROFILE">
+  <rect x="605.0369999999999" y="180.41600000000005" width="419.55199999999996" height="335" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="605.0369999999999" y="180.41600000000005" width="419.55199999999996" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="617.0369999999999" y="194.41600000000005" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">1. ENTRY &amp; PROFILE</text>
+</g>
+<g class="subgraph" data-id="S2" data-label="2. CASE DISPATCH">
+  <rect x="496.1783333333333" y="575.416" width="202.884" height="250.1" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="496.1783333333333" y="575.416" width="202.884" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="508.1783333333333" y="589.416" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">2. CASE DISPATCH</text>
+</g>
+<g class="subgraph" data-id="S3" data-label="3. INVESTIGATION HUB (Actions 1–8)">
+  <rect x="479.25033333333323" y="953.816" width="236.73999999999998" height="198.70000000000002" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="479.25033333333323" y="953.816" width="236.73999999999998" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="491.25033333333323" y="967.816" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">3. INVESTIGATION HUB (Actions 1–8)</text>
+</g>
+<g class="subgraph" data-id="S4" data-label="4. THE CLIMAX (Action 9)">
+  <rect x="50.04" y="58" width="526.9969999999998" height="457.41600000000005" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="50.04" y="58" width="526.9969999999998" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="62.04" y="72" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">4. THE CLIMAX (Action 9)</text>
+</g>
+<polyline class="edge" data-from="C1" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="707.9609999999999,499.41600000000005 707.9609999999999,533.416 597.6203333333333,533.416 597.6203333333333,619.416" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="C2" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="915.7369999999999,499.41600000000005 915.737,545.416 617.8265,545.416 617.8265,619.416" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="E" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="597.6203333333333,809.5160000000001 597.6203333333333,997.816" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F" data-to="H" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="551.3795833333332,1034.7160000000001 551.3795833333332,1046.7160000000001 495.25033333333323,1046.7160000000001 495.25033333333323,1170.516 40.04000000000002,1170.516 40.04000000000002,40 336.32424999999995,40 336.32424999999995,102" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="J" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="205.57499999999996,499.41600000000005 205.57499999999996,557.416 557.208,557.416 557.208,619.416" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="K" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="467.07349999999985,499.41600000000005 467.07349999999985,545.416 577.4141666666666,545.416 577.4141666666666,619.416" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F" data-to="D" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="[0] Save &amp; Exit" points="643.8610833333332,1034.7160000000001 643.8610833333332,1046.7160000000001 698.9903333333332,1046.7160000000001 698.9903333333332,1170.516 725.9903333333333,1170.516 725.9903333333333,557.416 638.0326666666666,557.416 638.0326666666666,619.416" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="811.8489999999999,261.31600000000003 811.8489999999999,309.31600000000003" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="B" data-to="C1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="New" points="792.5073333333332,346.21600000000007 792.5073333333332,358.21600000000007 707.9609999999999,358.21600000000007 707.9609999999999,462.5160000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="B" data-to="C2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Load" points="831.1906666666666,346.21600000000007 831.1906666666666,358.21600000000007 915.7369999999999,358.21600000000007 915.7369999999999,462.5160000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Select Case 1, 2, or 3" points="597.6203333333333,656.316 597.6203333333333,772.616" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F" data-to="G" data-style="solid" data-arrow-start="true" data-arrow-end="true" points="597.6203333333333,1034.7160000000001 597.6203333333332,1082.7160000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" marker-start="url(#arrowhead-start)" />
+<polyline class="edge" data-from="H" data-to="I" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="336.32424999999995,138.9 336.32425,186.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="I" data-to="J" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="YES" points="309.77158333333335,319.66333333333336 309.77158333333335,358.216 205.57499999999996,358.216 205.57499999999996,462.516" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="I" data-to="K" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="NO" points="362.87691666666666,319.66333333333336 362.87691666666666,358.216 467.0734999999999,358.216 467.0734999999999,462.516" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="F" data-to="D" data-label="[0] Save &amp; Exit">
+  <rect x="683.9903333333333" y="874.5160000000001" width="83.584" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="725.7823333333333" y="889.666" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">[0] Save &amp; Exit</text>
+</g>
+<g class="edge-label" data-from="B" data-to="C1" data-label="New">
+  <rect x="688.9609999999999" y="389.2160000000001" width="37.846000000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="707.8839999999999" y="404.3660000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">New</text>
+</g>
+<g class="edge-label" data-from="B" data-to="C2" data-label="Load">
+  <rect x="894.2369999999999" y="389.2160000000001" width="42.598" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="915.5359999999998" y="404.3660000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Load</text>
+</g>
+<g class="edge-label" data-from="D" data-to="E" data-label="Select Case 1, 2, or 3">
+  <rect x="542.1203333333332" y="699.3160000000001" width="110.90800000000003" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="597.5743333333332" y="714.4660000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Select Case 1, 2, or 3</text>
+</g>
+<g class="edge-label" data-from="I" data-to="J" data-label="YES">
+  <rect x="185.57499999999996" y="389.216" width="39.03399999999999" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="205.09199999999996" y="404.366" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">YES</text>
+</g>
+<g class="edge-label" data-from="I" data-to="K" data-label="NO">
+  <rect x="451.0734999999999" y="389.216" width="31.906" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="467.0264999999999" y="404.366" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">NO</text>
+</g>
+<g class="node" data-id="A" data-label="main.py" data-shape="rectangle">
+  <rect x="768.6439999999999" y="224.41600000000005" width="86.41" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="811.8489999999999" y="242.86600000000004" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">main.py</text>
+</g>
+<g class="node" data-id="B" data-label="Profile Menu" data-shape="rectangle">
+  <rect x="753.8239999999998" y="309.31600000000003" width="116.05" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="811.8489999999998" y="327.766" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Profile Menu</text>
+</g>
+<g class="node" data-id="C1" data-label="Create Profile (P0001+)" data-shape="rectangle">
+  <rect x="621.0369999999999" y="462.5160000000001" width="173.84799999999998" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="707.9609999999999" y="480.96600000000007" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Create Profile (P0001+)</text>
+</g>
+<g class="node" data-id="C2" data-label="Select Existing Detective" data-shape="rectangle">
+  <rect x="822.8849999999999" y="462.5160000000001" width="185.70399999999998" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="915.7369999999999" y="480.96600000000007" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Select Existing Detective</text>
+</g>
+<g class="node" data-id="D" data-label="Case Library" data-shape="rectangle">
+  <rect x="537.0018333333333" y="619.416" width="121.23700000000001" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="597.6203333333333" y="637.8660000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Case Library</text>
+</g>
+<g class="node" data-id="E" data-label="Case Briefing Dossier" data-shape="rectangle">
+  <rect x="512.1783333333333" y="772.616" width="170.884" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="597.6203333333333" y="791.066" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Case Briefing Dossier</text>
+</g>
+<g class="node" data-id="F" data-label="Investigation Dashboard" data-shape="rectangle">
+  <rect x="505.13883333333325" y="997.816" width="184.96299999999997" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="597.6203333333333" y="1016.2660000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Investigation Dashboard</text>
+</g>
+<g class="node" data-id="G" data-label="&quot;Gather &amp; Analyze Clues
+• [1" data-shape="rectangle">
+  <rect x="506.25033333333323" y="1082.7160000000001" width="182.73999999999998" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="597.6203333333332" y="1109.6160000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="597.6203333333332" dy="-3.9000000000000012">&quot;Gather &amp; Analyze Clues</tspan><tspan x="597.6203333333332" dy="16.900000000000002">• [1</tspan></text>
+</g>
+<g class="node" data-id="H" data-label="&quot;[9" data-shape="rectangle">
+  <rect x="306.32424999999995" y="102" width="60" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="336.32424999999995" y="120.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">&quot;[9</text>
+</g>
+<g class="node" data-id="I" data-label="Guilty Suspect &amp;
+≥2 Key Clues?" data-shape="diamond">
+  <polygon points="336.32425,186.89999999999998 415.98225,266.558 336.32425,346.216 256.66625,266.558" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="336.32425" y="266.558" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="336.32425" dy="-3.9000000000000012">Guilty Suspect &amp;</tspan><tspan x="336.32425" dy="16.900000000000002">≥2 Key Clues?</tspan></text>
+</g>
+<g class="node" data-id="J" data-label="🏆 CASE SOLVED (+500 pts, Star Rating)" data-shape="rectangle">
+  <rect x="66.03999999999999" y="462.516" width="279.06999999999994" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="205.57499999999996" y="480.966" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">🏆 CASE SOLVED (+500 pts, Star Rating)</text>
+</g>
+<g class="node" data-id="K" data-label="❌ CASE LOST (-300 pts)" data-shape="rectangle">
+  <rect x="373.10999999999996" y="462.516" width="187.92699999999996" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="467.07349999999997" y="480.966" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">❌ CASE LOST (-300 pts)</text>
+</g>
+</svg>

@@ -1,0 +1,80 @@
+{
+    "name": "Alice",
+    "case_id": "case_002",
+    "title": "the midnight server breach",
+    "difficulty": "medium",
+    "location": "Hunted area",
+    "culprit": "Kevin Miller",
+    "briefing": "Confidential company data was stolen after a suspicious midnight network intrusion.",
+    "suspects": [
+        {
+            "name": "Kevin Miller",
+            "role": "Lead Network Admin",
+            "age": 36,
+            "alibi": "Clocked out at 6:00 PM and streamed video games from home all night.",
+            "motive": "Bitter after being passed over for promotion to Chief Security Officer.",
+            "status": "Questioned",
+            "contradiction_clue": "Sticky note with admin credentials",
+            "questions": {
+                "1": [
+                    "Inquire about whereabouts during midnight breach",
+                    "Kevin: 'I was in my apartment streaming gameplay on Twitch from 8 PM to 2 AM.\n Hundreds of viewers in my stream chat can verify I was live all night.'"
+                ],
+                "2": [
+                    "Ask about root access to the core server vault",
+                    "Kevin: 'I manage the domain controllers, so of course I have root privileges.\n But all commands are logged. I wouldn't be foolish enough to use my own console.'"
+                ],
+                "3": [
+                    "Confront with Sticky Note with Admin Credentials",
+                    "Kevin: *turns pale and drops his pen in shock*\n 'W-where did you find that?! That was taped under my keyboard in the NOC!\n IT forced a 24-character password change last week so I wrote it down.\n Someone must have snuck to my desk and stolen it! I swear I didn't initiate that breach!'"
+                ]
+            }
+        },
+        {
+            "name": "Sarah Lin",
+            "role": "Cloud Migration Contractor",
+            "age": 31,
+            "alibi": "Dinner downtown with partner until 11:30 PM, then went home to sleep.",
+            "motive": "Severe personal debt from her failing side-consulting startup.",
+            "status": "Unquestioned",
+            "contradiction_clue": "Dropped contractor visitor badge",
+            "questions": {
+                "1": [
+                    "Inquire about physical presence in the datacenter",
+                    "Sarah: 'I work remotely on the AWS migration 90% of the time.\n I had no reason to be on-site last night. I was having sushi downtown until late.'"
+                ],
+                "2": [
+                    "Ask about authorization for server vault access",
+                    "Sarah: 'Contractors are restricted to the staging suite.\n None of our badges have clearance to open the main Server Vault or CSO office.'"
+                ],
+                "3": [
+                    "Confront with Dropped Contractor Visitor Badge #449",
+                    "Sarah: *eyes widen in shock and disbelief*\n 'My visitor badge?! I filed an incident ticket three days ago saying I lost it in the lobby!\n Check the security log—someone stole my badge #449 to bypass the turnstiles!\n I had nothing to do with planting rogue hardware!'"
+                ]
+            }
+        },
+        {
+            "name": "Marcus Vance",
+            "role": "Disgruntled Ex-Developer",
+            "age": 42,
+            "alibi": "Drinking alone at a local dive bar until closing time at 2:00 AM.",
+            "motive": "Fired two weeks ago; Project Aegis was his creation; stole source code for revenge.",
+            "status": "Unquestioned",
+            "contradiction_clue": "Rogue Raspberry Pi plugged into Rack C",
+            "questions": {
+                "1": [
+                    "Inquire about whereabouts during the breach",
+                    "Marcus: *smirks coldly and takes a slow sip*\n 'I was nursing scotch at The Rusty Anchor bar until closing time.\n Nobody bothers me there, and I don't bother anyone else.'"
+                ],
+                "2": [
+                    "Ask about his dismissal from Project Aegis",
+                    "Marcus: *clenches teeth with simmering rage*\n 'Project Aegis was MY life's work! 40,000 lines of custom firmware!\n Management terminated me two weeks before the patent so they could keep the equity.\n But breaking in? Why bother? They can rot for all I care.'"
+                ],
+                "3": [
+                    "Confront with Rogue Raspberry Pi on Rack C",
+                    "Marcus: *expression violently snaps into panic and fury*\n 'A Raspberry Pi on Rack C?! How... how did your security team trace that in the dark?!\n That bypass packet-sniffer was supposed to trigger as a power glitch!\n Aegis was MINE! They had no right to lock me out of my own code!'"
+                ]
+            }
+        }
+    ]
+}

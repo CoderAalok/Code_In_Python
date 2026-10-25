@@ -17,15 +17,15 @@
     "P0002": {
         "Name": "Alice",
         "Rank": "Rookie",
-        "Cases_Won": 0,
+        "Cases_Won": 1,
         "Cases_Lost": 0,
-        "XP": 60,
-        "Rating": 0,
-        "Pending_Cases": [
+        "XP": 405,
+        "Rating": "\u2605\u2605\u2605\u2605\u2606",
+        "Pending_Cases": [],
+        "Active_Case": null,
+        "Completed_Cases": [
             "case_002"
-        ],
-        "Active_Case": "case_002",
-        "Completed_Cases": []
+        ]
     },
     "P0003": {
         "Name": "Bob",
