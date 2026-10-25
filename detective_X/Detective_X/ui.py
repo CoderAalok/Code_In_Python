@@ -474,7 +474,7 @@ class LocationCase2:
         print("║" + " " * width + "║")
         print(f"║ {'[1] Server Rack C':<{l_width}}         {stat_rack:<{r_width}}║")
         print(f"║ {'[2] Cooling Floor Vents':<{l_width}}        {stat_vent:<{r_width}}║")
-        print(f"║ {'[3] Maintenance Terminal':<{l_width}}        {stat_term:<{r_width}}║")
+        print(f"║ {'[3] Maintenance Terminal':<{l_width}}       {stat_term:<{r_width}}║")
         print(f"║ {'[4] Emergency Power Backup':<{l_width}}     {stat_powr:<{r_width}}║")
         print(f"║ {'[0] Return':<{l_width + r_width + 8}} ║")
         print("║" + " " * width + "║")
@@ -822,7 +822,7 @@ class AccusationUI:
         
         print(f"║ Actual Culprit : {actual_culprit:<{width-19}} ║")
         print(f"║" + " "*width +  "║")
-        print(f"║ {'Important Evidence Missed:':<10}║")
+        print(f"║ {'Important Evidence Missed:':<{width-1}}║")
 
         for evid in missing_evidence:
             print(f"║ • {evid:<{width - 4}} ║")
@@ -835,7 +835,7 @@ class AccusationUI:
     # LocationCase2().network_operations_center()
     # HintUI.hint_ui(3)
     # SuspectUI.suspect_selection_ui({1:{'name':'alice', 'role':'listout'}})
-    # AccusationUI.confirm_accusation(["Torn uniform cloth on guard desk ", "Torn uniform cloth on guard desk "], "Arthur")
+    # AccusationUI.wrong_accusation('python', 'bob', ["Torn uniform cloth on guard desk ", "Torn uniform cloth on guard desk "])
     # loc3 = LocationCase3()
     # loc3.chemistry_lab()
     # loc3.professor_study()

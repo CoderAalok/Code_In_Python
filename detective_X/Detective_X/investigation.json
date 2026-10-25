@@ -38,5 +38,73 @@
             "Scores": 860,
             "Progress": 100
         }
+    ],
+    "P0002": [
+        {
+            "Detective": "Alice",
+            "Case": "case_002",
+            "Title": "the midnight server breach",
+            "Difficulty": "medium",
+            "Location": "Hunted area",
+            "Evidence": [
+                "Rogue Raspberry Pi plugged into Rack C",
+                "Dropped contractor visitor badge",
+                "Console session open under 'root_admin'",
+                "UPS surge bypass record"
+            ],
+            "Suspects": [],
+            "Contradictions": [],
+            "Comparisons": [],
+            "Hints": {
+                "Available": [
+                    "hint_1",
+                    "hint_2",
+                    "hint_3"
+                ],
+                "Used": []
+            },
+            "Scores": 120,
+            "Progress": 33
+        }
+    ],
+    "P0003": [
+        {
+            "Detective": "Bob",
+            "Case": "case_003",
+            "Title": "the poisoned professor",
+            "Difficulty": "hard",
+            "Location": "university",
+            "Evidence": [
+                "Traces of bitter almond residue",
+                "Missing 50ml Potassium Cyanide bottle",
+                "Falsified checkout signature in log",
+                "Corrosive acid wash down the drain",
+                "Lethal dose of cyanide in Earl Grey cup",
+                "Hostile tenure dispute letter",
+                "Patent dispute lawsuit draft",
+                "Torn calendar page marked 'Dinner 8 PM'",
+                "Sugar dispenser contaminated with powder",
+                "Labeled milk carton with punctured cap",
+                "Seminar schedule with altered speaker list",
+                "Discarded vinyl gloves smelling of almonds"
+            ],
+            "Suspects": [
+                "Dr. Clara Higgins",
+                "Julian Drake",
+                "Dean Robert Hayes"
+            ],
+            "Contradictions": [],
+            "Comparisons": [],
+            "Hints": {
+                "Available": [
+                    "hint_1",
+                    "hint_2",
+                    "hint_3"
+                ],
+                "Used": []
+            },
+            "Scores": 50,
+            "Progress": 100
+        }
     ]
 }
