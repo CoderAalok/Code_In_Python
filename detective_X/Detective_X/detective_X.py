@@ -136,8 +136,8 @@ class PlayerGround:
                     
                     data, message = (DS.account_verify(player_name))                    
                     if not data:
-                        print("Data is not found!")
-                        return
+                        print(f"[!] {message}")
+                        continue 
 
                     details, self.id = data
                     
@@ -215,7 +215,7 @@ class PlayerGround:
                     print("Selected case is not available.")
                     continue
 
-                # read briefing
+                # ---------- Read Briefing --------------
                 width = 85
                 print("╔" + "═" * width + "╗")
                 print(f"║{'CASE-ID: ' f'[{case_id}]'.center(width-2)}  ║")
@@ -253,7 +253,7 @@ class PlayerGround:
                 level = DS.get_cases_library()[case]["difficulty"]
 
                 # pass argument into investigation
-                PG.investigation_state(player_name, id, case_id, level)
+                PG.investigation_state(player_name, id, case_id, cases[case]['title'], level, cases[case]['location'])
 
                 # save updated record
                 SYSTEM.save_record(player_data, FILE)
@@ -267,7 +267,7 @@ class PlayerGround:
                 print(f"ERROR: {e}")
                 return 
 
-    def investigation_state(self, detective, detective_id, case_id, level):
+    def investigation_state(self, detective, detective_id, case_id, title, level, location):
         # fetch investigation record
         data_inv = SYSTEM.load_records(FILE_INV)
 
@@ -278,7 +278,9 @@ class PlayerGround:
                 {
                     "Detective": detective,
                     "Case": case_id,
+                    "Title": title,
                     "Difficulty": level,
+                    "Location": location,
                     "Evidence": [],
                     "Suspects": [],
                     "Contradictions": [],
@@ -343,7 +345,7 @@ def main(player_id: str):
                     records = SYSTEM.load_records(FILE)[player_id]
 
                     if not records:
-                        print("Record not found!")
+                        print("[!] Record not found!")
                         return
                     
                     # show -> detective profile
@@ -362,7 +364,7 @@ def main(player_id: str):
                     return
             
             else:
-                print("Invalid option. select only [0-5].")
+                print("[!] Invalid option. select only [0-5].")
                 continue
                 
         except Exception as e:
@@ -380,12 +382,12 @@ def case_briefing(player_id: str, case_id: str):
     investigation_data = SYSTEM.load_records(FILE_INV)
 
     if not player_data or not investigation_data:
-        print("Data is empty.")
+        print("[!] Data not found.")
         return 
 
     existing_investigation = investigation_data.get(player_id)  # list of dictonary 
     if not existing_investigation:
-        print("Investigation is no found!")
+        print("[!] Investigation is no found!")
         return
     
     active_record = next(
@@ -394,7 +396,7 @@ def case_briefing(player_id: str, case_id: str):
     ) # -> dictionary
     
     if active_record is None:
-        print("Investigation record not found!")
+        print("[!] Investigation record not found!")
         return
 
     KEYS = ['Detective', 'Difficulty', 'Evidence', 'Suspects', 'Hints', 'Scores', 'Progress']
@@ -463,14 +465,18 @@ def continue_investigation(player_id: str):
     player_inv = record.get(player_id)
     
     if not player_inv:
-        print("Record is empty!")
+        print("[!] Record not found!")
         return
 
     while True:
         try:
+            print("\n[0] Return back to Main Menu.")
             # fetch case id
             case_id = input("Enter your Case ID (e.g. case_001): ").strip().lower()
 
+            if case_id == "0":
+                return
+            
             norm_case_id = case_id.split("_")
             
             # verify case id
@@ -493,7 +499,7 @@ def continue_investigation(player_id: str):
                 return
 
             else:
-                print("[!] Case ID does not match.")
+                print("\n[!] Case ID does not match.")
                 continue 
              
         except Exception as e:
@@ -583,7 +589,7 @@ def investigation_action(player_id, case_id):
         )
 
         if not active_record:
-            print("Investigation record not found!")
+            print("[!] Investigation record not found!")
             return
 
         # extract saved record

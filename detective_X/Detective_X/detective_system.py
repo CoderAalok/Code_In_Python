@@ -1,15 +1,27 @@
 import json
-
+from pathlib import Path
 class DetectiveSystem:
     # load player details/record
     def load_records(self, file):
         try:
-            with open(file) as fr:
+            with open(file, 'r') as fr:
                 return json.load(fr)
         except (FileNotFoundError ,  json.decoder.JSONDecodeError):
             return {}
 
-    
+    # create new record file
+    @staticmethod
+    def create_new(data, file):
+        try:
+            Path(file).parent.mkdir(parents=True, exist_ok=True)
+            with open(file, 'w', encoding='utf-8') as fw:
+                json.dump(data, fw, indent=4, ensure_ascii=False)
+            return True
+        
+        except Exception as e:
+            print(f"[!] Could not save file: {e}")
+            return False
+        
     # player details save
     def save_record(self, data, file):
         with open(file, 'w') as fw:

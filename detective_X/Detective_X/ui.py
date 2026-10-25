@@ -204,7 +204,7 @@ class SuspectUI:
             name_str = f"[{num}] {data['name']}"
             role_str = f"[{data['role']}]"
             
-            print(f"║ {name_str:<{width-23}} {role_str:<{width-18}} ║")
+            print(f"║ {name_str:<{width-33}} {role_str:<{width-30}} ║")
             
             
         print(f"║ {'[0] Return to Dashboard':<{width}} ║")
@@ -831,11 +831,10 @@ class AccusationUI:
         print("╚" + "═" * width + "╝")
         
 
-
-        
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # LocationCase2().network_operations_center()
-    HintUI.hint_ui(3)
+    # HintUI.hint_ui(3)
+    # SuspectUI.suspect_selection_ui({1:{'name':'alice', 'role':'listout'}})
     # AccusationUI.confirm_accusation(["Torn uniform cloth on guard desk ", "Torn uniform cloth on guard desk "], "Arthur")
     # loc3 = LocationCase3()
     # loc3.chemistry_lab()

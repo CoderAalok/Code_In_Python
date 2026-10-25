@@ -1,176 +1,80 @@
 {
-    "case_id": "CASE_001",
-    "title": "The Missing Diamond",
-    "difficulty": "Medium",
-    "location_name": "Blackwood Mansion",
-    "crime": "Diamond Theft",
-    "crime_time": "10:15 PM - 10:45 PM",
-    "value": "$2,000,000",
-    "culprit_id": "SUS_002",
-    "briefing": "A priceless diamond vanished during a charity gala at Blackwood Mansion with no signs of forced entry. The exhibition display case was opened between 10:15 PM and 10:45 PM.",
-    "solution_explanation": "Sophia Miller used her position to steal the diamond during the 10:24-10:34 PM security camera outage. She dropped a broken silver button from her coat in the exhibition room, and her claim of remaining in the dining room was contradicted by security log records placing her near the exhibition corridor.",
+    "name": "Coderaalok",
+    "case_id": "case_001",
+    "title": "the missing diamond",
+    "difficulty": "easy",
+    "location": "Blackwood Mansion",
+    "culprit": "Arthur Vance",
+    "briefing": "A priceless diamond vanished during a charity gala with no signs of forced entry.",
     "suspects": [
         {
-            "id": "SUS_001",
-            "name": "Adrian Blackwood",
-            "age": 31,
-            "occupation": "Business Executive",
-            "relation": "Son of the owner",
-            "alibi": "Claims he was in the dining hall from 10:20 PM onwards.",
-            "motive": "Has significant personal gambling debts.",
-            "initial_suspicion": 30,
-            "statements": {
-                "where_were_you": "I was in the dining hall chatting with guests starting around 10:20 PM.",
-                "last_saw_diamond": "I saw it on display around 10:00 PM before the dinner service."
+            "name": "Arthur Vance",
+            "role": "Head Butler",
+            "age": 54,
+            "alibi": "Wine cellar from 11:15 to 11:55 PM selecting vintage wines.",
+            "motive": "Severe gambling debts to underground creditors.",
+            "status": "Unquestioned",
+            "contradiction_clue": "Crumpled note: '11:30 PM — east exit'",
+            "questions": {
+                "1": [
+                    "Inquire about whereabouts at 11:45 PM",
+                    "Arthur: 'I was down in the private wine cellar inventorying bottles.\n The cellar door is heavy oak and soundproof, Detective. I heard nothing.'"
+                ],
+                "2": [
+                    "Ask about relationship with Lord Blackwood",
+                    "Arthur: 'I have served the Blackwood family loyally for fifteen years.\n His lordship pays me handsomely. Why would I jeopardize my position?'"
+                ],
+                "3": [
+                    "Confront with Crumpled East Exit Note",
+                    "Arthur: *hesitates and turns pale*\n 'T-that note... Alright, I admit it! I was meeting a loan shark at the east exit\n to beg for more time on my debts. But when I got there, someone ran past me toward\n the gardens in a guard uniform! I swear I did NOT touch the diamond!'"
+                ]
             }
         },
         {
-            "id": "SUS_002",
-            "name": "Sophia Miller",
-            "age": 28,
-            "occupation": "Personal Assistant",
-            "relation": "Works directly for Mr. Blackwood",
-            "alibi": "Claims she remained in the dining room from 10:10 PM until the diamond was reported missing.",
-            "motive": "Recently discovered her employment contract is being terminated.",
-            "initial_suspicion": 20,
-            "statements": {
-                "where_were_you": "I remained in the dining room from around 10:10 PM until the theft was discovered.",
-                "last_saw_diamond": "I walked past the display case around 10:10 PM on my way to dinner."
+            "name": "Evelyn Reed",
+            "role": "Gala Coordinator",
+            "age": 38,
+            "alibi": "Private phone call on dining balcony with champagne guests.",
+            "motive": "Facing bankruptcy after a failed luxury jewelry venture.",
+            "status": "Unquestioned",
+            "contradiction_clue": "Wine glass with lipstick at seat 4",
+            "questions": {
+                "1": [
+                    "Inquire about whereabouts at 11:45 PM",
+                    "Evelyn: 'I was on the terrace on a call with our pastry supplier until midnight.\n Several prestigious donors saw me there and can vouch for me.'"
+                ],
+                "2": [
+                    "Ask about access to the exhibition hall",
+                    "Evelyn: 'As the event planner, I had the schedule, but only authorized security\n guards had keycards to the diamond display case.'"
+                ],
+                "3": [
+                    "Confront with Wine Glass & Lipstick Mark",
+                    "Evelyn: 'Yes, that is my shade of lipstick at table 4. I took two sips of champagne\n before heading out to take my call. Check with the guests—I never went near the gallery!'"
+                ]
             }
         },
         {
-            "id": "SUS_003",
-            "name": "Marcus Reed",
-            "age": 42,
-            "occupation": "Security Supervisor",
-            "relation": "Responsible for mansion security",
-            "alibi": "Claims he was monitoring security feeds in the control room.",
-            "motive": "Understands security system override protocols.",
-            "initial_suspicion": 50,
-            "statements": {
-                "where_were_you": "I was in the security control room monitoring the live video feeds.",
-                "camera_outage": "The corridor camera suddenly went black at 10:24 PM due to an system error."
-            }
-        },
-        {
-            "id": "SUS_004",
-            "name": "Elena Stone",
-            "age": 35,
-            "occupation": "Art Dealer",
-            "relation": "Family friend",
-            "alibi": "Claims she was speaking with guests in the lounge.",
-            "motive": "Has previously attempted to purchase the Blackwood Diamond.",
-            "initial_suspicion": 20,
-            "statements": {
-                "where_were_you": "I was in the main lounge discussing artwork with several guests.",
-                "last_saw_diamond": "I admired it briefly at 10:05 PM."
+            "name": "Thomas Blackwood",
+            "role": "Estranged Nephew",
+            "age": 29,
+            "alibi": "Claims he had a migraine and left the mansion before 11:00 PM.",
+            "motive": "Disinherited playboy facing immense debts; size 10 boot wearer.",
+            "status": "Unquestioned",
+            "contradiction_clue": "Muddy footprint near the case",
+            "questions": {
+                "1": [
+                    "Inquire about whereabouts at 11:45 PM",
+                    "Thomas: 'I told you already, Detective! My head was throbbing, so I hailed an Uber\n and left before 11:00 PM. I wasn't even in the mansion when the diamond vanished.'"
+                ],
+                "2": [
+                    "Ask about his disinheritance by Lord Blackwood",
+                    "Thomas: *scoffs bitterly*\n 'My uncle is a greedy old hypocrite. Cut me off because I wouldn't work at his firm.\n But stealing? That's ridiculous. I have standards.'"
+                ],
+                "3": [
+                    "Confront with Muddy Size 10 Footprint & Security Log",
+                    "Thomas: *eyes widen in panic*\n 'Muddy boots?! Keycard #7?! That—that's circumstantial garbage!\n Anyone could wear size 10 boots! You have no proof it was me!'"
+                ]
             }
         }
-    ],
-    "locations": [
-        {
-            "id": "LOC_001",
-            "name": "Exhibition Room",
-            "description": "The display case is open. No broken glass is visible.",
-            "searchable_objects": [
-                {
-                    "name": "Display Case",
-                    "evidence_unlocked": "EVI_001"
-                },
-                {
-                    "name": "Floor near Display",
-                    "evidence_unlocked": "EVI_002"
-                }
-            ]
-        },
-        {
-            "id": "LOC_002",
-            "name": "Security Room",
-            "description": "Monitors and server racks line the walls.",
-            "searchable_objects": [
-                {
-                    "name": "System Logs",
-                    "evidence_unlocked": "EVI_003"
-                },
-                {
-                    "name": "Camera Maintenance Log",
-                    "evidence_unlocked": "EVI_004"
-                }
-            ]
-        }
-    ],
-    "evidence": [
-        {
-            "id": "EVI_001",
-            "title": "Access Panel Activity Log",
-            "type": "Digital",
-            "reliability": 100,
-            "description": "The display case was opened at 10:31 PM using a valid staff keycard.",
-            "linked_suspect": "SUS_002"
-        },
-        {
-            "id": "EVI_002",
-            "title": "Broken Silver Button",
-            "type": "Physical",
-            "reliability": 94,
-            "description": "A small silver button torn from a coat found near the display pedestal.",
-            "linked_suspect": "SUS_002",
-            "match_target": "Sophia's Coat"
-        },
-        {
-            "id": "EVI_003",
-            "title": "Corridor Access Record",
-            "type": "Document",
-            "reliability": 90,
-            "description": "Door sensor logged entry into the exhibition corridor at 10:27 PM.",
-            "linked_suspect": "SUS_002"
-        },
-        {
-            "id": "EVI_004",
-            "title": "Firmware Restart Log (Red Herring Clearance)",
-            "type": "Digital",
-            "reliability": 100,
-            "description": "Shows the 10:24 PM camera outage was an automatic scheduled reboot, clearing Marcus Reed of intentional tampering.",
-            "clears_suspect": "SUS_003"
-        }
-    ],
-    "timeline": [
-        {
-            "time": "10:00 PM",
-            "event": "Party begins"
-        },
-        {
-            "time": "10:15 PM",
-            "event": "Diamond confirmed inside display"
-        },
-        {
-            "time": "10:22 PM",
-            "event": "Adrian enters dining hall"
-        },
-        {
-            "time": "10:24 PM",
-            "event": "Exhibition corridor camera stops (Firmware Reboot)"
-        },
-        {
-            "time": "10:27 PM",
-            "event": "Sophia logged near exhibition corridor"
-        },
-        {
-            "time": "10:31 PM",
-            "event": "Exhibition display opened"
-        },
-        {
-            "time": "10:36 PM",
-            "event": "Sophia returns to dining area"
-        },
-        {
-            "time": "10:45 PM",
-            "event": "Diamond reported missing"
-        }
-    ],
-    "hints": [
-        "Compare Sophia's statement about remaining in the dining hall with security access logs.",
-        "Check the evidence found on the exhibition room floor against suspect clothing.",
-        "Examine camera logs in the Security Room to verify if Marcus caused the blackout."
     ]
 }

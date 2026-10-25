@@ -1,9 +1,11 @@
 {
     "P0001": [
         {
-            "Detective": "Aalok",
+            "Detective": "Coderaalok",
             "Case": "case_001",
+            "Title": "the missing diamond",
             "Difficulty": "easy",
+            "Location": "Blackwood Mansion",
             "Evidence": [
                 "Scratch marks on the diamond case lock",
                 "Muddy footprint near the case",
@@ -23,35 +25,6 @@
                 "Evelyn Reed",
                 "Thomas Blackwood"
             ],
-            "Contradictions": [
-                "Arthur Vance"
-            ],
-            "Comparisons": [],
-            "Hints": {
-                "Available": [
-                    "hint_3"
-                ],
-                "Used": [
-                    "hint_1",
-                    "hint_2"
-                ]
-            },
-            "Scores": 1260,
-            "Progress": 100
-        }
-    ],
-    "P0002": [
-        {
-            "Detective": "Coder",
-            "Case": "case_002",
-            "Difficulty": "medium",
-            "Evidence": [
-                "Rogue Raspberry Pi plugged into Rack C",
-                "Dropped contractor visitor badge",
-                "Console session open under 'root_admin'",
-                "UPS surge bypass record"
-            ],
-            "Suspects": [],
             "Contradictions": [],
             "Comparisons": [],
             "Hints": {
@@ -62,8 +35,8 @@
                 ],
                 "Used": []
             },
-            "Scores": 110,
-            "Progress": 33
+            "Scores": 860,
+            "Progress": 100
         }
     ]
 }

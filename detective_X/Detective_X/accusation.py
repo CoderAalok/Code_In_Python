@@ -1,11 +1,13 @@
 from pathlib import Path
-import json 
-import ui, detective_system
+import json
+from unittest import case 
+import ui, detective_system, detective_x, suspects
 
 # ------ Config -------
 base = Path(__file__).parent
 FILE = base / "player_record.json"
 FILE_INV = base / "investigation.json"
+FILE_DATA = base / "data" 
 
 SYSTEM = detective_system.DetectiveSystem()
 
@@ -275,9 +277,13 @@ class FinalAccusation:
 
                 # Mark case completed in player record
                 completed = player_record.setdefault('Completed_Cases', [])
-                if case_id not in completed:
-                    completed.append(case_id)
+                if case_id in completed:
+                    print(f"[!] {case_id} already solved.")
+                    return False
 
+                # solved case
+                completed.append(case_id)
+                
                 pending = player_record.get('Pending_Cases', [])
                 if case_id in pending:
                     pending.remove(case_id)
@@ -316,6 +322,32 @@ class FinalAccusation:
                 )
 
                 ui.AccusationUI.culprit_ui(records)
+
+
+                # ---------  FOR SAFTY : HANDLE POSSILBE CASES --------------
+                case_i = int(case_id.split("_")[-1])
+                
+                brief = detective_x.GenerativeSystem.case_briefing_screen()
+                if not brief.get(case_i):
+                    print("[!] Brief case not found.")
+                    return False
+                
+                
+                # collect cases as record
+                data = {
+                    "name": player_inv['Detective'],
+                    "case_id": case_id,
+                    "title": player_inv['Title'],
+                    "difficulty": player_inv['Difficulty'],
+                    "location": player_inv['Location'],
+                    "culprit": culprit,
+                    "briefing": brief[case_i],
+                    "suspects": list(suspects.Dispatch.suspects_map.get(case_id, {}).values()),
+                }
+                
+                #  -------------  SAVE THE CASE AS RECORD -----------------
+                SYSTEM.create_new(data, FILE_DATA / f"{case_id}.json")
+                
 
                 # Narrative breakdown of how crime happened and clues connect
                 print("➤ HOW THE CRIME HAPPENED:")

@@ -1,28 +1,15 @@
 {
     "P0001": {
-        "Name": "Aalok",
-        "Rank": "Investigator",
-        "Cases_Won": 2,
+        "Name": "Coderaalok",
+        "Rank": "Rookie",
+        "Cases_Won": 1,
         "Cases_Lost": 0,
-        "XP": 630,
-        "Rating": "\u2605\u2605\u2605\u2605\u2605",
+        "XP": 430,
+        "Rating": "\u2605\u2605\u2605\u2605\u2606",
         "Pending_Cases": [],
         "Active_Case": null,
         "Completed_Cases": [
             "case_001"
         ]
-    },
-    "P0002": {
-        "Name": "Coder",
-        "Rank": "Rookie",
-        "Cases_Won": 0,
-        "Cases_Lost": 0,
-        "XP": 60,
-        "Rating": 0,
-        "Pending_Cases": [
-            "case_002"
-        ],
-        "Active_Case": "case_002",
-        "Completed_Cases": []
     }
 }

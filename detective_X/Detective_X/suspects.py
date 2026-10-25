@@ -375,7 +375,7 @@ class CaseSuspects:
 
         # --------- LOOP ----------
         while True:
-            ui.SuspectUI.suspect_selection_ui(self.SUSPECTS, title="QUESTION SUSPECTS")
+            ui.SuspectUI.suspect_selection_ui(self.SUSPECTS)
             try:
                 choice = int(input("Select suspect to interrogate [0-3]: ").strip())
                 if choice == 0:
